@@ -2,7 +2,6 @@
 
 ![Laravel](https://img.shields.io/badge/laravel-%23FF2D20.svg?style=for-the-badge&logo=laravel&logoColor=white)
 ![PHP](https://img.shields.io/badge/php-%23777BB4.svg?style=for-the-badge&logo=php&logoColor=white)
-![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
 A sleek and powerful Content Management System built with Laravel, featuring a modern admin panel with dynamic theming and user management capabilities.
 
@@ -12,6 +11,7 @@ A sleek and powerful Content Management System built with Laravel, featuring a m
 - Customizable color schemes for the admin panel
 - Real-time theme updates without page refresh
 - Persistent theme settings across sessions
+- Custom CSS-based styling system
 
 ### 👥 Advanced User Management
 - Multi-role system (Admin, Editor, Regular)
@@ -87,9 +87,9 @@ php artisan serve
 ## 🛠️ Built With
 
 - [Laravel](https://laravel.com) - The PHP framework
-- [TailwindCSS](https://tailwindcss.com) - Utility-first CSS framework
 - [Alpine.js](https://alpinejs.dev) - Minimal JavaScript framework
 - [MySQL](https://www.mysql.com) - Database management system
+- Custom CSS - Modern and responsive styling system
 
 ## 📝 License
 
