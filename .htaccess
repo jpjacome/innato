@@ -5,6 +5,7 @@
     </IfModule>
     
     RewriteEngine On
+    RewriteBase /laravel-test/
     
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
@@ -25,7 +26,7 @@
 Options -Indexes
 
 # Handle errors
-ErrorDocument 404 /index.php
+ErrorDocument 404 /laravel-test/index.php
 
 # Set default charset
 AddDefaultCharset UTF-8

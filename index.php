@@ -10,6 +10,12 @@ $uri = urldecode(
 );
 
 // This file allows us to emulate Apache's "mod_rewrite" functionality
+// Adjust for the subfolder
+$subfolder = '/laravel-test';
+if (strpos($uri, $subfolder) === 0) {
+    $uri = substr($uri, strlen($subfolder));
+}
+
 if ($uri !== '/' && file_exists(__DIR__.'/public'.$uri)) {
     return false;
 }

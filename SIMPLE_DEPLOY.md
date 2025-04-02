@@ -2,6 +2,11 @@
 
 This guide is for deploying DR Pixel CMS to a standard shared hosting environment with minimal configuration.
 
+## Subdirectory Deployment
+
+**Important**: This application is configured to run in a subdirectory at `http://orustravel.org/laravel-test`. 
+See `SUBFOLDER_DEPLOY.md` for detailed subdirectory deployment information.
+
 ## Step 1: Prepare Your Files
 
 We've already optimized the application for easy deployment. The following files are in place:
