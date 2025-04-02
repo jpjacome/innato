@@ -1,0 +1,44 @@
+# Laravel Application Configuration
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /laravel-test/
+    
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+    
+    # Redirect to public folder
+    RewriteCond %{REQUEST_URI} !^/laravel-test/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+# Security Headers
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+# PHP Settings
+<IfModule mod_php.c>
+    php_value upload_max_filesize 64M
+    php_value post_max_size 64M
+    php_value max_execution_time 300
+    php_value max_input_time 300
+</IfModule>
+
+# Allow access to Laravel application
+<FilesMatch "^(index\.php|artisan|composer\.(json|lock))$">
+    Order Allow,Deny
+    Allow from all
+</FilesMatch>
+
+# Prevent directory listing
+Options -Indexes
+
+# Allow access to public assets
+<FilesMatch "\.(css|js|jpg|jpeg|png|gif|ico|woff|woff2|ttf|eot)$">
+    Order Allow,Deny
+    Allow from all
+</FilesMatch> 

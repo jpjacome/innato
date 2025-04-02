@@ -1,0 +1,27 @@
+/* Custom styles */
+:root {
+    --primary-color: #4F46E5;
+    --secondary-color: #818CF8;
+    --accent-color: #6366f1;
+}
+
+/* Base styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+}
+
+/* Utility classes */
+.text-center {
+    text-align: center;
+}
+
+.mt-4 {
+    margin-top: 1rem;
+}
+
+.mb-4 {
+    margin-bottom: 1rem;
+}
