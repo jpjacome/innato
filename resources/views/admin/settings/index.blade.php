@@ -14,13 +14,10 @@ use Illuminate\Support\Facades\Storage;
                     <h3 class="control-panel-subtitle">Primary Color</h3>
                     <div class="control-panel-form-group">
                         <label class="control-panel-label" for="primary_color">Choose a primary color</label>
-                        <div class="color-picker-wrapper">
-                            <div class="color-preview" style="background-color: {{ $settings->primary_color ?? '#4F46E5' }}">
-                                <input type="color" name="primary_color" id="primary_color" 
-                                    value="{{ $settings->primary_color ?? '#4F46E5' }}"
-                                    class="color-picker-input">
-                            </div>
-                            <div class="color-value">{{ $settings->primary_color ?? '#4F46E5' }}</div>
+                        <div class="flex items-center gap-3">
+                            <input type="color" name="primary_color" id="primary_color" 
+                                value="{{ $settings->primary_color ?? '#4F46E5' }}">
+                            <span id="primary_color_value" class="text-white">{{ $settings->primary_color ?? '#4F46E5' }}</span>
                         </div>
                     </div>
                 </div>
@@ -29,13 +26,10 @@ use Illuminate\Support\Facades\Storage;
                     <h3 class="control-panel-subtitle">Secondary Color</h3>
                     <div class="control-panel-form-group">
                         <label class="control-panel-label" for="secondary_color">Choose a secondary color</label>
-                        <div class="color-picker-wrapper">
-                            <div class="color-preview" style="background-color: {{ $settings->secondary_color ?? '#818CF8' }}">
-                                <input type="color" name="secondary_color" id="secondary_color" 
-                                    value="{{ $settings->secondary_color ?? '#818CF8' }}"
-                                    class="color-picker-input">
-                            </div>
-                            <div class="color-value">{{ $settings->secondary_color ?? '#818CF8' }}</div>
+                        <div class="flex items-center gap-3">
+                            <input type="color" name="secondary_color" id="secondary_color" 
+                                value="{{ $settings->secondary_color ?? '#818CF8' }}">
+                            <span id="secondary_color_value" class="text-white">{{ $settings->secondary_color ?? '#818CF8' }}</span>
                         </div>
                     </div>
                 </div>
@@ -44,13 +38,10 @@ use Illuminate\Support\Facades\Storage;
                     <h3 class="control-panel-subtitle">Accent Color</h3>
                     <div class="control-panel-form-group">
                         <label class="control-panel-label" for="accent_color">Choose an accent color</label>
-                        <div class="color-picker-wrapper">
-                            <div class="color-preview" style="background-color: {{ $settings->accent_color ?? '#6366f1' }}">
-                                <input type="color" name="accent_color" id="accent_color" 
-                                    value="{{ $settings->accent_color ?? '#6366f1' }}"
-                                    class="color-picker-input">
-                            </div>
-                            <div class="color-value">{{ $settings->accent_color ?? '#6366f1' }}</div>
+                        <div class="flex items-center gap-3">
+                            <input type="color" name="accent_color" id="accent_color" 
+                                value="{{ $settings->accent_color ?? '#6366f1' }}">
+                            <span id="accent_color_value" class="text-white">{{ $settings->accent_color ?? '#6366f1' }}</span>
                         </div>
                     </div>
                 </div>
@@ -87,16 +78,15 @@ use Illuminate\Support\Facades\Storage;
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const colorInputs = document.querySelectorAll('.color-picker-input');
+            const colorInputs = document.querySelectorAll('input[type="color"]');
             
             colorInputs.forEach(input => {
                 input.addEventListener('input', function() {
-                    // Update the preview (which is the parent)
-                    this.parentElement.style.backgroundColor = this.value;
-                    
                     // Update the text value
-                    const valueDisplay = this.parentElement.parentElement.querySelector('.color-value');
-                    valueDisplay.textContent = this.value;
+                    const valueElement = document.getElementById(this.id + '_value');
+                    if (valueElement) {
+                        valueElement.textContent = this.value;
+                    }
                 });
             });
         });
