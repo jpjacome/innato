@@ -15,7 +15,8 @@ class HeroSettingsController extends Controller
                 'title_text' => 'WELCOME',
                 'title_color' => '#FFFFFF',
                 'title_size' => '4rem',
-                'title_font' => 'Playfair Display'
+                'title_font' => 'Playfair Display',
+                'background_color' => '#6366f1'
             ]);
         }
         return redirect()->route('dashboard');
@@ -28,6 +29,7 @@ class HeroSettingsController extends Controller
             'title_color' => 'required|string|max:7',
             'title_size' => 'required|string|in:2rem,3rem,4rem,5rem',
             'title_font' => 'required|string|in:Playfair Display,Montserrat,Righteous,Pacifico,Orbitron',
+            'background_color' => 'required|string|max:7',
         ]);
 
         $settings = HeroSetting::first();
@@ -39,6 +41,7 @@ class HeroSettingsController extends Controller
         $settings->title_color = $request->title_color;
         $settings->title_size = $request->title_size;
         $settings->title_font = $request->title_font;
+        $settings->background_color = $request->background_color;
         $settings->save();
 
         return redirect()->back()->with('success', 'Hero settings updated successfully!');

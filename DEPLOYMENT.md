@@ -1,36 +1,75 @@
-# Deployment Checklist
+# Deployment Guide
 
-## 1. Local Preparation
-- [ ] Run `composer install --optimize-autoloader --no-dev`
-- [ ] Run `php artisan config:cache`
-- [ ] Run `php artisan route:cache`
-- [ ] Run `php artisan view:cache`
-- [ ] Update `.env.production` with your actual values
-- [ ] Generate new app key: `php artisan key:generate`
+## Preparation for Deployment
 
-## 2. Database Setup
-- [ ] Create new database on hosting
-- [ ] Update `.env.production` with database credentials
-- [ ] Run migrations: `php artisan migrate`
-- [ ] Run seeders: `php artisan db:seed`
+1. Make sure you have the following:
+   - A web server with PHP 8.1+ support
+   - MySQL or any supported database
+   - Composer installed on your local machine
 
-## 3. File Upload
-- [ ] Upload all files to hosting via FTP
-- [ ] Make sure `.env.production` is uploaded as `.env`
-- [ ] Set proper permissions:
-  - Directories: 755
-  - Files: 644
-  - Storage directory: 775
-  - Bootstrap/cache: 775
+2. On your local machine, run these commands before deploying:
+   ```bash
+   # Clear all caches
+   php artisan optimize:clear
+   
+   # Build assets for production
+   npm run build
+   ```
 
-## 4. Server Configuration
-- [ ] Point web server to `public` directory
-- [ ] Configure URL rewriting
-- [ ] Set up SSL certificate if needed
+## Deployment Steps
 
-## 5. Post-Deployment
-- [ ] Clear all caches: `php artisan cache:clear`
-- [ ] Clear config: `php artisan config:clear`
-- [ ] Clear routes: `php artisan route:clear`
-- [ ] Clear views: `php artisan view:clear`
-- [ ] Test all functionality 
+1. **Upload files to your web host**
+   - Upload all files to your hosting provider
+   - Make sure the web server points to the `public` directory
+
+2. **Set permissions** (if using Linux/Unix hosting)
+   ```bash
+   chmod -R 755 storage bootstrap/cache
+   ```
+
+3. **Copy .env file**
+   - Create a `.env` file on the server
+   - Update the database credentials and other settings
+   - Set `APP_ENV=production` and `APP_DEBUG=false`
+
+4. **Generate application key** (if not already set)
+   ```bash
+   php artisan key:generate
+   ```
+
+5. **Run migrations**
+   ```bash
+   php artisan migrate
+   ```
+
+6. **Seed the database** (for initial admin user)
+   ```bash
+   php artisan db:seed
+   ```
+
+## Default Login Credentials
+
+- Email: admin@example.com
+- Password: password
+
+*Change these credentials after your first login!*
+
+## Troubleshooting
+
+- If images or uploads don't work, check that the `storage` directory is properly linked:
+  ```bash
+  php artisan storage:link
+  ```
+
+- If you see a blank page, check the permissions on the storage and bootstrap/cache directories.
+
+- Make sure all PHP extensions required by Laravel are enabled on your server:
+  - BCMath
+  - Ctype
+  - Fileinfo
+  - JSON
+  - Mbstring
+  - OpenSSL
+  - PDO
+  - Tokenizer
+  - XML 

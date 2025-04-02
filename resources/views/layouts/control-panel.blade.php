@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\Storage;
             </div>
             
             <nav class="control-panel-nav">
-                <a href="{{ route('welcome') }}" class="control-panel-button">Homepage</a>
+                <a href="{{ route('welcome') }}" class="control-panel-button" target="_blank">Homepage</a>
                 <a href="{{ route('dashboard') }}" class="control-panel-button">Dashboard</a>
                 
                 @if (Auth::user()->isAdmin())

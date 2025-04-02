@@ -2,36 +2,11 @@
     <div class="control-panel-card">
         <h2 class="control-panel-title">Welcome to the Dashboard</h2>
         
-        <div class="control-panel-grid">
+        <div class="control-panel-grid" id="control-panel-grid-1">
             <!-- Quick Stats -->
-            <div class="control-panel-card">
+            <div class="control-panel-card user-stats-card">
                 <h3 class="control-panel-subtitle">Users</h3>
                 <p class="control-panel-stat">{{ \App\Models\User::count() }}</p>
-            </div>
-
-            <!-- Recent Activity -->
-            <div class="control-panel-card">
-                <h3 class="control-panel-subtitle">Recent Activity</h3>
-                <p>No recent activity</p>
-            </div>
-
-            <!-- Quick Actions -->
-            <div class="control-panel-card">
-                <h3 class="control-panel-subtitle">Quick Actions</h3>
-                <div class="control-panel-actions">
-                    @if(Auth::user()->isAdmin())
-                        <a href="{{ route('users.index') }}" class="control-panel-button">
-                            Manage Users
-                        </a>
-                        <a href="{{ route('settings.index') }}" class="control-panel-button">
-                            Settings
-                        </a>
-                    @elseif(Auth::user()->isEditor())
-                        <a href="{{ route('settings.index') }}" class="control-panel-button">
-                            Settings
-                        </a>
-                    @endif
-                </div>
             </div>
         </div>
     </div>
@@ -61,13 +36,23 @@
                     <h3 class="control-panel-subtitle">Title Color</h3>
                     <div class="control-panel-form-group">
                         <label class="control-panel-label" for="title_color">Choose the title color</label>
-                        <div class="color-picker-wrapper">
-                            <div class="color-preview" style="background-color: {{ $heroSettings->title_color ?? '#FFFFFF' }}">
-                                <input type="color" name="title_color" id="title_color" 
-                                       value="{{ $heroSettings->title_color ?? '#FFFFFF' }}"
-                                       class="color-picker-input">
-                            </div>
-                            <div class="color-value">{{ $heroSettings->title_color ?? '#FFFFFF' }}</div>
+                        <div class="flex items-center gap-3">
+                            <input type="color" name="title_color" id="title_color" 
+                                   value="{{ $heroSettings->title_color ?? '#FFFFFF' }}">
+                            <span id="title_color_value" class="text-white">{{ $heroSettings->title_color ?? '#FFFFFF' }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Background Color -->
+                <div class="control-panel-card">
+                    <h3 class="control-panel-subtitle">Background Color</h3>
+                    <div class="control-panel-form-group">
+                        <label class="control-panel-label" for="background_color">Choose the background color</label>
+                        <div class="flex items-center gap-3">
+                            <input type="color" name="background_color" id="background_color" 
+                                   value="{{ $heroSettings->background_color ?? '#6366f1' }}">
+                            <span id="background_color_value" class="text-white">{{ $heroSettings->background_color ?? '#6366f1' }}</span>
                         </div>
                     </div>
                 </div>
@@ -77,7 +62,7 @@
                     <h3 class="control-panel-subtitle">Title Size</h3>
                     <div class="control-panel-form-group">
                         <label class="control-panel-label" for="title_size">Select the title size</label>
-                        <select name="title_size" id="title_size" class="control-panel-input">
+                        <select name="title_size" id="title_size" class="control-panel-select">
                             <option value="2rem" {{ ($heroSettings->title_size ?? '4rem') == '2rem' ? 'selected' : '' }}>Small</option>
                             <option value="3rem" {{ ($heroSettings->title_size ?? '4rem') == '3rem' ? 'selected' : '' }}>Medium</option>
                             <option value="4rem" {{ ($heroSettings->title_size ?? '4rem') == '4rem' ? 'selected' : '' }}>Large</option>
@@ -91,7 +76,7 @@
                     <h3 class="control-panel-subtitle">Title Font</h3>
                     <div class="control-panel-form-group">
                         <label class="control-panel-label" for="title_font">Select the title font</label>
-                        <select name="title_font" id="title_font" class="control-panel-input">
+                        <select name="title_font" id="title_font" class="control-panel-select">
                             <option value="Playfair Display" {{ ($heroSettings->title_font ?? 'Playfair Display') === 'Playfair Display' ? 'selected' : '' }}>Playfair Display</option>
                             <option value="Montserrat" {{ ($heroSettings->title_font ?? 'Playfair Display') === 'Montserrat' ? 'selected' : '' }}>Montserrat</option>
                             <option value="Righteous" {{ ($heroSettings->title_font ?? 'Playfair Display') === 'Righteous' ? 'selected' : '' }}>Righteous</option>
@@ -111,16 +96,15 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const colorInputs = document.querySelectorAll('.color-picker-input');
+            const colorInputs = document.querySelectorAll('input[type="color"]');
             
             colorInputs.forEach(input => {
                 input.addEventListener('input', function() {
-                    // Update the preview (which is the parent)
-                    this.parentElement.style.backgroundColor = this.value;
-                    
                     // Update the text value
-                    const valueDisplay = this.parentElement.parentElement.querySelector('.color-value');
-                    valueDisplay.textContent = this.value;
+                    const valueElement = document.getElementById(this.id + '_value');
+                    if (valueElement) {
+                        valueElement.textContent = this.value;
+                    }
                 });
             });
         });

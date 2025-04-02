@@ -39,7 +39,7 @@
             }
 
             .hero {
-                background-color: var(--primary);
+                background-color: {{ $settings->background_color ?? '#6366f1' }};
                 min-height: 100vh;
                 display: flex;
                 align-items: center;

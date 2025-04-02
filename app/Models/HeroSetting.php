@@ -14,5 +14,6 @@ class HeroSetting extends Model
         'title_color',
         'title_size',
         'title_font',
+        'background_color',
     ];
 }

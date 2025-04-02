@@ -1,16 +1,34 @@
 # Laravel Application Configuration
 <IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+    
     RewriteEngine On
-    RewriteBase /laravel-test/
     
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
     
-    # Redirect to public folder
-    RewriteCond %{REQUEST_URI} !^/laravel-test/public/
-    RewriteRule ^(.*)$ public/$1 [L]
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+    
+    # Send Requests To Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
 </IfModule>
+
+# Disable index viewing
+Options -Indexes
+
+# Handle errors
+ErrorDocument 404 /index.php
+
+# Set default charset
+AddDefaultCharset UTF-8
 
 # Security Headers
 <IfModule mod_headers.c>
@@ -33,9 +51,6 @@
     Order Allow,Deny
     Allow from all
 </FilesMatch>
-
-# Prevent directory listing
-Options -Indexes
 
 # Allow access to public assets
 <FilesMatch "\.(css|js|jpg|jpeg|png|gif|ico|woff|woff2|ttf|eot)$">

@@ -31,15 +31,18 @@ A sleek and powerful Content Management System built with Laravel, featuring a m
 - Secure password handling
 - Admin-only access to sensitive areas
 
-## 🚀 Getting Started
+## 🚀 Quick Deployment
 
-### Prerequisites
-- PHP 8.1 or higher
-- Composer
-- Node.js and NPM
-- MySQL or PostgreSQL
+This application has been optimized for easy deployment:
+1. Upload the entire directory to your hosting provider
+2. Set up a database and update the `.env` file
+3. Follow the steps in `SIMPLE_DEPLOY.md` for detailed instructions
 
-### Installation
+See the `DEPLOYMENT.md` file for more comprehensive deployment options.
+
+## 🛠️ Local Development
+
+For local development, follow these steps:
 
 1. Clone the repository:
 ```bash
@@ -52,34 +55,20 @@ cd drpixelcms
 composer install
 ```
 
-3. Install NPM dependencies:
-```bash
-npm install
-```
-
-4. Create environment file:
+3. Copy the environment file and generate an app key:
 ```bash
 cp .env.example .env
-```
-
-5. Generate application key:
-```bash
 php artisan key:generate
 ```
 
-6. Configure your database in `.env` file
+4. Configure your database in `.env` file
 
-7. Run migrations and seeders:
+5. Run migrations and seeders:
 ```bash
 php artisan migrate --seed
 ```
 
-8. Compile assets:
-```bash
-npm run build
-```
-
-9. Start the development server:
+6. Start the development server:
 ```bash
 php artisan serve
 ```
@@ -93,7 +82,7 @@ php artisan serve
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.
 
 ## 👏 Contributing
 

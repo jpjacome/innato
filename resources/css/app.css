@@ -1,27 +1,5 @@
-/* Custom styles */
-:root {
-    --primary-color: #4F46E5;
-    --secondary-color: #818CF8;
-    --accent-color: #6366f1;
-}
+/* This file is intentionally minimal.
+   Main styles are loaded from the dynamic CSS endpoint at /css/control-panel-dynamic.css */
 
-/* Base styles */
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Inter', sans-serif;
-    line-height: 1.5;
-}
-
-/* Utility classes */
-.text-center {
-    text-align: center;
-}
-
-.mt-4 {
-    margin-top: 1rem;
-}
-
-.mb-4 {
-    margin-bottom: 1rem;
-}
+/* Base imports for fonts or other critical assets */
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap'); 
