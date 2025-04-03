@@ -10,7 +10,7 @@ use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
 
 // Public Routes
-Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
+Route::match(['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'OPTIONS'], '/', [WelcomeController::class, 'index'])->name('welcome');
 
 // Control Panel Routes (accessible to all authenticated users)
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -75,5 +75,15 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
 
 // Dynamic CSS
 Route::get('/css/control-panel-dynamic.css', [StyleController::class, 'controlPanel'])->name('control-panel.css');
+
+// Handle all other unmatched routes, especially important for subdirectory installations
+Route::fallback(function() {
+    // Check if the URL path might be the root in a subdirectory
+    if (request()->path() === '/') {
+        return app()->make(WelcomeController::class)->index();
+    }
+    
+    abort(404);
+});
 
 require __DIR__.'/auth.php';
