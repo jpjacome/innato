@@ -17,15 +17,15 @@
         <!-- Scripts -->
         @vite(['resources/js/app.js'])
     </head>
-    <body>
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-            <div>
-                <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+    <body class="control-panel-auth-body">
+        <div class="control-panel-auth-container">
+            <div class="control-panel-auth-logo-container">
+                <a href="/" style="display: block;">
+                    <x-interactive-icon size="150px" borderScale="0.05" class="control-panel-auth-logo" />
                 </a>
             </div>
 
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+            <div class="control-panel-auth-form-container">
                 {{ $slot }}
             </div>
         </div>

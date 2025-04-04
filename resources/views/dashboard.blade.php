@@ -1,6 +1,6 @@
 <x-control-panel-layout>
     <div class="control-panel-card">
-        <h2 class="control-panel-title">Welcome to the Dashboard</h2>
+        <h2 class="control-panel-title">Welcome to the Dashboard, {{ Auth::user()->name }}</h2>
         
         <div class="control-panel-grid" id="control-panel-grid-1">
             <!-- Quick Stats -->

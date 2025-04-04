@@ -19,6 +19,11 @@ class UserManagementController extends Controller
         return view('admin.users.create');
     }
 
+    public function edit(User $user)
+    {
+        return view('admin.users.edit', compact('user'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -43,16 +48,29 @@ class UserManagementController extends Controller
     public function update(Request $request, User $user)
     {
         $request->validate([
-            'role' => 'required|in:admin,editor,regular'
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'role' => 'required|in:admin,editor,regular',
+            'password' => 'nullable|string|min:8|confirmed'
         ]);
 
-        // Update role
-        $user->update([
+        // Update user data
+        $userData = [
+            'name' => $request->name,
+            'email' => $request->email,
             'role' => $request->role,
-            'is_admin' => $request->role === 'admin' ? true : false
-        ]);
+            'is_admin' => $request->role === 'admin'
+        ];
 
-        return back()->with('success', 'User role updated successfully.');
+        // Only update password if provided
+        if ($request->filled('password')) {
+            $userData['password'] = Hash::make($request->password);
+        }
+
+        $user->update($userData);
+
+        return redirect()->route('users.index')
+            ->with('success', 'User updated successfully.');
     }
 
     public function destroy(User $user)
