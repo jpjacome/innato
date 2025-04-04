@@ -8,10 +8,51 @@
                 <h3 class="control-panel-subtitle">Users</h3>
                 <p class="control-panel-stat">{{ \App\Models\User::count() }}</p>
             </div>
+            
+            @if(Auth::user()->isAdmin() || Auth::user()->isEditor())
+            <div class="control-panel-card plants-stats-card">
+                <h3 class="control-panel-subtitle">Plants</h3>
+                <p class="control-panel-stat">{{ \App\Models\Plant::count() }}</p>
+            </div>
+            @endif
         </div>
     </div>
 
     @if(Auth::user()->isAdmin() || Auth::user()->isEditor())
+    <!-- Plant Management Module Card -->
+    <div class="control-panel-card">
+        <h2 class="control-panel-title">Plant Management</h2>
+        
+        <div class="control-panel-grid">
+            <!-- Plants List -->
+            <div class="control-panel-card">
+                <h3 class="control-panel-subtitle">Plants Database</h3>
+                <p>Manage plant information, images, and maintenance records.</p>
+                <div class="mt-3">
+                    <a href="{{ route('admin.plants.index') }}" class="control-panel-button">View All Plants</a>
+                </div>
+            </div>
+            
+            <!-- Add New Plant -->
+            <div class="control-panel-card">
+                <h3 class="control-panel-subtitle">Add New Plant</h3>
+                <p>Create a new plant record with detailed information and images.</p>
+                <div class="mt-3">
+                    <a href="{{ route('admin.plants.create') }}" class="control-panel-button">Add Plant</a>
+                </div>
+            </div>
+            
+            <!-- Maintenance Logs -->
+            <div class="control-panel-card">
+                <h3 class="control-panel-subtitle">Maintenance Logs</h3>
+                <p>Track watering, fertilization, pruning, and other plant care activities.</p>
+                <div class="mt-3">
+                    <a href="{{ route('admin.maintenance.index') }}" class="control-panel-button">View Logs</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <div class="control-panel-card">
         <h2 class="control-panel-title">Homepage Hero Settings</h2>
         

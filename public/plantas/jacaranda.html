@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Boreal – Jacaranda Tree</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: #e7eef9;
+      animation: fadeInDown 1s ease-in-out;
+      padding: 1rem 0;
+    }
+
+    .header-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      max-width: 120px;
+      height: auto;
+    }
+
+    .home-icon {
+      font-size: 1.5rem;
+      color: #333;
+    }
+
+    .main-title {
+      text-align: left;
+      margin: 2rem 0;
+      font-size: 2rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      animation: fadeIn 1.5s ease;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1rem 2rem;
+    }
+
+    section {
+      margin-bottom: 2rem;
+      animation: fadeIn 1.5s ease-in;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      color: #444;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 0.4rem;
+      margin-bottom: 1rem;
+    }
+
+    .log-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .log-table td {
+      padding: 0.5rem 1rem;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .thumbnail-container {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .thumbnail {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 4px;
+      cursor: pointer;
+      border: 1px solid #ddd;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .thumbnail:hover {
+      transform: scale(1.05);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .info-card p {
+      margin: 0.3rem 0;
+    }
+
+    .slider {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+
+    .slide-wrapper {
+      display: flex;
+      transition: transform 0.5s ease;
+      width: 100%;
+    }
+
+    .slide {
+      min-width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .slide img {
+      max-width: 100%;
+      max-height: 400px;
+      object-fit: contain;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.8);
+      border: none;
+      font-size: 2rem;
+      cursor: pointer;
+      z-index: 2;
+      padding: 0 0.5rem;
+      border-radius: 5px;
+    }
+
+    .prev { left: 10px; }
+    .next { right: 10px; }
+
+    .fade-in {
+      animation: fadeIn 1.5s ease;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 10px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      .main-title { font-size: 1.5rem; }
+      .logo { max-width: 100px; }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+  <header>
+    <div class="header-container">
+      <img src="assets/imgs/logo-boreal-black.png" alt="Boreal Logo" class="logo">
+      <i class="fas fa-home home-icon"></i>
+    </div>
+  </header>
+
+  <div class="container">
+    <h1 class="main-title">Jacaranda Tree</h1>
+    
+    <section>
+      <h2>Maintenance Log</h2>
+      <table class="log-table">
+        <tr><td><strong>Last Watering:</strong></td><td>April 1, 2025</td></tr>
+        <tr><td><strong>Next Watering:</strong></td><td>April 8, 2025</td></tr>
+        <tr><td><strong>Last Fertilization:</strong></td><td>March 15, 2025</td></tr>
+        <tr><td><strong>Next Fertilization:</strong></td><td>April 15, 2025</td></tr>
+        <tr><td><strong>Last Pruning:</strong></td><td>February 10, 2025</td></tr>
+        <tr><td><strong>Next Pruning:</strong></td><td>February 2026</td></tr>
+        <tr><td><strong>Pest/Disease Inspection:</strong></td><td>No issues observed as of April 1, 2025</td></tr>
+        <tr>
+          <td><strong>Latest Images:</strong></td>
+          <td>
+            <div class="thumbnail-container">
+              <img src="https://tse3.mm.bing.net/th?id=OIP.qo1rR-J3XU9TlZjCVYb-HAHaE7&pid=Api" alt="Jacaranda Closeup" class="thumbnail">
+              <img src="https://tse1.mm.bing.net/th?id=OIP.YQp3WdtdiNMfHlTzvx88BAHaE8&pid=Api" alt="Jacaranda Tree in Bloom" class="thumbnail">
+              <img src="https://tse2.mm.bing.net/th?id=OIP.g3z4CQLDGXRjYiWTJnFH-AHaFj&pid=Api" alt="Jacaranda Street" class="thumbnail">
+              <img src="https://tse3.mm.bing.net/th?id=OIP.x6NlKZbZ_5hPp6m8B5QN_QHaE7&pid=Api" alt="Jacaranda Flowers" class="thumbnail">
+            </div>
+          </td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="slider-section">
+      <h2>Images</h2>
+      <div class="slider">
+        <button class="nav-btn prev">&#10094;</button>
+        <div class="slide-wrapper" id="slideWrapper">          
+          <div class="slide"><img src="https://tse2.mm.bing.net/th?id=OIP.aSqnOoTkVwVLJGIMv1bHVgHaFN&pid=Api" alt="Jacaranda 1"></div>
+          <div class="slide"><img src="https://tse1.mm.bing.net/th?id=OIP.5ekaXLWPV4sgKETql6SiqwHaHa&pid=Api" alt="Jacaranda 2"></div>
+          <div class="slide"><img src="https://tse3.mm.bing.net/th?id=OIP.RoMAZODYvz3ae2bpkxFLvgHaHa&pid=Api" alt="Jacaranda 3"></div>
+          <div class="slide"><img src="https://tse2.mm.bing.net/th?id=OIP.fPSmDHRHI5w5WFAOTF7F3AHaHj&pid=Api" alt="Jacaranda 4"></div>
+        </div>
+        <button class="nav-btn next">&#10095;</button>
+      </div>
+    </section>
+
+    <section class="info-card fade-in">
+      <h2>Botanical Information</h2>
+      <p><strong>Common Names:</strong> Blue Jacaranda, Black Poui, Green Ebony Tree</p>
+      <p><strong>Family:</strong> Bignoniaceae</p>
+      <p><strong>Native Range:</strong> Argentina and Bolivia</p>
+      <p><strong>Age:</strong> 5 years</p>
+      <p><strong>Current Height:</strong> 10–15 ft (3–4.5 m)</p>
+      <p><strong>Expected Height:</strong> Up to 50 ft (15 m)</p>
+      <p><strong>Leaf Type:</strong> Bipinnately compound, bright green</p>
+      <p><strong>Bloom Time:</strong> Late spring to early summer</p>
+      <p><strong>Flower Color:</strong> Lavender-blue</p>
+      <p><strong>Fruit:</strong> Woody capsules with winged seeds</p>
+      <p><strong>Light:</strong> Full sun (6–8 hrs/day)</p>
+      <p><strong>Soil:</strong> Sandy, well-drained</p>
+      <p><strong>Hardiness:</strong> USDA zones 10–11</p>
+    </section>
+
+    <section>
+      <h2>Other Comments</h2>
+      <p>This 5-year-old Jacaranda is entering its first consistent blooming seasons. Excellent shape and health. Expected to reach shade canopy status in 3 years. Minimal maintenance required aside from seasonal watering and once-yearly pruning. Recommended for centerpiece display in subtropical zones.</p>
+    </section>
+
+  </div>
+
+  <!-- Modal for full-screen images -->
+  <div class="modal" id="imageModal">
+    <img id="modalImg" src="" alt="Full View">
+  </div>
+
+  <script>
+    const wrapper = document.querySelector('.slide-wrapper');
+    const slides = document.querySelectorAll('.slide');
+    const prev = document.querySelector('.prev');
+    const next = document.querySelector('.next');
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImg');
+    let index = 0;
+
+    function updateSlider() {
+      wrapper.style.transform = `translateX(-${index * 100}%)`;
+    }
+
+    prev.addEventListener('click', () => {
+      index = (index <= 0) ? slides.length - 1 : index - 1;
+      updateSlider();
+    });
+
+    next.addEventListener('click', () => {
+      index = (index + 1) % slides.length;
+      updateSlider();
+    });
+
+    slides.forEach(slide => {
+      slide.querySelector('img').addEventListener('click', () => {
+        modal.style.display = 'flex';
+        modalImg.src = slide.querySelector('img').src;
+      });
+    });
+
+    // Add click event for thumbnails
+    document.querySelectorAll('.thumbnail').forEach(thumbnail => {
+      thumbnail.addEventListener('click', () => {
+        modal.style.display = 'flex';
+        modalImg.src = thumbnail.src;
+      });
+    });
+
+    modal.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+  </script>
+</body>
+</html>

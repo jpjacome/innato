@@ -19,7 +19,7 @@ class HeroSettingsController extends Controller
                 'background_color' => '#6366f1'
             ]);
         }
-        return redirect()->route('dashboard');
+        return redirect()->route('admin.dashboard');
     }
 
     public function update(Request $request)

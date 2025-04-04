@@ -1,0 +1,9 @@
+[33m2335444[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Add dark theme colors migration and update control panel components
+[33m2bc5e4b[m Add utility files for troubleshooting HTTPS, styling, and configuration
+[33mbc8dd71[m Fix routing for subdirectory and force HTTPS in production
+[33m60f1be5[m Prepare application for easy deployment
+[33m02548ed[m Simplify color picker to use just the input element
+[33mb499c28[m Remove Tailwind completely from the project
+[33m7505a54[m Remove Tailwind references from README
+[33m6d6c4f7[m Add comprehensive README with features and setup instructions
+[33mce86770[m Initial commit

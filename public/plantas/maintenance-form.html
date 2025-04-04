@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Boreal – Plant Maintenance Log</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: #e7eef9;
+      animation: fadeInDown 1s ease-in-out;
+      padding: 1rem 0;
+    }
+
+    .header-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      max-width: 120px;
+      height: auto;
+    }
+
+    .home-icon {
+      font-size: 1.5rem;
+      color: #333;
+    }
+
+    .main-title {
+      text-align: left;
+      margin: 2rem 0;
+      font-size: 2rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      animation: fadeIn 1.5s ease;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1rem 2rem;
+    }
+
+    section {
+      margin-bottom: 2rem;
+      animation: fadeIn 1.5s ease-in;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      color: #444;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 0.4rem;
+      margin-bottom: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    select {
+      width: 100%;
+      padding: 0.6rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .date-field-row {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .date-field-row > div {
+      flex: 1;
+    }
+
+    .plant-selector {
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background-color: #f0f5ff;
+      border-radius: 6px;
+      border: 1px solid #d9e6ff;
+    }
+
+    .image-upload-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .image-upload-box {
+      width: 90px;
+      height: 90px;
+      border: 2px dashed #ccc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      background-color: #f5f5f5;
+      transition: background-color 0.2s;
+    }
+
+    .image-upload-box:hover {
+      background-color: #e9e9e9;
+    }
+
+    .image-upload-box i {
+      font-size: 1.5rem;
+      color: #999;
+    }
+
+    .btn {
+      background-color: #4a7bca;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .btn:hover {
+      background-color: #3a6ab0;
+    }
+
+    .btn-row {
+      margin-top: 2rem;
+      text-align: right;
+    }
+
+    .fade-in {
+      animation: fadeIn 1.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      .main-title { font-size: 1.5rem; }
+      .logo { max-width: 100px; }
+      .date-field-row { flex-direction: column; gap: 0.5rem; }
+      .image-upload-box { width: 70px; height: 70px; }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+  <header>
+    <div class="header-container">
+      <img src="assets/imgs/logo-boreal-black.png" alt="Boreal Logo" class="logo">
+      <i class="fas fa-home home-icon"></i>
+    </div>
+  </header>
+
+  <div class="container">
+    <h1 class="main-title">Plant Maintenance Log</h1>
+    
+    <form id="maintenanceForm">
+      <div class="plant-selector">
+        <div class="form-group">
+          <label for="plantSelect">Select Plant</label>
+          <select id="plantSelect" name="plantSelect" required>
+            <option value="">-- Select a plant --</option>
+            <option value="jacaranda">Jacaranda Tree</option>
+            <option value="monstera">Monstera Deliciosa</option>
+            <option value="ficus">Ficus Lyrata</option>
+            <option value="orchid">Phalaenopsis Orchid</option>
+          </select>
+        </div>
+      </div>
+      
+      <section>
+        <h2>Watering Schedule</h2>
+        <div class="date-field-row">
+          <div class="form-group">
+            <label for="lastWatering">Last Watering</label>
+            <input type="date" id="lastWatering" name="lastWatering" required>
+          </div>
+          <div class="form-group">
+            <label for="nextWatering">Next Watering</label>
+            <input type="date" id="nextWatering" name="nextWatering" required>
+          </div>
+        </div>
+      </section>
+      
+      <section>
+        <h2>Fertilization Schedule</h2>
+        <div class="date-field-row">
+          <div class="form-group">
+            <label for="lastFertilization">Last Fertilization</label>
+            <input type="date" id="lastFertilization" name="lastFertilization">
+          </div>
+          <div class="form-group">
+            <label for="nextFertilization">Next Fertilization</label>
+            <input type="date" id="nextFertilization" name="nextFertilization">
+          </div>
+        </div>
+      </section>
+      
+      <section>
+        <h2>Pruning Schedule</h2>
+        <div class="date-field-row">
+          <div class="form-group">
+            <label for="lastPruning">Last Pruning</label>
+            <input type="date" id="lastPruning" name="lastPruning">
+          </div>
+          <div class="form-group">
+            <label for="nextPruning">Next Pruning</label>
+            <input type="date" id="nextPruning" name="nextPruning">
+          </div>
+        </div>
+      </section>
+      
+      <section>
+        <h2>Health Check</h2>
+        <div class="form-group">
+          <label for="pestDiseaseInspection">Pest/Disease Inspection</label>
+          <input type="text" id="pestDiseaseInspection" name="pestDiseaseInspection" placeholder="e.g., No issues observed as of April 1, 2025" required>
+        </div>
+      </section>
+      
+      <section>
+        <h2>Upload Recent Images</h2>
+        <p>Add new thumbnail images of the plant:</p>
+        <div class="image-upload-container">
+          <div class="image-upload-box">
+            <i class="fas fa-plus"></i>
+          </div>
+          <div class="image-upload-box">
+            <i class="fas fa-plus"></i>
+          </div>
+          <div class="image-upload-box">
+            <i class="fas fa-plus"></i>
+          </div>
+          <div class="image-upload-box">
+            <i class="fas fa-plus"></i>
+          </div>
+        </div>
+      </section>
+
+      <div class="btn-row">
+        <button type="submit" class="btn">Update Maintenance Log</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // Just for UI demonstration - no functionality
+    document.getElementById('maintenanceForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Form submission disabled. This is just a UI demonstration.');
+    });
+
+    // Make image upload boxes clickable
+    document.querySelectorAll('.image-upload-box').forEach(box => {
+      box.addEventListener('click', () => {
+        alert('Image upload functionality would go here in a real implementation');
+      });
+    });
+  </script>
+</body>
+</html> 

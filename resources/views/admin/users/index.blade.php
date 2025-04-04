@@ -31,15 +31,6 @@
                             @endif
                         </td>
                         <td class="control-panel-actions-cell">
-                            <form id="role-dropdown" action="{{ route('users.update', $user) }}" method="POST" class="inline">
-                                @csrf
-                                @method('PUT')
-                                <select name="role" class="control-panel-select" onchange="this.form.submit()">
-                                    <option value="admin" {{ ($user->role === 'admin' || $user->is_admin) ? 'selected' : '' }}>Admin</option>
-                                    <option value="editor" {{ $user->role === 'editor' ? 'selected' : '' }}>Editor</option>
-                                    <option value="regular" {{ $user->role === 'regular' && !$user->is_admin ? 'selected' : '' }}>Regular</option>
-                                </select>
-                            </form>
                             <a href="{{ route('users.edit', $user) }}" class="control-panel-button control-panel-button-secondary ml-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="control-panel-icon" viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />

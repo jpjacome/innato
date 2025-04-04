@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             HeroSettingSeeder::class,
             DashboardSettingsSeeder::class,
+            PlantSeeder::class,
         ]);
     }
 }

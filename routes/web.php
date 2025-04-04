@@ -10,9 +10,21 @@ use App\Http\Controllers\PagesController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\EditorMiddleware;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PlantViewController;
 
 // Public Routes
 Route::match(['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'OPTIONS'], '/', [WelcomeController::class, 'index'])->name('welcome');
+
+// Public Plants Routes
+Route::get('/plants', [PlantViewController::class, 'index'])->name('public.plants.index');
+Route::get('/plants/{plant}', [PlantViewController::class, 'show'])->name('public.plants.show');
+Route::get('/plants/create', [PlantViewController::class, 'create'])->name('public.plants.create');
+Route::get('/plants/maintenance', [PlantViewController::class, 'maintenance'])->name('public.plants.maintenance');
+
+// Legacy Plant Routes (for backward compatibility with existing plantas folder)
+Route::get('/plantas/view-plant.php', [PlantViewController::class, 'legacyViewPlant']);
+Route::get('/plantas/add-plant.html', [PlantViewController::class, 'legacyAddPlant']);
+Route::get('/plantas/maintenance-form.html', [PlantViewController::class, 'legacyMaintenance']);
 
 // Control Panel Routes (accessible to all authenticated users)
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -72,9 +84,7 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::put('/users/{user}', [UserManagementController::class, 'update'])->name('users.update');
     Route::delete('/users/{user}', [UserManagementController::class, 'destroy'])->name('users.destroy');
     
-    // Dashboard Settings
-    Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
-    Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');
+    // Dashboard Settings - Using a single consistent path
     Route::get('/admin/settings', [SettingsController::class, 'index'])->name('admin.settings');
     Route::put('/admin/settings', [SettingsController::class, 'update'])->name('settings.update');
     
@@ -97,6 +107,27 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
 Route::middleware(['auth', EditorMiddleware::class])->group(function () {
     // Pages
     Route::get('/admin/pages', [PagesController::class, 'index'])->name('admin.pages');
+    
+    // Plants Management
+    Route::get('/admin/plants', [App\Http\Controllers\Admin\PlantController::class, 'index'])->name('admin.plants.index');
+    Route::get('/admin/plants/create', [App\Http\Controllers\Admin\PlantController::class, 'create'])->name('admin.plants.create');
+    Route::post('/admin/plants', [App\Http\Controllers\Admin\PlantController::class, 'store'])->name('admin.plants.store');
+    Route::get('/admin/plants/{plant}', [App\Http\Controllers\Admin\PlantController::class, 'show'])->name('admin.plants.show');
+    Route::get('/admin/plants/{plant}/edit', [App\Http\Controllers\Admin\PlantController::class, 'edit'])->name('admin.plants.edit');
+    Route::put('/admin/plants/{plant}', [App\Http\Controllers\Admin\PlantController::class, 'update'])->name('admin.plants.update');
+    Route::delete('/admin/plants/{plant}', [App\Http\Controllers\Admin\PlantController::class, 'destroy'])->name('admin.plants.destroy');
+    Route::delete('/admin/plants/{plant}/images/{image}', [App\Http\Controllers\Admin\PlantController::class, 'deleteImage'])->name('admin.plants.images.destroy');
+    Route::post('/admin/plants/{plant}/reorder-images', [App\Http\Controllers\Admin\PlantController::class, 'reorderImages'])->name('admin.plants.images.reorder');
+    
+    // Maintenance Logs Management
+    Route::get('/admin/maintenance', [App\Http\Controllers\Admin\MaintenanceLogController::class, 'index'])->name('admin.maintenance.index');
+    Route::get('/admin/maintenance/create', [App\Http\Controllers\Admin\MaintenanceLogController::class, 'create'])->name('admin.maintenance.create');
+    Route::post('/admin/maintenance', [App\Http\Controllers\Admin\MaintenanceLogController::class, 'store'])->name('admin.maintenance.store');
+    Route::get('/admin/maintenance/{maintenanceLog}', [App\Http\Controllers\Admin\MaintenanceLogController::class, 'show'])->name('admin.maintenance.show');
+    Route::get('/admin/maintenance/{maintenanceLog}/edit', [App\Http\Controllers\Admin\MaintenanceLogController::class, 'edit'])->name('admin.maintenance.edit');
+    Route::put('/admin/maintenance/{maintenanceLog}', [App\Http\Controllers\Admin\MaintenanceLogController::class, 'update'])->name('admin.maintenance.update');
+    Route::delete('/admin/maintenance/{maintenanceLog}', [App\Http\Controllers\Admin\MaintenanceLogController::class, 'destroy'])->name('admin.maintenance.destroy');
+    Route::delete('/admin/maintenance/{maintenanceLog}/images/{image}', [App\Http\Controllers\Admin\MaintenanceLogController::class, 'deleteImage'])->name('admin.maintenance.images.destroy');
 });
 
 // Dynamic CSS
