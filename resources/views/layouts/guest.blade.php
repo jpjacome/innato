@@ -21,7 +21,7 @@
         <div class="control-panel-auth-container">
             <div class="control-panel-auth-logo-container">
                 <a href="/" style="display: block;">
-                    <x-interactive-icon size="150px" borderScale="0.05" class="control-panel-auth-logo" />
+                    <x-interactive-icon size="150px" class="control-panel-auth-logo" />
                 </a>
             </div>
 

@@ -28,7 +28,7 @@ class HeroSettingsController extends Controller
             'title_text' => 'required|string|max:255',
             'title_color' => 'required|string|max:7',
             'title_size' => 'required|string|in:2rem,3rem,4rem,5rem',
-            'title_font' => 'required|string|in:Playfair Display,Montserrat,Righteous,Pacifico,Orbitron',
+            'title_font' => 'required|string|in:Arial,Helvetica,Verdana,Georgia,Times New Roman,Courier New,Playfair Display,Montserrat,Righteous,Pacifico,Orbitron',
             'background_color' => 'required|string|max:7',
         ]);
 

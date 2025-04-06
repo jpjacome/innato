@@ -17,17 +17,6 @@
                 --border: #e5e7eb;
             }
 
-            [data-theme="dark"] {
-                --primary: #6d28d9;
-                --primary-mid: #5b21b6;
-                --primary-light: #8b5cf6;
-                --text: #f9fafb;
-                --text-light: #d1d5db;
-                --bg: #111827;
-                --card: #1f2937;
-                --border: #374151;
-            }
-
             body {
                 margin: 0;
                 padding: 0;
@@ -45,8 +34,18 @@
                 align-items: center;
                 justify-content: center;
                 text-align: center;
-                padding: 2rem;
                 position: relative;
+            }
+
+            /* Animation for interactive icon gap */
+            @keyframes pulse-gap {
+                0% { gap: 0; }
+                50% { gap: 4px; }
+                100% { gap: 0; }
+            }
+
+            .hero .interactive-icon-container {
+                animation: pulse-gap 10s ease-in-out infinite;
             }
 
             .hero-content {
@@ -58,16 +57,12 @@
                 font-size: {{ $settings->title_size ?? '4rem' }};
                 color: {{ $settings->title_color ?? '#FFFFFF' }};
                 font-family: {{ $settings->title_font ?? 'Arial' }};
-                margin: 0;
+                margin: 2rem 0 0;
                 line-height: 1.2;
             }
-
-            .hero-subtitle {
-                font-size: 1.5rem;
-                color: rgba(255, 255, 255, 0.9);
-                margin-top: 1rem;
-            }
-
+                .interactive-icon-square{
+                    color: black;
+                }
             .hero-buttons {
                 margin-top: 2rem;
                 display: flex;
@@ -95,10 +90,12 @@
             .register-button {
                 background-color: transparent;
                 border: 2px solid white;
+                color: black;
             }
 
             .register-button:hover {
                 background-color: rgba(255, 255, 255, 0.1);
+                outline: 2px solid var(--primary);
             }
 
             .users-section {
@@ -152,8 +149,9 @@
     <body>
         <section class="hero">
             <div class="hero-content">
+                
+            <x-interactive-icon size="20vw" />
                 <h1 class="hero-title">{{ $settings->title_text ?? 'WELCOME' }}</h1>
-                <p class="hero-subtitle">Your journey begins here</p>
                 <div class="hero-buttons">
                     <a href="{{ route('login') }}" class="hero-button login-button">Log in</a>
                     <a href="{{ route('register') }}" class="hero-button register-button">Register</a>

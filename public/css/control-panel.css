@@ -21,18 +21,34 @@ html, body {
 }
 
 .control-panel-header {
+    position: sticky;
+    display: flex;
+    top: 0;
+    left: 0;
     background-color: var(--secondary-color);
-    border-bottom: 1px solid var(--accent-color);
-    padding: 1rem;
-    margin-bottom: 2rem;
+    height: 70px;
+    margin-bottom: 1rem;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
 }
-
+    .control-panel-header .header-nav-button{
+        height: 100%;
+        padding: 0 1rem;
+        border-radius: 0;
+        background-color: transparent;
+    }
+        .control-panel-header a:hover{
+            border: none;
+            outline: none;
+        }
 .control-panel-header-content {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
+    height: 100%;
     max-width: 1200px;
-    margin: 0 auto;
 }
 
 .control-panel-logo {
@@ -57,6 +73,7 @@ html, body {
 
 .control-panel-nav {
     display: flex;
+    height: 100%;
     gap: 1rem;
     align-items: center;
     justify-content: flex-end;
@@ -69,6 +86,115 @@ html, body {
     padding: 0 1rem 2rem;
 }
 
+/* Hamburger menu styles */
+.hamburger-menu-icon {
+    display: none;
+    width: 40px;
+    height: 40px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 4px;
+    background-color: var(--accent-color-dark);
+    margin-left: auto;
+    transition: background-color 0.3s;
+    z-index: 1001;
+}
+
+.hamburger-menu-icon:hover {
+    background-color: var(--accent-color);
+}
+
+.hamburger-menu-icon span {
+    display: block;
+    width: 24px;
+    height: 3px;
+    background-color: var(--text);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.hamburger-menu-icon:hover span {
+    width: 20px;
+}
+
+/* Active hamburger icon (X shape) */
+.hamburger-menu-icon.active span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+    width: 24px;
+}
+
+.hamburger-menu-icon.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-menu-icon.active span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+    width: 24px;
+}
+
+.hamburger-menu-icon.active:hover span {
+    width: 24px;
+}
+
+/* Full screen mobile menu */
+.mobile-menu {
+    position: fixed;
+    top: 85px; /* Height of the header + padding */
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 85px);
+    background-color: var(--primary-color);
+    z-index: 1000;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.mobile-menu.active {
+    display: block;
+    opacity: 1;
+}
+
+.mobile-menu-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    gap: 1.5rem;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.mobile-menu-nav .control-panel-button {
+    width: 80%;
+    justify-content: center;
+    font-size: 1.1rem;
+    padding: 0.75rem;
+}
+
+.mobile-menu-nav .inline {
+    width: 80%;
+}
+
+.mobile-menu-nav .inline .control-panel-button {
+    width: 100%;
+}
+
+/* Media query for responsive behavior */
+@media (max-width: 850px) {
+    .control-panel-nav {
+        display: none !important;
+    }
+    
+    .hamburger-menu-icon {
+        display: flex;
+    }
+}
+
 /* Buttons */
 .control-panel-button {
     display: inline-flex;
@@ -77,27 +203,21 @@ html, body {
     font-size: 0.875rem;
     font-weight: 500;
     border-radius: 0.375rem;
-    background-color: var(--primary-color);
+    background-color: transparent;
     color: var(--text);
     transition: all 0.2s;
-    border: none;
+    gap: 8px;
     cursor: pointer;
     text-decoration: none;
+    outline: none;
+    border: none;
 }
 
 .control-panel-button:hover {
-    outline: 1px solid var(--accent-color);
-    background-color: transparent;
-    background-image: linear-gradient(to top, var(--secondary-color), var(--primary-color));
+    background-color: var(--primary-color);
 }
 
-.control-panel-button-secondary {
-    background-color: var(--secondary-color);
-}
 
-.control-panel-button-secondary:hover {
-    background-color: var(--accent-color);
-}
 
 /* Icons */
 .control-panel-icon {
@@ -109,16 +229,46 @@ html, body {
 /* Cards */
 .control-panel-card {
     background-color: var(--secondary-color);
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-    padding: .5rem 1rem;
+    border-radius: 3px;
+    padding: 0rem 1rem 1rem;
     margin-bottom: 1rem;
     border: 1px solid var(--accent-color);
 }
     .control-panel-card .flex{
         justify-content: space-between;
     }
-
+    .welcome-card{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 1rem 1rem;
+        align-items: center;
+    }
+        .welcome-card h2{
+            margin: 0;
+            display: inline-block;
+            height: fit-content;
+        }
+            .stats-card {
+                width: auto;
+                height: fit-content;
+                margin: 0 auto;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                max-width: 250px;
+                border: none;
+                box-shadow: none;
+                gap: 1rem;
+            }
+                .stats-card h3{
+                    margin: 0;
+                }
+                .stats-card p{
+                    font-size: 1.5em;
+                }
 .control-panel-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -131,6 +281,14 @@ html, body {
     .control-panel-grid .control-panel-card{
         margin-bottom: 0;
     }
+        .plants-management-card{
+            background-color: transparent;
+            border: none;
+        }
+        .plants-management-card .control-panel-card:hover{
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
 /* Typography */
 .control-panel-title {
     font-size: 1.5rem;
@@ -147,10 +305,12 @@ html, body {
 }
 
 .control-panel-stat {
+    margin: 0;
     font-size: 2rem;
     font-weight: 700;
     color: var(--text);
 }
+
 
 /* Forms */
 .control-panel-form {
@@ -208,6 +368,9 @@ html, body {
     }
     .control-panel-actions-cell #role-dropdown{
         width: 200px;
+    }
+    .plants-management-table td{ 
+        height: 44px;
     }
 
 .control-panel-table th {
@@ -638,19 +801,7 @@ input[type="number"] {
 
 /* Login and Auth Pages */
 
-/* User stats card */
-.user-stats-card {
-    aspect-ratio: 1 / 1;
-    width: auto;
-    height: 100px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    max-width: 250px;
-}
+
 
 /* Authentication Pages */
 .control-panel-auth-body {

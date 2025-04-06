@@ -4,7 +4,7 @@
         <p class="text-white opacity-75">This is the Pages management section. Content will be added here in the future.</p>
         
         <!-- Quick Access to Plant Management -->
-        <div class="control-panel-card" style="margin-top: 2rem;">
+        <div class="control-panel-card pages-card" style="margin-top: 2rem;">
             <h3 class="control-panel-subtitle">Plant Management</h3>
             <p>Manage your botanical collection and maintenance records in our plant database.</p>
             
