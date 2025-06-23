@@ -130,6 +130,11 @@ Route::middleware(['auth', EditorMiddleware::class])->group(function () {
     Route::delete('/admin/maintenance/{maintenanceLog}/images/{image}', [App\Http\Controllers\Admin\MaintenanceLogController::class, 'deleteImage'])->name('admin.maintenance.images.destroy');
 });
 
+// Public route for home page (Blade view)
+Route::get('/home', function () {
+    return view('home');
+});
+
 // Dynamic CSS
 Route::get('/css/control-panel-dynamic.css', [StyleController::class, 'controlPanel'])->name('control-panel.css');
 

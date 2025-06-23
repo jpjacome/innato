@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DR PIXEL - Brand Healthcare</title>
+    <link rel="stylesheet" href="./home-style.css">
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
+    <meta property="og:title" content="DR PIXEL - Brand Healthcare" />
+    <meta property="og:description" content="An experienced and data-driven solution for your brand and digital project." />
+    <meta property="og:image" content="https://drpixel.it.nf/assets/favicon.png" />
+    <meta property="og:url" content="https://drpixel.it.nf" />
+    <meta property="og:type" content="website" />
+</head>
+<body>
+
+
+<div class="wrapper-1">
+<div class="main main1">
+
+    <div class="page page-1">
+        <div class="logo">
+            <div class="icon-container">
+            <!-- Creating an 8x8 grid -->
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+        
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+        
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+        
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+        
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+        
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+        
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+        
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            </div>
+            <div class="logo-text">
+                <h1>DR PIXEL</h1>
+                <h3>Brand Healthcare</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="page page-2">
+        
+            <x-interactive-icon size="20vw" />
+    </div>
+
+
+
+</div>
+
+
+
+
+<footer>
+
+    <div class="footer">
+        <img src="./assets/logo1.png" alt="">
+            <div class="footer-info">
+                <div class="footer-container">
+                    <p>© 2025 - DR PIXEL</p>
+                </div>
+            </div>
+    </div>
+
+
+<script>
+
+    // ICON-1
+
+    const squares = document.querySelectorAll('.square');
+    const blueColor = '#00bcd4';
+    const whiteColor = 'rgb(255, 255, 255)';
+    let lastChangedSquare = null;
+
+    // Store the original colors and identify non-blank squares
+    const nonBlankSquares = Array.from(squares).filter(square => {
+        const computedStyle = window.getComputedStyle(square);
+        const backgroundColor = computedStyle.backgroundColor;
+        square.originalColor = backgroundColor;
+        return backgroundColor !== 'rgba(0, 0, 0, 0)' && backgroundColor !== 'transparent';
+    });
+
+    nonBlankSquares.forEach(square => {
+        square.addEventListener('mouseenter', () => {
+            const initialColor = square.originalColor;
+            const newColor = initialColor === 'rgb(0, 188, 212)' ? whiteColor : blueColor;
+            square.style.backgroundColor = newColor;
+
+            // Find a random square with the opposite initial color
+            const oppositeColorSquares = nonBlankSquares.filter(s => 
+                s.originalColor === (initialColor === 'rgb(0, 188, 212)' ? whiteColor : 'rgb(0, 188, 212)') &&
+                s !== square
+            );
+            
+            if (oppositeColorSquares.length > 0) {
+                if (lastChangedSquare) {
+                    lastChangedSquare.style.backgroundColor = lastChangedSquare.originalColor;
+                }
+                const randomSquare = oppositeColorSquares[Math.floor(Math.random() * oppositeColorSquares.length)];
+                randomSquare.style.backgroundColor = initialColor;
+                lastChangedSquare = randomSquare;
+            }
+        });
+
+        square.addEventListener('mouseleave', () => {
+            square.style.backgroundColor = square.originalColor;
+            if (lastChangedSquare) {
+                lastChangedSquare.style.backgroundColor = lastChangedSquare.originalColor;
+                lastChangedSquare = null;
+            }
+        });
+    });
+    
+</script>
+</footer>
+</body>
+</html>

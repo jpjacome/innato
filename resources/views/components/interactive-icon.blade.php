@@ -39,7 +39,7 @@
     height: 100%;
     box-sizing: border-box;
     position: relative;
-    background-color: currentColor; /* Black outer square */
+    background-color: black; /* Black outer square */
     transition: background-color 0.3s ease;
     aspect-ratio: 1/1;
     border: none;
