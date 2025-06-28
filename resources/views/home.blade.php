@@ -2,83 +2,37 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
     <title>INNATO – Turismo Comunitario</title>
-    <link rel="stylesheet" href="./css/home-style.css">
+    <link rel="stylesheet" href="{{ asset('css/general.css') }}">
+    <link rel="stylesheet" href="../css/home-style.css">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
-<body>
-    <!-- Header -->
-    <header class='fade-in-1'>
-        <div class="logo fade-in-1"><img src="./assets/imgs/logo.svg" alt="logo-image"></div>
-        <nav class="main-nav fade-in-2">
-            <ul class="nav-list">
-                <li><a href="#about"><span class="nav-icon ph ph-users-three"></span><span class="nav-text">About Us</span></a></li>
-                <li><a href="#destinations"><span class="nav-icon ph ph-path"></span><span class="nav-text">Destinations</span></a></li>
-                <li><a href="#center"><span class="nav-icon ph ph-buildings"></span><span class="nav-text">Tourist Experience Center</span></a></li>
-                <li><a href="#hostal"><span class="nav-icon ph ph-house-simple"></span><span class="nav-text">Hostal</span></a></li>
-                <li><a href="#contact"><span class="nav-icon ph ph-envelope-simple"></span><span class="nav-text">Contact</span></a></li>
-                <li><a href="#reviews"><span class="nav-icon ph ph-star"></span><span class="nav-text">Reviews</span></a></li>
-            </ul>
-            <i id="search-toggle" class="ph ph-magnifying-glass"></i>
-            <i id="hamburger-toggle" class="ph ph-list hamburger-icon"></i>
-        </nav>
-    </header>
-    
-    <div id="search-bar-container" class="search-bar-container fade-in-1">
-        <input type="text" placeholder="Search..." class="search-bar-input" />
-    </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchToggle = document.getElementById('search-toggle');
-            const searchBar = document.getElementById('search-bar-container');
-            let searchOpen = false;
-            if (searchToggle && searchBar) {
-                searchToggle.addEventListener('click', function() {
-                    searchOpen = !searchOpen;
-                    if (searchOpen) {
-                        searchBar.classList.add('show');
-                        setTimeout(() => { searchBar.querySelector('input').focus(); }, 350);
-                    } else {
-                        searchBar.classList.remove('show');
-                    }
-                });
-            }
-
-            // Hamburger menu logic
-            const hamburger = document.getElementById('hamburger-toggle');
-            const mobileMenu = document.getElementById('mobile-menu');
-            let menuOpen = false;
-            if (hamburger && mobileMenu) {
-                hamburger.addEventListener('click', function() {
-                    menuOpen = !menuOpen;
-                    if (menuOpen) {
-                        mobileMenu.classList.add('show');
-                        hamburger.classList.remove('ph-list');
-                        hamburger.classList.add('ph-x-circle');
-                    } else {
-                        mobileMenu.classList.remove('show');
-                        hamburger.classList.remove('ph-x-circle');
-                        hamburger.classList.add('ph-list');
-                    }
-                });
-                mobileMenu.querySelectorAll('a').forEach(link => {
-                    link.addEventListener('click', () => {
-                        mobileMenu.classList.remove('show');
-                        hamburger.classList.remove('ph-x-circle');
-                        hamburger.classList.add('ph-list');
-                        menuOpen = false;
-                    });
-                });
-            }
-        });
-    </script>
+<body class="home-page">
+    <!-- Header Component -->
+    <x-header />
 
     <!-- Hero Section -->
     <section class="hero fade-in-1 parallax" id="hero">
-        <h1 class="fade-in-2">TURISMO COMUNITARIO</h1>
-        <button class="cta-button fade-in-2">CONOCE MÁS</button>
+        <video class="hero-video" autoplay muted loop>
+            <source src="{{ $homeSetting->hero_video_path ? asset('storage/' . $homeSetting->hero_video_path) : asset('assets/vids/vid1.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="fade-in-2">{{ $homeSetting->hero_title }}</h1>
+            <button class="cta-button fade-in-2">{{ $homeSetting->hero_button_text }}</button>
+        </div>
     </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const heroVideo = document.querySelector('.hero-video');
+            if (heroVideo) {
+                heroVideo.playbackRate = 0.8; // Play at 50% speed (slower)
+            }
+        });
+    </script>
 
         <div class="icon fade-in-3">
             <img id="icon-costa" src="../assets/imgs/icon-costa.svg" alt="Orange vector abstract illustration">
@@ -86,19 +40,19 @@
 
     <!-- Headline Section -->
     <section id="headline" class="wrapper headline-section">
-        <h2 class="headline-title fade-in-2">CONÉCTATE CON LA ESENCIA DE ECUADOR</h2>
-        <p class="fade-in-2"> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna liquam erat volutpat.</p>
+        <h2 class="headline-title fade-in-2">{{ $homeSetting->headline_title }}</h2>
+        <p class="fade-in-2">{{ $homeSetting->headline_description }}</p>
         <div class="headline-cards fade-in-1">
             <div class="headline-card">
-                <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Coast Nature" class="headline-card-img">
+                <img src="{{ $homeSetting->headline_coast_image ? asset('storage/' . $homeSetting->headline_coast_image) : 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80' }}" alt="Coast Nature" class="headline-card-img">
                 <a href="#coast" class="cta-button headline-btn">COAST <i class="ph ph-arrow-right"></i></a>
             </div>
             <div class="headline-card">
-                <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80" alt="Andes Nature" class="headline-card-img">
+                <img src="{{ $homeSetting->headline_andes_image ? asset('storage/' . $homeSetting->headline_andes_image) : 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80' }}" alt="Andes Nature" class="headline-card-img">
                 <a href="#andes" class="cta-button headline-btn">ANDES <i class="ph ph-arrow-right"></i></a>
             </div>
             <div class="headline-card">
-                <img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=600&q=80" alt="Amazon Nature" class="headline-card-img">
+                <img src="{{ $homeSetting->headline_amazon_image ? asset('storage/' . $homeSetting->headline_amazon_image) : 'https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=600&q=80' }}" alt="Amazon Nature" class="headline-card-img">
                 <a href="#amazon" class="cta-button headline-btn">AMAZON <i class="ph ph-arrow-right"></i></a>
             </div>
         </div>
@@ -107,10 +61,10 @@
     <!-- destinations Section -->
     <section class="wrapper destinations-section" id="destinations">
         <div class="container container-1 fade-in-1">
-            <h2 class="destinations-title fade-in-1">EXPLORA ECUADOR Y SUS COMUNIDADES</h2>
-            <p class="destinations-description fade-in-1">Ecuador es conocido por la diversidad de sus regiones principales: Amazonía, Costa, Sierra.</p>            
-            <button class="cta-button fade-in-1">CONOCE MÁS</button>
-            <p id="container-1-footer" class="fade-in-3">Haz clic en una región para observarla más de cerca.</p>
+            <h2 class="destinations-title fade-in-1">{{ $homeSetting->destinations_title }}</h2>
+            <p class="destinations-description fade-in-1">{{ $homeSetting->destinations_description }}</p>            
+            <button class="cta-button fade-in-1">{{ $homeSetting->destinations_button_text }}</button>
+            <p id="container-1-footer" class="fade-in-3">{{ $homeSetting->destinations_footer_text }}</p>
         </div>
         <div class="container container-2">
           <div class="innato-map-container fade-in-1">
@@ -179,63 +133,11 @@
     </section>
 
 
+
     <!-- Reviews Section -->
-    <section id="reviews" class="wrapper reviews-section section-light">
-        <i class="ph ph-arrow-left reviews-icon reviews-icon-left"></i>
-        <div class="reviews-list">
-            <div class="review-card">
-                <div class="stars">
-                    <div class="more">...</div>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED5934" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"></path></svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED5934" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"></path></svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED5934" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"></path></svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED5934" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"></path></svg>
-                </div>
-                <p class="review-text">“Excellent as always! This is a very nice choice if you like good food and a superb environment.”</p>
-                <p class="reviewer-name">- Jhon Doe</p>
-            </div>
-            <div class="review-card">
-                <div class="stars">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED5934" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"></path></svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED5934" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"></path></svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED5934" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"></path></svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED5934" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"></path></svg>
-                </div>
-                <p class="review-text">“A wonderful experience! The staff was friendly and the place was beautiful.”</p>
-                <p class="reviewer-name">- Maria Perez</p>
-            </div>
-            <div class="review-card">
-                <div class="stars">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED5934" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"></path></svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED5934" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"></path></svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED5934" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"></path></svg>
-                </div>
-                <p class="review-text">“Unforgettable trip, highly recommended for families.”</p>
-                <p class="reviewer-name">- Carlos Ruiz</p>
-            </div>
-            <div class="review-card">
-                <div class="stars">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED5934" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"></path></svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED5934" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"></path></svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED5934" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"></path></svg>
-                </div>
-                <p class="review-text">“Great value and amazing guides. Will come back!”</p>
-                <p class="reviewer-name">- Ana Gómez</p>
-            </div>
-            <div class="review-card">
-                <div class="stars">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED5934" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"></path></svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED5934" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"></path></svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED5934" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"></path></svg>
-                </div>
-                <p class="review-text">“The best eco-tourism experience in Ecuador.”</p>
-                <p class="reviewer-name">- Luis Torres</p>
-            </div>
-        </div>
-        <i class="ph ph-arrow-right reviews-icon reviews-icon-right"></i>
-    </section>
+    <x-reviews-section />
         
-        <div class="destinations-values">
+    <div class="destinations-values">
             <div class="destinations-track">
                 <span class="destinations-value">TRAVEL WITH RESPECT FOR NATURE AND CULTURES<i class="ph ph-minus"></i></span>
                 <span class="destinations-value">TRAVEL WITH RESPECT FOR NATURE AND CULTURES<i class="ph ph-minus"></i></span>
@@ -245,52 +147,11 @@
                 <span class="destinations-value">TRAVEL WITH RESPECT FOR NATURE AND CULTURES<i class="ph ph-minus"></i></span>
                 <span class="destinations-value">TRAVEL WITH RESPECT FOR NATURE AND CULTURES<i class="ph ph-minus"></i></span>
                 <span class="destinations-value">TRAVEL WITH RESPECT FOR NATURE AND CULTURES<i class="ph ph-minus"></i></span>
-                <span class="destinations-value">TRAVEL WITH RESPECT FOR NATURE AND CULTURES<i class="ph ph-minus"></i></span>
-            </div>
-        </div>
+                <span class="destinations-value">TRAVEL WITH RESPECT FOR NATURE AND CULTURES<i class="ph ph-minus"></i></span>            </div>        </div>
 
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="mobile-menu">
-        <ul>
-            <li><a href="#about">About Us</a></li>
-            <li><a href="#destinations">Destinations</a></li>
-            <li><a href="#center">Tourist Experience Center</a></li>
-            <li><a href="#hostal">Hostal</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <li><a href="#reviews">Reviews</a></li>
-        </ul>
-    </div>
-
-    <!-- Footer -->
-    <footer>
-        <div class="wrapper-1 fade-in-1">
-            <div class="container container-1">
-                <div class="footer-address">LUIS CORDERO Y REINA VICTORIA</div>
-                <div class="footer-phone"> (593) 09 6710-7073</div>
-                <div class="footer-location">QUITO - ECUADOR</div>
-                <div class="footer-socials">
-                <i class="ph ph-x-logo"></i>
-                <i class="ph ph-instagram-logo"></i>
-                </div>
-            </div>
-            <div class="container" id="container-2">
-                <h3 class="footer-newsletter-title">Subscribe to our newsletter</h3>
-                <form class="footer-newsletter-form" autocomplete="off">
-                    <input type="email" class="footer-newsletter-input" placeholder="Your email" required />
-                    <button type="submit" class="footer-newsletter-btn">Send</button>
-                </form>
-            </div>
-            <div class="container container-3">
-                <img src="/assets/imgs/badge.png" alt="">
-            </div>
-        </div>
-        <div class="footer-copyright">© 2025 INNATO – BRANNA BRANDS.</div>
-    </footer>
-    <div class="drpixel fade-in-1">
-        <x-interactive-icon size="20px" />carefully crafted by <a href="https://drpixel.it.nf/">DR PIXEL</a>
-
-    </div>
+    <x-footer />
     <script src="{{ asset('assets/js/home.js') }}"></script>
-
+    
+    @stack('scripts')
 </body>
 </html>

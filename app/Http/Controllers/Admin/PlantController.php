@@ -1,43 +1,4 @@
-<?php
-
-namespace App\Http\Controllers\Admin;
-
-use App\Http\Controllers\Controller;
-use App\Models\Plant;
-use App\Models\PlantImage;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rule;
-
-class PlantController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $plants = Plant::with('images')->orderBy('name')->paginate(10);
-        return view('admin.plants.index', compact('plants'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('admin.plants.create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'common_names' => 'nullable|string',
-            'family' => 'nullable|string|max:100',
-            'native_range' => 'nullable|string',
+// This file has been deprecated and is now empty. Plant management features have been removed.
             'age' => 'nullable|string|max:50',
             'current_height' => 'nullable|string|max:100',
             'expected_height' => 'nullable|string|max:100',

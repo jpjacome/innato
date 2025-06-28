@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {  // Function to hand
   setupFadeAnimation('fade-in-1', 'fade-1', 0.1);  // fade-in-1 -> fade-1, no delay
   setupFadeAnimation('fade-in-2', 'fade-2', 0.1);  // fade-in-2 -> fade-2, CSS handles delay
   setupFadeAnimation('fade-in-3', 'fade-3', 0.1);  // fade-in-3 -> fade-3
+  setupFadeAnimation('fade-img', 'fade-img', 0.1);  // fade-img -> fade-img
 
 
 
@@ -99,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function () {  // Function to hand
   function getVisibleCards() {
     const width = window.innerWidth;
     if (width <= 768) return 1; // Mobile: 1 card
-    if (width <= 1500) return 2; // Tablet: 2 cards
+    if (width <= 1024) return 2; // Tablet: 2 cards
     return 3; // Desktop: 3 cards
   }
   
@@ -125,10 +126,13 @@ document.addEventListener('DOMContentLoaded', function () {  // Function to hand
     }
     updateCarousel();
   });
-  
-  leftArrow.addEventListener('click', function () {
+    leftArrow.addEventListener('click', function () {
     const visible = getVisibleCards();
-    current = Math.max(0, current - 1);
+    if (current > 0) {
+      current = current - 1;
+    } else {
+      current = Math.max(0, reviewCards.length - visible); // Loop to end
+    }
     updateCarousel();
   });
   

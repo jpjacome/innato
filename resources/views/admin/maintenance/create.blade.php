@@ -1,43 +1,4 @@
-<x-control-panel-layout>
-    <div class="control-panel-card">
-        <div class="flex">
-            <h2 class="control-panel-title">
-                @isset($selectedPlant)
-                    {{ __('Add Maintenance Log for') }} {{ $selectedPlant->name }}
-                @else
-                    {{ __('Add New Maintenance Log') }}
-                @endisset
-            </h2>
-            <a href="{{ route('admin.maintenance.index') }}" class="control-panel-button">
-                Back to Logs
-            </a>
-        </div>
-
-        <form method="POST" action="{{ route('admin.maintenance.store') }}" enctype="multipart/form-data" class="control-panel-form">
-            @csrf
-            
-            <!-- Plant Selection -->
-            <div class="control-panel-card">
-                <h3 class="control-panel-subtitle">Plant Selection</h3>
-                
-                <div class="control-panel-form-group">
-                    <label class="control-panel-label" for="plant_id">Select Plant</label>
-                    <select id="plant_id" name="plant_id" class="control-panel-select" required>
-                        <option value="">-- Select a plant --</option>
-                        @foreach($plants as $plant)
-                            <option value="{{ $plant->id }}" {{ (old('plant_id') == $plant->id || (isset($selectedPlant) && $selectedPlant->id == $plant->id)) ? 'selected' : '' }}>
-                                {{ $plant->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('plant_id')
-                        <span class="control-panel-input-error">{{ $message }}</span>
-                    @enderror
-                </div>
-            </div>
-            
-            <!-- Watering Schedule -->
-            <div class="control-panel-card">
+<!-- File removed: create.blade.php (maintenance log system is deprecated and removed) -->
                 <h3 class="control-panel-subtitle">Watering Schedule</h3>
                 
                 <div class="control-panel-grid">

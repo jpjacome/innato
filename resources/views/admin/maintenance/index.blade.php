@@ -1,43 +1,4 @@
-<x-control-panel-layout>
-    <div class="control-panel-card">
-        <div class="flex">
-            <h2 class="control-panel-title">
-                @isset($plant)
-                    {{ __('Maintenance Logs for') }} {{ $plant->name }}
-                @else
-                    {{ __('All Maintenance Logs') }}
-                @endisset
-            </h2>
-            <a href="{{ route('admin.maintenance.create', isset($plant) ? ['plant_id' => $plant->id] : []) }}" class="control-panel-button">
-                Add New Log
-            </a>
-        </div>
-
-        @if(session('success'))
-            <div class="control-panel-alert control-panel-alert-success" role="alert">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        <div class="control-panel-table-container">
-            <table class="control-panel-table">
-                <thead>
-                    <tr>
-                        <th>Plant</th>
-                        <th>Last Watering</th>
-                        <th>Next Watering</th>
-                        <th>Last Pruning</th>
-                        <th>Images</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($maintenanceLogs as $log)
-                        <tr>
-                            <td>
-                                <a href="{{ route('admin.plants.show', $log->plant_id) }}" class="control-panel-link">
-                                    {{ $log->plant->name }}
-                                </a>
+<!-- File removed: index.blade.php (maintenance log system is deprecated and removed) -->
                             </td>
                             <td>{{ $log->last_watering ? $log->last_watering->format('M d, Y') : 'Not set' }}</td>
                             <td>{{ $log->next_watering ? $log->next_watering->format('M d, Y') : 'Not scheduled' }}</td>

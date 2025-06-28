@@ -15,6 +15,37 @@ use App\Http\Controllers\PlantViewController;
 // Public Routes
 Route::match(['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'OPTIONS'], '/', [WelcomeController::class, 'index'])->name('welcome');
 
+// Public route for home page (Blade view)
+Route::get('/home', function () {
+    $homeSetting = \App\Models\HomeSetting::instance();
+    return view('home', compact('homeSetting'));
+});
+
+// Public route for about page (Blade view)
+Route::get('/about', function () {
+    return view('about');
+});
+
+// Public route for destinations page (Blade view)
+Route::get('/destinations', function () {
+    return view('destinations');
+});
+
+// Public route for single destination page (Blade view)
+Route::get('/destination', function () {
+    return view('single-page-destination');
+});
+
+// Public route for Experience Center (Blade view)
+Route::get('/experience-center', function () {
+    return view('experience-center');
+});
+
+// Public route for Contact (Blade view)
+Route::get('/contact', function () {
+    return view('contact');
+});
+
 // Public Plants Routes
 Route::get('/plants', [PlantViewController::class, 'index'])->name('public.plants.index');
 Route::get('/plants/{plant}', [PlantViewController::class, 'show'])->name('public.plants.show');
@@ -107,6 +138,8 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
 Route::middleware(['auth', EditorMiddleware::class])->group(function () {
     // Pages
     Route::get('/admin/pages', [PagesController::class, 'index'])->name('admin.pages');
+    Route::get('/admin/pages/edit-home', [PagesController::class, 'editHome'])->name('admin.pages.edit-home');
+    Route::put('/admin/pages/edit-home', [PagesController::class, 'updateHome'])->name('admin.pages.update-home');
     
     // Plants Management
     Route::get('/admin/plants', [App\Http\Controllers\Admin\PlantController::class, 'index'])->name('admin.plants.index');
@@ -130,10 +163,7 @@ Route::middleware(['auth', EditorMiddleware::class])->group(function () {
     Route::delete('/admin/maintenance/{maintenanceLog}/images/{image}', [App\Http\Controllers\Admin\MaintenanceLogController::class, 'deleteImage'])->name('admin.maintenance.images.destroy');
 });
 
-// Public route for home page (Blade view)
-Route::get('/home', function () {
-    return view('home');
-});
+
 
 // Dynamic CSS
 Route::get('/css/control-panel-dynamic.css', [StyleController::class, 'controlPanel'])->name('control-panel.css');
