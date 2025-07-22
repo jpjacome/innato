@@ -18,64 +18,56 @@
     <!-- Banner Section -->
     <section class="banner-section">
         <div class="container">
-            <h3> ECUADOR ES UN PARAÍSO, VEÁMOSLO JUNTOS.</h3>
-            <p>Encuentra artículos de aventura y actividades al aire libre, artesanías, cultura, festividades, gastronomía, vida silvestre, tradiciones, leyendas, sitios históricos y más.</p>
+            <h3>
+                @if(isset($region))
+                    {{ strtoupper($region) }}
+                @elseif(isset($destinationsSetting) && !empty($destinationsSetting->banner_title))
+                    {{ $destinationsSetting->banner_title }}
+                @else
+                    ECUADOR ES UN PARAÍSO, VEÁMOSLO JUNTOS.
+                @endif
+            </h3>
+            <p>{{ isset($destinationsSetting) && !empty($destinationsSetting->banner_description) ? $destinationsSetting->banner_description : 'Encuentra artículos de aventura y actividades al aire libre, artesanías, cultura, festividades, gastronomía, vida silvestre, tradiciones, leyendas, sitios históricos y más.' }}</p>
+            @if(isset($destinationsSetting) && !empty($destinationsSetting->banner_image))
+                <img src="{{ asset('storage/' . $destinationsSetting->banner_image) }}" alt="Banner" style="max-width:120px;">
+            @endif
         </div>
-    </section>
+    </section
 
     <!-- Headline Section -->
-    <section id="headline" class="wrapper headline-section">        
-            <div class="headline-cards fade-in-1">
-            <a href="/destination">
-                <div class="headline-card">
-                    <div class="img-container">
-                        <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&h=400&fit=crop&crop=entropy&auto=format" alt="Nature Landscape" class="headline-card-img">
-                    </div>
-                    <div class="info">
-                        <div class="title-container">
-                            <h3 class="headline-card-title">YUNGUILLA</h3>
-                            <i class="ph ph-arrow-right"></i>
+    <section id="headline" class="wrapper headline-section">
+        <div class="headline-cards fade-in-1">
+            @php
+                use Illuminate\Support\Str;
+            @endphp
+            @foreach($destinations as $destination)
+                <a href="{{ route('destination.show', $destination->slug) }}">
+                    <div class="headline-card">
+                        <div class="img-container">
+                            @php
+                                $image = (is_array($destination->gallery_images) && !empty($destination->gallery_images)) ? $destination->gallery_images[0] : null;
+                            @endphp
+                            <img src="{{ $image ? asset('storage/' . $image) : 'https://via.placeholder.com/300x200?text=Imagen' }}" alt="{{ $destination->title }}" class="headline-card-img">
                         </div>
-                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia optio, minima fugiat nihil nemo adipisci omnis.</p>
+                        <div class="info">
+                            <div class="title-container">
+                                <h3 class="headline-card-title">{{ $destination->title }}</h3>
+                                <i class="ph ph-arrow-right"></i>
+                            </div>
+                            <p>{{ Str::limit($destination->main_description, 120, '...') }}</p>
+                        </div>
+                        <button class="cta-button">CONOCE MÁS</button>
                     </div>
-                    <button class="cta-button">RESERVAR</button>
-                </div>
-            </a>
-            <div class="headline-card">                
-                <div class="img-container">
-                    <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=600&h=400&fit=crop&crop=entropy&auto=format" alt="Nature Forest" class="headline-card-img">
-                </div>
-                <div class="info">
-                    <div class="title-container">
-                        <h3 class="headline-card-title">OYACACHI</h3>
-                        <i class="ph ph-arrow-right"></i>
-                    </div>
-                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia optio, minima fugiat nihil nemo adipisci omnis.</p>
-                </div>
-                <button class="cta-button">RESERVAR</button>
-            </div>
-            <div class="headline-card">
-                <div class="img-container">
-                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop&crop=entropy&auto=format" alt="Nature Mountains" class="headline-card-img">
-                </div>
-                <div class="info">
-                    <div class="title-container">
-                        <h3 class="headline-card-title">AGUA BLANCA</h3>
-                        <i class="ph ph-arrow-right"></i>
-                    </div>                    
-                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia optio, minima fugiat nihil nemo adipisci omnis.</p>
-                </div>
-                <button class="cta-button">RESERVAR</button>
-            </div>
-
+                </a>
+            @endforeach
         </div>
     </section>
 
     <!-- destinations Section -->
     <section class="wrapper destinations-section" id="destinations">
         <div class="container container-1 fade-in-1">
-            <h2 class="destinations-title fade-in-1">EXPLORA ECUADOR Y SUS COMUNIDADES</h2>
-            <button class="cta-button fade-in-1">UBICACIÓN</button>            
+            <h2 class="destinations-title fade-in-1">{{ (isset($destinationsSetting) && !empty($destinationsSetting->destinations_title)) ? $destinationsSetting->destinations_title : 'EXPLORA ECUADOR Y SUS COMUNIDADES' }}</h2>
+            <button class="cta-button fade-in-1">{{ (isset($destinationsSetting) && !empty($destinationsSetting->destinations_button_text)) ? $destinationsSetting->destinations_button_text : 'UBICACIÓN' }}</button>            
         </div>        
     </section>
         
@@ -85,11 +77,11 @@
                 <span class="destinations-value">TRAVEL WITH RESPECT FOR NATURE AND CULTURES<i class="ph ph-minus"></i></span>
                 <span class="destinations-value">TRAVEL WITH RESPECT FOR NATURE AND CULTURES<i class="ph ph-minus"></i></span>
                 <span class="destinations-value">TRAVEL WITH RESPECT FOR NATURE AND CULTURES<i class="ph ph-minus"></i></span>
-                <!-- Duplicate for seamless scroll -->
                 <span class="destinations-value">TRAVEL WITH RESPECT FOR NATURE AND CULTURES<i class="ph ph-minus"></i></span>
                 <span class="destinations-value">TRAVEL WITH RESPECT FOR NATURE AND CULTURES<i class="ph ph-minus"></i></span>
                 <span class="destinations-value">TRAVEL WITH RESPECT FOR NATURE AND CULTURES<i class="ph ph-minus"></i></span>
-                <span class="destinations-value">TRAVEL WITH RESPECT FOR NATURE AND CULTURES<i class="ph ph-minus"></i></span>            </div>
+                <span class="destinations-value">TRAVEL WITH RESPECT FOR NATURE AND CULTURES<i class="ph ph-minus"></i></span>
+            </div>
         </div>
 
     <!-- Footer -->

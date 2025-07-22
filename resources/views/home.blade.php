@@ -135,7 +135,7 @@
 
 
     <!-- Reviews Section -->
-    <x-reviews-section />
+    <x-reviews-section :reviews="$reviews ?? []" />
         
     <div class="destinations-values">
             <div class="destinations-track">

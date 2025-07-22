@@ -16,7 +16,11 @@ use Illuminate\Support\Facades\Storage;
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
+    
     <!-- Dynamic Control Panel Styles -->
     <link href="{{ route('control-panel.css') }}" rel="stylesheet">
 </head>
@@ -24,7 +28,6 @@ use Illuminate\Support\Facades\Storage;
     <header class="control-panel-header">
         <div class="control-panel-header-content">
             <div class="control-panel-logo">
-            <x-interactive-icon size="40px" />
                 @if(isset($settings) && $settings && isset($settings->logo) && $settings->logo && $settings->show_logo)
                     <img src="{{ Storage::url($settings->logo) }}" alt="Logo" class="control-panel-logo-image">
                 @else
@@ -48,8 +51,9 @@ use Illuminate\Support\Facades\Storage;
                 @endif
                 
                 @if (Auth::user()->isAdmin())
+                    <a href="{{ route('admin.destinations.index') }}" class="control-panel-button {{ request()->routeIs('admin.destinations.*') ? 'active' : '' }} header-nav-button">Destinations</a>
                     <a href="{{ route('users.index') }}" class="control-panel-button header-nav-button">Users</a>
-                    <a href="{{ route('admin.settings') }}" class="control-panel-button control-panel-button-secondary {{ request()->routeIs('admin.settings') ? 'active' : '' }}">
+                    <a href="{{ route('admin.settings') }}" class="control-panel-button settings-header-button control-panel-button-secondary {{ request()->routeIs('admin.settings') ? 'active' : '' }}">
                         <svg xmlns="http://www.w3.org/2000/svg" class="control-panel-icon" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
                         </svg>
@@ -86,6 +90,7 @@ use Illuminate\Support\Facades\Storage;
             @endif
             
             @if (Auth::user()->isAdmin())
+                <a href="{{ route('admin.destinations.index') }}" class="control-panel-button {{ request()->routeIs('admin.destinations.*') ? 'active' : '' }}">Destinations</a>
                 <a href="{{ route('users.index') }}" class="control-panel-button">Users</a>
                 <a href="{{ route('admin.settings') }}" class="control-panel-button control-panel-button-secondary {{ request()->routeIs('admin.settings') ? 'active' : '' }}">
                     <svg xmlns="http://www.w3.org/2000/svg" class="control-panel-icon" viewBox="0 0 20 20" fill="currentColor">

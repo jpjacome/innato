@@ -107,19 +107,47 @@
                 <div class="control-panel-form-grid" style="margin-top: 1.5rem;">
                     <div>
                         <label for="headline_coast_image" class="control-panel-label">Coast Image</label>
-                        <input type="file" id="headline_coast_image" name="headline_coast_image" class="control-panel-input" accept="image/*">
+                        @php
+                            $coastImg = $homeSetting->headline_coast_image ? asset('storage/' . $homeSetting->headline_coast_image) : '';
+                        @endphp
+                        <img id="preview-headline-coast-image" src="{{ $coastImg }}" style="max-width:100px; margin-bottom:6px; {{ $coastImg ? 'display:block;' : 'display:none;' }}">
+                        <input type="file" id="headline_coast_image" name="headline_coast_image" class="control-panel-input" accept="image/*" onchange="previewImage(this, 'preview-headline-coast-image')">
                         <small class="control-panel-small-text">Current: {{ $homeSetting->headline_coast_image ? basename($homeSetting->headline_coast_image) : 'Default Unsplash' }}</small>
                     </div>
                     <div>
                         <label for="headline_andes_image" class="control-panel-label">Andes Image</label>
-                        <input type="file" id="headline_andes_image" name="headline_andes_image" class="control-panel-input" accept="image/*">
+                        @php
+                            $andesImg = $homeSetting->headline_andes_image ? asset('storage/' . $homeSetting->headline_andes_image) : '';
+                        @endphp
+                        <img id="preview-headline-andes-image" src="{{ $andesImg }}" style="max-width:100px; margin-bottom:6px; {{ $andesImg ? 'display:block;' : 'display:none;' }}">
+                        <input type="file" id="headline_andes_image" name="headline_andes_image" class="control-panel-input" accept="image/*" onchange="previewImage(this, 'preview-headline-andes-image')">
                         <small class="control-panel-small-text">Current: {{ $homeSetting->headline_andes_image ? basename($homeSetting->headline_andes_image) : 'Default Unsplash' }}</small>
                     </div>
                     <div>
                         <label for="headline_amazon_image" class="control-panel-label">Amazon Image</label>
-                        <input type="file" id="headline_amazon_image" name="headline_amazon_image" class="control-panel-input" accept="image/*">
+                        @php
+                            $amazonImg = $homeSetting->headline_amazon_image ? asset('storage/' . $homeSetting->headline_amazon_image) : '';
+                        @endphp
+                        <img id="preview-headline-amazon-image" src="{{ $amazonImg }}" style="max-width:100px; margin-bottom:6px; {{ $amazonImg ? 'display:block;' : 'display:none;' }}">
+                        <input type="file" id="headline_amazon_image" name="headline_amazon_image" class="control-panel-input" accept="image/*" onchange="previewImage(this, 'preview-headline-amazon-image')">
                         <small class="control-panel-small-text">Current: {{ $homeSetting->headline_amazon_image ? basename($homeSetting->headline_amazon_image) : 'Default Unsplash' }}</small>
                     </div>
+    <script>
+        function previewImage(input, imgId) {
+            const img = document.getElementById(imgId);
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                };
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                img.src = '';
+                img.style.display = 'none';
+            }
+        }
+    </script>
                 </div>
             </div>
 

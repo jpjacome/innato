@@ -1,6 +1,17 @@
+/* Hide elements with x-cloak until Alpine.js is ready */
+[x-cloak] {
+  display: none !important;
+}
+html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
 body{
     background: linear-gradient(to bottom, var(--color-1) 50%, var(--color-3) 50%);
     background-color: var(--color-1);
+    overflow-x: hidden!important;
 }
 
 /* #region HERO */
@@ -10,15 +21,20 @@ body{
     position: relative;
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 70vh;
     width: 80vw;
     margin: 15rem auto 0;
-    background: url(../assets/imgs/bg1.png) center / cover no-repeat;
     text-align: center;
     color: white;
     justify-content: center;
     align-items: center;
+    padding: 0;
 }
+  .hero img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 .hero h1 {
   opacity: 0;
     font-size: clamp(25px, 3.5rem, 10vw);
@@ -45,10 +61,9 @@ body{
     position: relative;
     bottom: 5rem;
     flex-direction: row;
-    clip-path: polygon(0 7%, 100% 0, 100% 100%, 0 93%);
+    clip-path: polygon(0 2%, 100% 0, 100% 100%, 0 98%);
     color: var(--color-black);
     height: fit-content;
-    padding: 10rem 0;
     background-color: var(--color-1);
     align-items: flex-start;
     gap: 4rem;
@@ -65,7 +80,6 @@ body{
 .headline-section p{
   opacity: 1;
   font-size: 1.3rem;
-  width: 800px;
   max-width: 80vw;
   animation-delay: 0.1s;
   text-align: left;
@@ -184,7 +198,7 @@ body{
 .icon{
     opacity: 0;
     position: absolute;
-    top: 123vh;
+    top: 60vh;
     left: 3rem;
     z-index: 99;
 }
@@ -655,5 +669,1115 @@ body{
   }
   100% {
     transform: translateX(-50%);
+  }
+}
+
+/* #region DESTINATION BENTO BOX */
+/* ========== DESTINATION BENTO BOX LAYOUT ========== */
+.destination-bento-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: auto;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    width: 100%;
+    max-width: 800px;
+    overflow: hidden; /* Prevent any child elements from overflowing */
+    box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+    .destination-bento-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin-top: 1.5rem;
+        margin-bottom: 3rem;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .destination-bento-grid {
+        gap: 0.75rem;
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+    }
+}
+
+.destination-bento-grid .bento-card {
+    background: var(--color-1);
+    border: 1px solid var(--color-black);
+    border-radius: 0;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    min-height: 180px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    .destination-bento-grid .bento-card {
+        padding: 1.2rem;
+        min-height: 160px;
+    }
+}
+
+@media (max-width: 480px) {
+    .destination-bento-grid .bento-card {
+        padding: 1rem;
+        min-height: 140px;
+    }
+}
+
+.destination-bento-grid .bento-card:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* General Typography for All Bento Cards */
+.destination-bento-grid .bento-card h3 {
+    font-family: 'Franie Semibold', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.2rem;
+    color: var(--color-black);
+    margin-bottom: 1rem;
+}
+
+.destination-bento-grid .bento-card h3 i {
+    font-size: 1.5rem;
+    color: var(--color-4);
+}
+
+.destination-bento-grid .bento-card p,
+.destination-bento-grid .bento-card span:not(.season-temp):not(strong) {
+    font-size: 0.9rem;
+    color: var(--color-black);
+    font-family: 'Franie Regular', sans-serif;
+}
+
+.destination-bento-grid .bento-card strong {
+    font-family: 'Noto Serif', serif;;
+    font-size: 0.9rem;
+    color: var(--color-5);
+}
+
+/* Hero Info Card */
+.hero-info-card {
+    grid-column: span 2;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    min-height: unset!important;
+    border: none !important;
+    padding: 0!important;
+}
+
+@media (max-width: 600px) {
+    .hero-info-card {
+        grid-column: span 1;
+    }
+}
+
+.hero-info-card:hover{
+    box-shadow: none!important;
+}
+
+.destination-hero-image {
+    width: 100%;
+    height: 150px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+    .destination-hero-image {
+        height: 180px;
+    }
+}
+
+@media (max-width: 480px) {
+    .destination-hero-image {
+        height: 150px;
+    }
+}
+
+.destination-hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: sepia(0.2);
+    transition: filter 0.3s ease, transform 0.8s ease;
+}
+
+.destination-hero-image:hover img {
+    filter: sepia(0);
+    transform: scale(1.05);
+}
+
+.destination-coords {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Noto Serif', serif;
+    color: var(--color-black);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.destination-coords i {
+    color: var(--color-4);
+    font-size: 1.2rem;
+}
+
+.conservation-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Noto Serif', serif;
+    color: var(--color-5);
+    font-weight: 500;
+}
+
+.conservation-status i {
+    color: var(--color-5);
+}
+
+/* Location Card */
+.location-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.location-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Noto Serif', serif;
+}
+
+.location-item span {
+    color: var(--color-black);
+}
+
+.location-item strong {
+    color: var(--color-5);
+    font-family: 'Franie Semibold', sans-serif;
+}
+
+.reference-distance {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    background: color-mix(in srgb, var(--color-4) 10%, transparent);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Noto Serif', serif;
+}
+
+.reference-distance i {
+    color: var(--color-4);
+}
+
+/* Climate Card */
+.climate-seasons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.season-item {
+    padding: 1rem;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--color-black);
+}
+
+.season-item span{
+  font-size: .8em!important;
+}
+
+.season-item.dry-season {
+    background: var(--color-2);
+}
+
+.season-item.wet-season {
+    background: var(--color-3);
+    color: var(--color-1);
+}
+.season-item.wet-season span{
+  color: white!important;
+}
+.season-name {
+    font-family: 'Franie Semibold', sans-serif;
+    font-weight: 600;
+}
+
+.season-time {
+    font-family: 'Noto Serif', serif;
+}
+
+.season-temp {
+    font-family: 'Franie Bold', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+/* Access Card */
+.access-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.access-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    font-family: 'Noto Serif', serif;
+}
+
+.access-item span {
+    color: var(--color-black);
+    min-width: 60px;
+}
+
+.access-item strong {
+    color: var(--color-5);
+    font-family: 'Franie Semibold', sans-serif;
+}
+
+.access-item i {
+    color: var(--color-4);
+    font-size: 1rem;
+}
+
+/* Schedule Card */
+.schedule-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.schedule-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Franie Semibold', sans-serif;
+}
+
+.schedule-item span {
+    color: var(--color-black);
+}
+
+.schedule-item strong {
+    color: var(--color-5);
+    font-family: 'Franie Semibold', sans-serif;
+}
+
+.free-entry {
+    color: var(--color-2) !important;
+}
+
+.schedule-item i {
+    color: var(--color-4);
+    margin-right: 0.25rem;
+}
+
+/* Contact Card */
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.contact-person {
+    border-bottom: 1px solid color-mix(in srgb, var(--color-black) 10%, transparent);
+    padding-bottom: 0.75rem;
+    text-align: left;
+}
+
+.person-details strong {
+    font-family: 'Franie Semibold', sans-serif;
+    color: var(--color-black);
+    display: block;
+}
+
+.person-details .role {
+    font-family: 'Noto Serif', serif;
+    color: var(--color-4);
+}
+
+.contact-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Noto Serif', serif;
+}
+
+.contact-item i {
+    color: var(--color-4);
+}
+
+/* Activities Card */
+.activities-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+.activities-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background: color-mix(in srgb, var(--color-4) 10%, transparent);
+    border-radius: 4px;
+    font-family: 'Noto Serif', serif;
+    transition: all 0.2s ease;
+}
+
+.activities-list li:hover {
+    background: color-mix(in srgb, var(--color-4) 20%, transparent);
+    transform: translateX(3px);
+}
+
+.activities-list li i {
+    color: var(--color-4);
+    font-size: 1rem;
+}
+
+/* Target Audience Card */
+.audience-card {
+    grid-column: span 2;
+}
+
+@media (max-width: 600px) {
+    .audience-card {
+        grid-column: span 1;
+    }
+}
+
+.audience-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.audience-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Noto Serif', serif;
+}
+
+.audience-item span {
+    color: var(--color-black);
+}
+
+.audience-item strong {
+    color: var(--color-5);
+    font-family: 'Franie Semibold', sans-serif;
+    text-align: right;
+    max-width: 60%;
+}
+
+.audience-item i {
+    color: var(--color-4);
+    margin-right: 0.25rem;
+}
+
+/* Services Card */
+.services-card {
+    grid-column: span 2;
+}
+
+@media (max-width: 600px) {
+    .services-card {
+        grid-column: span 1;
+    }
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+}
+
+.service-tag {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    border-radius: 6px;
+    font-family: 'Noto Serif', serif;
+    transition: all 0.2s ease;
+}
+
+.service-tag.available {
+    background: color-mix(in srgb, var(--color-5) 10%, transparent);
+}
+
+.service-tag.available:hover {
+    background: color-mix(in srgb, var(--color-5) 20%, transparent);
+    transform: scale(1.02);
+}
+
+.service-tag i {
+    color: var(--color-5);
+    font-size: 1.1rem;
+}
+
+/* Pricing Card */
+.pricing-card .reservation-button{
+  justify-content: flex-start;
+  margin-top: 2rem;
+}
+.pricing-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.price-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    background: color-mix(in srgb, var(--color-5) 10%, transparent);
+    border-radius: 4px;
+    font-family: 'Noto Serif', serif;
+}
+
+.price-item.main-price {
+    background: var(--color-2);
+    font-weight: 600;
+}
+
+.price-item span {
+    color: var(--color-black);
+}
+
+.price-item strong {
+    color: var(--color-5);
+    font-family: 'Franie Semibold', sans-serif;
+}
+
+/* Tourism Criteria Card */
+.criteria-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.criteria-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Noto Serif', serif;
+    padding: 0.25rem;
+}
+
+.criteria-item.positive i {
+    color: var(--color-5);
+}
+
+.criteria-item.neutral i {
+    color: var(--color-black);
+}
+
+.criteria-item span {
+    color: var(--color-black);
+    font-size: .9em!important;
+    font-family: 'Noto Serif', serif!important;
+}
+
+
+
+.bento-grid-bottom-cta{
+    grid-column: span 2;
+  
+}
+.description-card{
+    grid-column: span 2;
+    border: none !important;
+    padding: 2rem 0 !important;
+}
+.description-card .reservation-button{
+  justify-content: flex-start;
+}
+.description-card:hover{
+    box-shadow: none!important;
+}
+
+.challenges-card .challenge-item strong{
+  font-family: 'Franie Regular', sans-serif;
+}
+.challenges-card .challenge-item span{
+  font-family: 'Noto Serif', serif!important;
+  font-size: .9em!important;
+}
+
+.challenge-item i{
+  margin-right: 5px;
+}
+
+.suggestions-card p {
+    font-family: 'Noto Serif', serif;
+    line-height: 1.6;
+    color: var(--color-black);
+    text-align: left;
+    margin: 0;
+}
+
+/* Responsive Design for Destination Bento - UPDATED */
+@media (max-width: 600px) {
+    .activities-list,
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .season-item {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+}
+
+/* #region SIDEBAR */
+/* Sidebar Responsive Design */
+@media (max-width: 1300px) {
+    .sidebar {
+        display: none;
+    }
+}
+/* #endregion SIDEBAR */
+
+/* #endregion HEADLINE CARDS */
+
+/* Gallery Styles */
+.gallery-card {
+    grid-column: span 2;
+    overflow: hidden; /* Prevent overflow */
+}
+
+@media (max-width: 600px) {
+    .gallery-card {
+        grid-column: span 1;
+    }
+}
+
+.gallery-content {
+    width: 100%;
+    overflow: hidden; /* Prevent overflow */
+}
+
+.gallery-content .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    margin-top: 1rem;
+    width: 100%;
+    max-width: 100%; /* Ensure it doesn't exceed container width */
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    .gallery-content .photo-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery-content .photo-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.3rem;
+    }
+}
+
+.photo-item {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.photo-item:hover {
+    transform: scale(1.05);
+}
+
+.photo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block; /* Remove any default spacing */
+}
+
+.photo-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Gallery Modal */
+.gallery-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: 2rem;
+}
+
+.gallery-modal-content {
+    background: var(--color-1);
+    border: 1px solid var(--color-black);
+    border-radius: 0;
+    max-width: 80vw;
+    max-height: calc(100vh - 4rem);
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.gallery-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--color-black);
+    background: var(--color-1);
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.gallery-modal-header h3 {
+    margin: 0;
+    color: var(--color-black);
+    font-size: 1.2rem;
+    font-family: 'Franie Semibold', sans-serif;
+}
+
+.gallery-close {
+    display: flex
+;
+    position: absolute;
+    right: 0;
+    background: var(--color-4);
+    color: var(--color-1);
+    border: 1px solid var(--color-black);
+    border-radius: 0;
+    font-size: 1.2rem;
+    cursor: pointer;
+    width: auto;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    font-family: 'Franie Semibold', sans-serif;
+    margin: 1rem;
+    aspect-ratio: 1 / 1;
+    padding: 0;
+}
+
+.gallery-close:hover {
+    background: var(--color-2);
+    color: var(--color-black);
+    transform: translateY(-2px);
+}
+
+.gallery-modal-body {
+    padding: 1.5rem;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    background: var(--color-1);
+    width: 100%;
+}
+
+.gallery-main-image {
+    position: relative;
+    height: 75%;
+    margin: 0 auto 1rem auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    width: calc(100% - 100px);
+    box-sizing: border-box;
+
+}
+
+.gallery-main-image img {
+    max-width: 100%;
+    width: auto;
+    height: 100%;
+    object-fit: contain;
+    border: 1px solid var(--color-black);
+    border-radius: 0;
+    display: block;
+    margin: 0 auto;
+}
+
+.gallery-nav {
+    position: absolute;
+    top: 50%;
+    display: flex;
+    width: 50px;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-4);
+    color: var(--color-1);
+    border: 1px solid var(--color-black);
+    border-radius: 0;
+    font-size: 1.5rem;
+    font-family: 'Franie Semibold', sans-serif;
+    transform: translateY(-50%);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    aspect-ratio: 1 / 1;
+    z-index: 10001;
+}
+
+.gallery-nav:hover {
+    background: var(--color-2);
+    color: var(--color-black);
+    transform: translateY(-50%) translateY(-2px);
+}
+
+.gallery-prev {
+    left: 0px;
+}
+
+.gallery-next {
+    right: 0px;
+}
+
+.gallery-thumbnails {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0.5rem 0;
+    width: 100%;
+    max-width: 100%;
+    justify-content: center;
+    box-sizing: border-box;
+    -webkit-overflow-scrolling: touch;
+}
+
+.gallery-thumbnail {
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+    border: 1px solid var(--color-black);
+    border-radius: 0;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.gallery-thumbnail:hover,
+.gallery-thumbnail.active {
+    border-color: var(--color-4);
+    border-width: 2px;
+    transform: translateY(-2px);
+}
+
+.gallery-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.gallery-counter {
+    text-align: center;
+    padding: 1rem 0 0.5rem;
+    color: var(--color-black);
+    font-weight: 500;
+    font-family: 'Noto Serif', serif;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .gallery-card {
+        grid-column: span 1;
+    }
+    
+    .gallery-content .photo-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .gallery-modal {
+        padding: 1rem;
+    }
+    
+    .gallery-modal-content {
+        max-width: 90vw;
+        max-height: calc(100vh - 2rem);
+    }
+    
+    .gallery-modal-header {
+        padding: 1rem;
+    }
+    
+    .gallery-modal-header h3 {
+        font-size: 1rem;
+    }
+    
+    .gallery-close {
+    }
+    
+    .gallery-modal-body {
+    }
+    
+    .gallery-main-image {
+        width: calc(100% - 80px);
+        max-width: calc(100% - 80px);
+    }
+    
+    .gallery-main-image img {
+        max-height: 40vh;
+    }
+    
+    .gallery-nav {
+        width: 35px;
+        font-size: 1.2rem;
+    }
+    
+}
+
+.reservation-button{
+    display: flex;
+    justify-content: center;
+}
+
+/* Reservation Modal Styles */
+.reservation-modal-bg {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.reservation-modal {
+    position: relative;
+    top: 2rem;
+    background: var(--color-1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+    padding: 0rem 0 0rem 1rem;
+    max-width: 600px;
+    width: 100%;
+    animation: modalFadeIn 0.3s ease;
+    z-index: 99;
+}
+.reservation-modal-form-wrapper{
+  height: 100%;
+}
+/* Reservation Modal Transition States */
+.reservation-modal-sending {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 0;
+    text-align: center;
+}
+.reservation-modal-sending .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--color-4);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.reservation-modal-confirmed {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 0;
+    text-align: center;
+}
+.reservation-modal-confirmed h3 {
+    color: var(--color-black);
+    margin: 1rem 0 0.5rem 0;
+    font-size: 1.3rem;
+}
+.reservation-modal-confirmed p {
+    color: var(--color-black);
+    margin-bottom: 1.5rem;
+    width: fit-content;
+}
+.reservation-modal-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 0;
+    text-align: center;
+}
+.reservation-modal-error p {
+    color: #dc2626;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.reservation-modal-close {
+    display: flex;
+    position: absolute;
+    top: 10px;
+    right: 2rem;
+    background: var(--color-1);
+    border: 1px solid var(--color-black);
+    font-size: 2rem;
+    color: var(--color-4);
+    cursor: pointer;
+    padding: 17px 16px;
+    z-index: 10;
+    align-items: center;
+    line-height: 13px;
+    justify-content: center;
+}
+.reservation-modal-close:hover{  
+    background: var(--color-4);
+    color: var(--color-black);
+}
+@media (max-width: 500px) {
+    .reservation-modal {
+        max-width: 98vw;
+        padding: 1rem 0.5rem;
+    }
+}
+
+.reservation-modal .control-panel-form {
+    background: var(--color-1);
+    border-radius: 0;
+    padding: 3rem 1rem 3rem 1.5rem;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    overflow-y: auto;
+    max-height: 75vh;
+}
+
+.reservation-modal .control-panel-form-group {
+  margin-bottom: 0rem;
+}
+
+.reservation-modal .control-panel-label {
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.reservation-modal .control-panel-input,
+.reservation-modal .control-panel-select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--color-black);
+    border-radius: 8px;
+    font-size: 1rem;
+    background: white;
+    color: var(--color-black);
+    transition: border-color 0.2s;
+}
+.reservation-modal .control-panel-input:focus,
+.reservation-modal .control-panel-select:focus {
+  border-color: var(--color-4);
+  outline: none;
+}
+
+.reservation-modal .control-panel-input-error {
+  color: #e3342f;
+  font-size: 0.92rem;
+  margin-top: 0.2rem;
+}
+
+.reservation-modal .control-panel-button {
+  background: var(--color-4);
+  color: var(--color-black);
+  border: none;
+  border-radius: 8px;
+  padding: 0.9rem 2rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  margin-top: 0.5rem;
+}
+.reservation-modal .control-panel-button:hover {
+  background: var(--color-2);
+  color: var(--color-black);
+}
+
+#destination-id{
+  pointer-events: none;
+}
+
+@media (max-width: 600px) {
+  .reservation-modal .control-panel-form {
+    padding: 1rem 0.5rem;
+    max-width: 98vw;
+    max-height: 70vh;
+    min-height: 60vh;
   }
 }

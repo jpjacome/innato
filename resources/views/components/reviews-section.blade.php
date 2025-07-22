@@ -5,10 +5,16 @@
     <i class="ph ph-arrow-left reviews-icon reviews-icon-left"></i>
     <div class="reviews-list">
         @forelse($reviews as $review)
+            @php
+                // Support both Review model objects and arrays for backward compatibility
+                $rating = is_object($review) ? $review->rating : ($review['rating'] ?? 4);
+                $text = is_object($review) ? $review->text : ($review['text'] ?? '');
+                $reviewer = is_object($review) ? $review->reviewer : ($review['reviewer'] ?? '');
+            @endphp
             <x-review-card 
-                :rating="$review['rating'] ?? 4" 
-                :text="$review['text']" 
-                :reviewer="$review['reviewer']" 
+                :rating="$rating"
+                :text="$text"
+                :reviewer="$reviewer"
             />
         @empty
             {{-- Default reviews if none provided --}}

@@ -40,7 +40,7 @@ class SettingsController extends Controller
             'text_color' => 'required|string',
             'dark_text_color' => 'required|string',
             'dashboard_title' => 'required|string|max:255',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'logo' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,svg+xml|max:2048',
             'show_logo' => 'nullable',
         ]);
 

@@ -12,6 +12,8 @@
   --header-height: 110px;
     overflow-x: hidden;
 }
+
+
 /* #endregion COLOR VARIABLES */
 
 /* #region GLOBAL RESET */
@@ -189,6 +191,19 @@ button:hover, .cta-button:hover {
 /* ========== HEADER ========== */
 header {
     opacity: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1001;
+}
+@media (max-width: 600px) {
+  header{
+    padding: 1rem 1.5rem;
+  }
+}
+
+.header-bar{
     height: var(--header-height);
     background-color: var(--color-1);
     padding: 1rem 3rem;
@@ -196,17 +211,7 @@ header {
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid var(--color-black);
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    overflow-x: hidden;
-    z-index: 1001;
-}
-@media (max-width: 600px) {
-  header{
-    padding: 1rem 1.5rem;
-  }
+
 }
 .main-nav{
   opacity: 0;
@@ -241,7 +246,14 @@ nav a {
     nav a:hover {
         background-color: var(--color-2);
     }
-
+.header-dropdown-container{
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
 
 .logo{
   opacity: 0;
@@ -261,33 +273,6 @@ nav a {
 section{
   overflow-x: hidden;
 }
-
-/* #region SECTIONS */
-/* ========== SECTION STYLES ========== */
-section {
-  padding: 4rem 2rem;
-}
-
-.section-light {
-  background-color: var(--light-gray);
-}
-
-.section-dark {
-  background-color: var(--color-1);
-  color: white;
-}
-/* #endregion SECTIONS */
-
-/* #region FOOTER */
-/* ========== FOOTER ========== */
-footer {
-  background-color: var(--color-1);
-  color: white;
-  padding: 2rem;
-  text-align: center;
-  font-size: 0.875rem;
-}
-/* #endregion FOOTER */
 
 /* #region SEARCH BAR */
 /* ========== SEARCH BAR ========== */
@@ -373,7 +358,7 @@ footer {
 
 /* #region NAVIGATION */
 /* Responsive nav: show icons only on tablet/mobile, hide text */
-@media (max-width: 1200px) {
+@media (max-width: 1350px) {
   .nav-list .nav-text {
     display: none;
   }
@@ -394,7 +379,7 @@ footer {
 }
 
 /* On desktop, show both icon and text */
-@media (min-width: 1200px) {
+@media (min-width: 1350px) {
   .nav-list .nav-icon {
     display: none;
   }
@@ -425,6 +410,60 @@ footer {
   }
 }
 /* #endregion NAVIGATION */
+
+/* ========== NAV DROPDOWN (HEADER) ========== */
+.nav-dropdown {
+    position: relative;
+}
+.nav-dropdown > a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    position: relative;
+}
+.nav-dropdown-arrow {
+    font-size: 1em;
+    margin-left: 0.25em;
+    transition: transform 0.2s;
+}
+.nav-dropdown[aria-expanded="true"] .nav-dropdown-arrow {
+    transform: rotate(180deg);
+}
+.nav-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 10px;
+    border: 1px solid var(--color-black);
+    border-radius: 0;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.10);
+    gap: 0px;
+    flex-direction: column;
+    z-index: 2000;
+}
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown:focus-within .nav-dropdown-menu {
+    display: flex;
+}
+.nav-dropdown-menu li {
+    list-style: none;
+    background-color: var(--color-1);
+    border: none;
+    border-radius: 0px;
+}
+.nav-dropdown-menu a {
+    display: flex;
+    width: 120px;
+    color: var(--color-black);
+    text-decoration: none;
+    font-size: .8em;
+    border-radius: 0px;
+    transition: background 0.15s, color 0.15s;
+}
+.nav-dropdown-menu a:hover {
+    background: var(--color-2);
+}
 
 /* #region MOBILE MENU */
 /* ========== MOBILE MENU ========== */
@@ -486,6 +525,35 @@ footer {
   }
 }
 /* #endregion MOBILE MENU */
+
+/* #region SECTIONS */
+/* ========== SECTION STYLES ========== */
+section {
+  padding: 4rem 2rem;
+}
+
+.section-light {
+  background-color: var(--light-gray);
+}
+
+.section-dark {
+  background-color: var(--color-1);
+  color: white;
+}
+/* #endregion SECTIONS */
+
+/* #region FOOTER */
+/* ========== FOOTER ========== */
+footer {
+  background-color: var(--color-1);
+  color: white;
+  padding: 2rem;
+  text-align: center;
+  font-size: 0.875rem;
+}
+/* #endregion FOOTER */
+
+
 
 /* #region FOOTER (ADDITIONAL) */
 
@@ -621,3 +689,15 @@ footer .container{
 
     border-bottom: 1px solid var(--color-black);
 }
+
+/* #region REVIEWS RESPONSIVE */
+/* ========== REVIEWS RESPONSIVE ========== */
+@media (max-width: 1400px) {
+  .reviews-list {
+    max-width: 90vw;
+  }
+  .reviews-list .review-card:nth-child(n+3) {
+    display: none;
+  }
+}
+/* #endregion REVIEWS RESPONSIVE */

@@ -12,7 +12,10 @@ class AdminController extends Controller
         $adminUsers = User::where('is_admin', true)->get();
         $regularUsers = User::where('is_admin', false)->get();
         $settings = DashboardSettings::first();
-        
-        return view('admin.dashboard', compact('adminUsers', 'regularUsers', 'settings'));
+
+        // Add reservations for dashboard table (paginated)
+        $reservations = \App\Models\Reservation::with('destination')->latest()->paginate(10);
+
+        return view('admin.dashboard', compact('adminUsers', 'regularUsers', 'settings', 'reservations'));
     }
 } 

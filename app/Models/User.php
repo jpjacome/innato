@@ -24,6 +24,7 @@ class User extends Authenticatable
         'password',
         'is_admin',
         'role',
+        'destination_id',
     ];
 
     /**
@@ -55,6 +56,11 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
+    public function destination()
+    {
+        return $this->belongsTo(Destination::class);
+    }
+
     public function isAdmin()
     {
         return $this->is_admin || $this->role === 'admin';
@@ -68,5 +74,18 @@ class User extends Authenticatable
     public function isRegular()
     {
         return $this->role === 'regular';
+    }
+
+    public function canEditDestination($destinationId)
+    {
+        return $this->isAdmin() || ($this->isEditor() && $this->destination_id == $destinationId);
+    }
+
+    /**
+     * Get the destination assigned to this user (for editors).
+     */
+    public function assignedDestination()
+    {
+        return $this->belongsTo(Destination::class, 'destination_id');
     }
 }
