@@ -35,10 +35,21 @@
                 <div class="control-panel-form-grid">
                     <div>
                         <label for="header_logo" class="control-panel-label">Logo Image</label>
+                        @php
+                            $logoPath = null;
+                            $logoExtensions = ['svg','png','jpg','jpeg','gif'];
+                            foreach ($logoExtensions as $ext) {
+                                $candidate = public_path('assets/imgs/logo.' . $ext);
+                                if (file_exists($candidate)) {
+                                    $logoPath = asset('assets/imgs/logo.' . $ext);
+                                    break;
+                                }
+                            }
+                        @endphp
                         <div style="margin-bottom: 10px;">
-                            <strong>Current:</strong> {{ asset('assets/imgs/logo.svg') }}
+                            <strong>Current:</strong> {{ $logoPath ?? asset('assets/imgs/logo.svg') }}
                         </div>
-                        <img src="{{ asset('assets/imgs/logo.svg') }}" alt="Current Logo" style="max-width:120px; margin-bottom: 10px;">
+                        <img src="{{ $logoPath ?? asset('assets/imgs/logo.svg') }}" alt="Current Logo" style="max-width:120px; margin-bottom: 10px;">
                         <input type="file" id="header_logo" name="header_logo" class="control-panel-input" accept="image/*">
                         <small class="control-panel-text-muted">Upload a new logo to replace the current one</small>
                     </div>

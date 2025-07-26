@@ -69,8 +69,8 @@
                             name="about_description" 
                             class="control-panel-input"
                             rows="5"
-                            placeholder="Somos un centro de experiencias que ofrece inmersión cultural, compromiso con la sostenibilidad, turismo comunitario y gastronomía con productos locales. Atraer a viajeros conscientes y amantes de la cultura que compartan nuestros mismos valores:"
-                        >{{ old('about_description', (isset($aboutSetting) && !empty($aboutSetting->description)) ? $aboutSetting->description : 'Somos un centro de experiencias que ofrece inmersión cultural, compromiso con la sostenibilidad, turismo comunitario y gastronomía con productos locales. Atraer a viajeros conscientes y amantes de la cultura que compartan nuestros mismos valores:') }}</textarea>
+                            placeholder="Somos un centro de experiencias que ofrece inmersión cultural, compromiso con la sostenibilidad, turismo comunitario y gastronomía con productos locales. Atraemos a viajeros conscientes y amantes de la cultura que comparten nuestros valores."
+                        >{{ old('about_description', (isset($aboutSetting) && !empty($aboutSetting->description)) ? $aboutSetting->description : 'Somos un centro de experiencias que ofrece inmersión cultural, compromiso con la sostenibilidad, turismo comunitario y gastronomía con productos locales. Atraemos a viajeros conscientes y amantes de la cultura que comparten nuestros valores.') }}</textarea>
                     </div>
                 </div>
             </div>
@@ -199,7 +199,6 @@
                         <input type="text" id="destinations_button_text" name="destinations_button_text" class="control-panel-input" value="{{ old('destinations_button_text', (isset($aboutSetting) && !empty($aboutSetting->destinations_button_text)) ? $aboutSetting->destinations_button_text : 'UBICACIÓN') }}">
                     </div>
                 </div>
-                <div class="control-panel-text-muted">Los valores que se muestran en la pista de destinos son estáticos y no editables, igual que en la página de inicio.</div>
             </div>
 
         </form>

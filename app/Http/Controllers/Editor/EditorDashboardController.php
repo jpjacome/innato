@@ -49,13 +49,20 @@ class EditorDashboardController extends Controller
                 'count' => $destinations->count()
             ]);
         }
-        
+
         $destinationsCount = $destinations->count();
+
+        // Fetch reservations for these destinations
+        $destinationIds = $destinations->pluck('id');
+        $reservations = \App\Models\Reservation::whereIn('destination_id', $destinationIds)
+            ->with('destination')
+            ->paginate(10);
 
         return view('editor.dashboard', [
             'settings' => $dashboardSettings,
             'destinations' => $destinations,
-            'destinationsCount' => $destinationsCount
+            'destinationsCount' => $destinationsCount,
+            'reservations' => $reservations
         ]);
     }
 }

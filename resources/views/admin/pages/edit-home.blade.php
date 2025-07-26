@@ -2,12 +2,12 @@
     <div class="control-panel-card control-panel-with-fixed-actions">
         <div class="control-panel-header-flex">
             <a href="{{ route('admin.pages') }}" class="control-panel-button control-panel-button-secondary">
-                <i class="fas fa-arrow-left"></i> Back to Pages
+                <i class="fas fa-arrow-left"></i> Volver a Páginas
             </a>
-            <h2 class="control-panel-title control-panel-title-no-margin">Edit Homepage</h2>
+            <h2 class="control-panel-title control-panel-title-no-margin">Editar Página de Inicio</h2>
         </div>
         
-        <p class="control-panel-text-muted">Edit the content and settings for your homepage sections.</p>
+        <p class="control-panel-text-muted">Edita el contenido y la configuración de las secciones de tu página de inicio.</p>
 
         @if(session('success'))
             <div class="alert alert-success control-panel-alert-success-custom">
@@ -31,38 +31,38 @@
 
             <!-- Hero Section -->
             <div class="control-panel-card pages-card control-panel-form-section">
-                <h3 class="control-panel-subtitle">
-                    <i class="fas fa-play-circle"></i> Hero Section
-                </h3>
-                <p>Customize the main hero section of your homepage.</p>
+            <h3 class="control-panel-subtitle">
+                <i class="fas fa-play-circle"></i> Sección Hero
+            </h3>
+            <p>Personaliza la sección principal (hero) de tu página de inicio.</p>
                 
                 <div class="control-panel-form-grid">
                     <div>
-                        <label for="hero_title" class="control-panel-label">Hero Title</label>
+                        <label for="hero_title" class="control-panel-label">Título Hero</label>
                         <input 
                             type="text" 
                             id="hero_title" 
                             name="hero_title" 
                             value="{{ old('hero_title', $homeSetting->hero_title) }}"
                             class="control-panel-input"
-                            placeholder="Enter hero section title"
+                            placeholder="Ingresa el título de la sección hero"
                         >
                     </div>
                     
                     <div>
-                        <label for="hero_button_text" class="control-panel-label">Hero Button Text</label>
+                        <label for="hero_button_text" class="control-panel-label">Texto del Botón Hero</label>
                         <input 
                             type="text" 
                             id="hero_button_text" 
                             name="hero_button_text" 
                             value="{{ old('hero_button_text', $homeSetting->hero_button_text) }}"
                             class="control-panel-input"
-                            placeholder="Enter button text"
+                            placeholder="Ingresa el texto del botón"
                         >
                     </div>
                     
                     <div>
-                        <label for="hero_video" class="control-panel-label">Hero Video</label>
+                        <label for="hero_video" class="control-panel-label">Video Hero</label>
                         <input 
                             type="file" 
                             id="hero_video" 
@@ -70,67 +70,67 @@
                             class="control-panel-input"
                             accept="video/*"
                         >
-                        <small class="control-panel-small-text">Current: {{ $homeSetting->hero_video_path ? basename($homeSetting->hero_video_path) : 'vid1.mp4 (default)' }}</small>
+                        <small class="control-panel-small-text">Actual: {{ $homeSetting->hero_video_path ? basename($homeSetting->hero_video_path) : 'vid1.mp4 (predeterminado)' }}</small>
                     </div>
                 </div>
             </div>
 
             <!-- Headline Section -->
             <div class="control-panel-card pages-card control-panel-form-section">
-                <h3 class="control-panel-subtitle">
-                    <i class="fas fa-heading"></i> Headline Section
-                </h3>
-                <p>Customize the main headline section below the hero.</p>
+            <h3 class="control-panel-subtitle">
+                <i class="fas fa-heading"></i> Sección Encabezado
+            </h3>
+            <p>Personaliza la sección de encabezado principal debajo del hero.</p>
                 <div class="control-panel-form-grid">
                     <div>
-                        <label for="headline_title" class="control-panel-label">Headline Title</label>
+                        <label for="headline_title" class="control-panel-label">Título del Encabezado</label>
                         <input 
                             type="text" 
                             id="headline_title" 
                             name="headline_title" 
                             value="{{ old('headline_title', $homeSetting->headline_title) }}"
                             class="control-panel-input"
-                            placeholder="Enter headline title"
+                            placeholder="Ingresa el título del encabezado"
                         >
                     </div>
                     <div>
-                        <label for="headline_description" class="control-panel-label">Headline Description</label>
+                        <label for="headline_description" class="control-panel-label">Descripción del Encabezado</label>
                         <textarea 
                             id="headline_description" 
                             name="headline_description" 
                             class="control-panel-input"
                             rows="3"
-                            placeholder="Enter headline description"
+                            placeholder="Ingresa la descripción del encabezado"
                         >{{ old('headline_description', $homeSetting->headline_description) }}</textarea>
                     </div>
                 </div>
                 <div class="control-panel-form-grid" style="margin-top: 1.5rem;">
                     <div>
-                        <label for="headline_coast_image" class="control-panel-label">Coast Image</label>
+                        <label for="headline_coast_image" class="control-panel-label">Imagen Costa</label>
                         @php
                             $coastImg = $homeSetting->headline_coast_image ? asset('storage/' . $homeSetting->headline_coast_image) : '';
                         @endphp
                         <img id="preview-headline-coast-image" src="{{ $coastImg }}" style="max-width:100px; margin-bottom:6px; {{ $coastImg ? 'display:block;' : 'display:none;' }}">
                         <input type="file" id="headline_coast_image" name="headline_coast_image" class="control-panel-input" accept="image/*" onchange="previewImage(this, 'preview-headline-coast-image')">
-                        <small class="control-panel-small-text">Current: {{ $homeSetting->headline_coast_image ? basename($homeSetting->headline_coast_image) : 'Default Unsplash' }}</small>
+                        <small class="control-panel-small-text">Actual: {{ $homeSetting->headline_coast_image ? basename($homeSetting->headline_coast_image) : 'Unsplash predeterminado' }}</small>
                     </div>
                     <div>
-                        <label for="headline_andes_image" class="control-panel-label">Andes Image</label>
+                        <label for="headline_andes_image" class="control-panel-label">Imagen Andes</label>
                         @php
                             $andesImg = $homeSetting->headline_andes_image ? asset('storage/' . $homeSetting->headline_andes_image) : '';
                         @endphp
                         <img id="preview-headline-andes-image" src="{{ $andesImg }}" style="max-width:100px; margin-bottom:6px; {{ $andesImg ? 'display:block;' : 'display:none;' }}">
                         <input type="file" id="headline_andes_image" name="headline_andes_image" class="control-panel-input" accept="image/*" onchange="previewImage(this, 'preview-headline-andes-image')">
-                        <small class="control-panel-small-text">Current: {{ $homeSetting->headline_andes_image ? basename($homeSetting->headline_andes_image) : 'Default Unsplash' }}</small>
+                        <small class="control-panel-small-text">Actual: {{ $homeSetting->headline_andes_image ? basename($homeSetting->headline_andes_image) : 'Unsplash predeterminado' }}</small>
                     </div>
                     <div>
-                        <label for="headline_amazon_image" class="control-panel-label">Amazon Image</label>
+                        <label for="headline_amazon_image" class="control-panel-label">Imagen Amazonía</label>
                         @php
                             $amazonImg = $homeSetting->headline_amazon_image ? asset('storage/' . $homeSetting->headline_amazon_image) : '';
                         @endphp
                         <img id="preview-headline-amazon-image" src="{{ $amazonImg }}" style="max-width:100px; margin-bottom:6px; {{ $amazonImg ? 'display:block;' : 'display:none;' }}">
                         <input type="file" id="headline_amazon_image" name="headline_amazon_image" class="control-panel-input" accept="image/*" onchange="previewImage(this, 'preview-headline-amazon-image')">
-                        <small class="control-panel-small-text">Current: {{ $homeSetting->headline_amazon_image ? basename($homeSetting->headline_amazon_image) : 'Default Unsplash' }}</small>
+                        <small class="control-panel-small-text">Actual: {{ $homeSetting->headline_amazon_image ? basename($homeSetting->headline_amazon_image) : 'Unsplash predeterminado' }}</small>
                     </div>
     <script>
         function previewImage(input, imgId) {
@@ -153,55 +153,55 @@
 
             <!-- Destinations Section -->
             <div class="control-panel-card pages-card control-panel-form-section">
-                <h3 class="control-panel-subtitle">
-                    <i class="fas fa-map-marked-alt"></i> Destinations Section
-                </h3>
-                <p>Customize the explore destinations section.</p>
+            <h3 class="control-panel-subtitle">
+                <i class="fas fa-map-marked-alt"></i> Sección Destinos
+            </h3>
+            <p>Personaliza la sección de exploración de destinos.</p>
                 
                 <div class="control-panel-form-grid">
                     <div>
-                        <label for="destinations_title" class="control-panel-label">Destinations Title</label>
+                        <label for="destinations_title" class="control-panel-label">Título de Destinos</label>
                         <input 
                             type="text" 
                             id="destinations_title" 
                             name="destinations_title" 
                             value="{{ old('destinations_title', $homeSetting->destinations_title) }}"
                             class="control-panel-input"
-                            placeholder="Enter destinations section title"
+                            placeholder="Ingresa el título de la sección de destinos"
                         >
                     </div>
                     
                     <div>
-                        <label for="destinations_description" class="control-panel-label">Destinations Description</label>
+                        <label for="destinations_description" class="control-panel-label">Descripción de Destinos</label>
                         <textarea 
                             id="destinations_description" 
                             name="destinations_description" 
                             class="control-panel-input"
                             rows="2"
-                            placeholder="Enter destinations description"
+                            placeholder="Ingresa la descripción de destinos"
                         >{{ old('destinations_description', $homeSetting->destinations_description) }}</textarea>
                     </div>
                     
                     <div>
-                        <label for="destinations_button_text" class="control-panel-label">Destinations Button Text</label>
+                        <label for="destinations_button_text" class="control-panel-label">Texto del Botón de Destinos</label>
                         <input 
                             type="text" 
                             id="destinations_button_text" 
                             name="destinations_button_text" 
                             value="{{ old('destinations_button_text', $homeSetting->destinations_button_text) }}"
                             class="control-panel-input"
-                            placeholder="Enter button text"
+                            placeholder="Ingresa el texto del botón"
                         >
                     </div>
                     <div>
-                        <label for="destinations_footer_text" class="control-panel-label">Destinations Footer Text</label>
+                        <label for="destinations_footer_text" class="control-panel-label">Texto del Pie de Destinos</label>
                         <input 
                             type="text" 
                             id="destinations_footer_text" 
                             name="destinations_footer_text" 
                             value="{{ old('destinations_footer_text', $homeSetting->destinations_footer_text) }}"
                             class="control-panel-input"
-                            placeholder="Enter footer text (e.g. Haz clic en una región para observarla más de cerca.)"
+                            placeholder="Ingresa el texto del pie (ej. Haz clic en una región para observarla más de cerca.)"
                         >
                     </div>
                 </div>
@@ -212,13 +212,13 @@
     <!-- Fixed Action Buttons -->
     <div class="control-panel-fixed-actions">
         <a href="{{ route('admin.pages') }}" class="control-panel-button">
-            <i class="fas fa-times"></i> Cancel
+            <i class="fas fa-times"></i> Cancelar
         </a>
         <button type="submit" form="home-edit-form" class="control-panel-button">
-            <i class="fas fa-save"></i> Save Changes
+            <i class="fas fa-save"></i> Guardar Cambios
         </button>
         <a href="/home" target="_blank" class="control-panel-button">
-            <i class="fas fa-external-link-alt"></i> View Homepage
+            <i class="fas fa-external-link-alt"></i> Ver Página de Inicio
         </a>
     </div>
 </x-control-panel-layout>

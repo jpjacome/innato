@@ -46,50 +46,50 @@ use Illuminate\Support\Facades\Storage;
             
             <nav class="control-panel-nav">
                 <a href="{{ route('welcome') }}" class="control-panel-button  header-nav-button" target="_blank">Homepage</a>
-                <a href="{{ route('admin.dashboard') }}" class="control-panel-button {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}  header-nav-button">Dashboard</a>
+                <a href="{{ route('admin.dashboard') }}" class="control-panel-button {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}  header-nav-button">Panel</a>
                 
                 @if(Auth::check() && (Auth::user()->isAdmin() || Auth::user()->isEditor()))
-                <a href="{{ route('admin.pages') }}" class="control-panel-button {{ request()->routeIs('admin.pages') ? 'active' : '' }} header-nav-button">Pages</a>
+                <a href="{{ route('admin.pages') }}" class="control-panel-button {{ request()->routeIs('admin.pages') ? 'active' : '' }} header-nav-button">Páginas</a>
                 @endif
                 
                 @if (Auth::check() && Auth::user()->isAdmin())
                 <div class="control-panel-dropdown">
                     <button class="control-panel-button header-nav-button dropdown-trigger {{ request()->routeIs('admin.components.*') ? 'active' : '' }}">
-                        Components <i class="fas fa-chevron-down"></i>
+                        Componentes <i class="fas fa-chevron-down"></i>
                     </button>
                     <div class="control-panel-dropdown-menu">
-                        <a href="{{ route('admin.components.edit-header') }}" class="control-panel-dropdown-item {{ request()->routeIs('admin.components.edit-header') ? 'active' : '' }}">Header</a>
-                        <a href="{{ route('admin.components.edit-footer') }}" class="control-panel-dropdown-item {{ request()->routeIs('admin.components.edit-footer') ? 'active' : '' }}">Footer</a>
-                        <a href="{{ route('admin.components.edit-reviews') }}" class="control-panel-dropdown-item {{ request()->routeIs('admin.components.edit-reviews') ? 'active' : '' }}">Reviews</a>
+                        <a href="{{ route('admin.components.edit-header') }}" class="control-panel-dropdown-item {{ request()->routeIs('admin.components.edit-header') ? 'active' : '' }}">Encabezado</a>
+                        <a href="{{ route('admin.components.edit-footer') }}" class="control-panel-dropdown-item {{ request()->routeIs('admin.components.edit-footer') ? 'active' : '' }}">Pie de página</a>
+                        <a href="{{ route('admin.components.edit-reviews') }}" class="control-panel-dropdown-item {{ request()->routeIs('admin.components.edit-reviews') ? 'active' : '' }}">Reseñas</a>
                     </div>
                 </div>
 
-                <a href="{{ route('admin.destinations.index') }}" class="control-panel-button {{ request()->routeIs('admin.destinations.*') ? 'active' : '' }} header-nav-button">Destinations</a>
-                <a href="{{ route('admin.maintenance.index') }}" class="control-panel-button {{ request()->routeIs('admin.maintenance.*') ? 'active' : '' }} header-nav-button">Maintenance</a>
-                <a href="{{ route('admin.settings') }}" class="control-panel-button {{ request()->routeIs('admin.settings') ? 'active' : '' }} header-nav-button">Settings</a>
+                <a href="{{ route('admin.destinations.index') }}" class="control-panel-button {{ request()->routeIs('admin.destinations.*') ? 'active' : '' }} header-nav-button">Destinos</a>
+                <a href="{{ route('admin.maintenance.index') }}" class="control-panel-button {{ request()->routeIs('admin.maintenance.*') ? 'active' : '' }} header-nav-button">Mantenimiento</a>
+                <a href="{{ route('admin.settings') }}" class="control-panel-button {{ request()->routeIs('admin.settings') ? 'active' : '' }} header-nav-button">Configuración</a>
                 @endif
             </nav>
             
             <!-- Mobile Menu (hidden by default) -->
             <div class="control-panel-mobile-menu" id="mobile-menu">
-                <a href="{{ route('welcome') }}" class="control-panel-button">Homepage</a>
-                <a href="{{ route('admin.dashboard') }}" class="control-panel-button {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">Dashboard</a>
+                <a href="{{ route('welcome') }}" class="control-panel-button">Inicio</a>
+                <a href="{{ route('admin.dashboard') }}" class="control-panel-button {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">Panel</a>
                 
                 @if(Auth::check() && (Auth::user()->isAdmin() || Auth::user()->isEditor()))
-                <a href="{{ route('admin.pages') }}" class="control-panel-button {{ request()->routeIs('admin.pages') ? 'active' : '' }}">Pages</a>
+                <a href="{{ route('admin.pages') }}" class="control-panel-button {{ request()->routeIs('admin.pages') ? 'active' : '' }}">Páginas</a>
                 @endif
                 
                 @if (Auth::check() && Auth::user()->isAdmin())
                 <div class="control-panel-mobile-section">
-                    <span class="control-panel-mobile-section-title">Components</span>
-                    <a href="{{ route('admin.components.edit-header') }}" class="control-panel-button {{ request()->routeIs('admin.components.edit-header') ? 'active' : '' }}">Header</a>
-                    <a href="{{ route('admin.components.edit-footer') }}" class="control-panel-button {{ request()->routeIs('admin.components.edit-footer') ? 'active' : '' }}">Footer</a>
-                    <a href="{{ route('admin.components.edit-reviews') }}" class="control-panel-button {{ request()->routeIs('admin.components.edit-reviews') ? 'active' : '' }}">Reviews</a>
+                    <span class="control-panel-mobile-section-title">Componentes</span>
+                    <a href="{{ route('admin.components.edit-header') }}" class="control-panel-button {{ request()->routeIs('admin.components.edit-header') ? 'active' : '' }}">Encabezado</a>
+                    <a href="{{ route('admin.components.edit-footer') }}" class="control-panel-button {{ request()->routeIs('admin.components.edit-footer') ? 'active' : '' }}">Pie de página</a>
+                    <a href="{{ route('admin.components.edit-reviews') }}" class="control-panel-button {{ request()->routeIs('admin.components.edit-reviews') ? 'active' : '' }}">Reseñas</a>
                 </div>
                 
-                <a href="{{ route('admin.destinations.index') }}" class="control-panel-button {{ request()->routeIs('admin.destinations.*') ? 'active' : '' }}">Destinations</a>
-                <a href="{{ route('admin.maintenance.index') }}" class="control-panel-button {{ request()->routeIs('admin.maintenance.*') ? 'active' : '' }}">Maintenance</a>
-                <a href="{{ route('admin.settings') }}" class="control-panel-button {{ request()->routeIs('admin.settings') ? 'active' : '' }}">Settings</a>
+                <a href="{{ route('admin.destinations.index') }}" class="control-panel-button {{ request()->routeIs('admin.destinations.*') ? 'active' : '' }}">Destinos</a>
+                <a href="{{ route('admin.maintenance.index') }}" class="control-panel-button {{ request()->routeIs('admin.maintenance.*') ? 'active' : '' }}">Mantenimiento</a>
+                <a href="{{ route('admin.settings') }}" class="control-panel-button {{ request()->routeIs('admin.settings') ? 'active' : '' }}">Configuración</a>
                 @endif
             </div>
             

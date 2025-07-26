@@ -65,6 +65,6 @@ class Kernel extends HttpKernel
      * @var array<string, class-string|string>
      */
     protected $routeMiddleware = [
-        'admin' => \App\Http\Middleware\AdminMiddleware::class,
+        // Deprecated in Laravel 12.5.0, moved to $middlewareAliases
     ];
-} 
+}

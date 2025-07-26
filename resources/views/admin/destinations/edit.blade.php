@@ -11,7 +11,7 @@
                         <i class="fas fa-edit"></i>
                         Edit Destination: {{ $destination->title }}
                     </h2>
-                    <p class="control-panel-subtitle">Admin editing mode - All fields available</p>
+                    <p class="control-panel-subtitle">Modo edición administrador - Todos los campos disponibles</p>
                 </div>
                 <div class="header-actions">
                     <a href="{{ route('destination.show', $destination->slug) }}" 
@@ -27,7 +27,7 @@
 
         @if($destination->assignedEditor)
             <div class="editor-info-card">
-                <h3><i class="fas fa-user"></i> Assigned Editor</h3>
+                <h3><i class="fas fa-user"></i> Editor asignado</h3>
                 <p><strong>{{ $destination->assignedEditor->name }}</strong> ({{ $destination->assignedEditor->email }})</p>
             </div>
         @endif
@@ -42,7 +42,7 @@
         @if($errors->any())
             <div class="alert alert-error">
                 <i class="fas fa-exclamation-triangle"></i>
-                Please fix the following errors:
+                Por favor corrige los siguientes errores:
                 <ul>
                     @foreach($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -55,55 +55,55 @@
         <div class="tab-navigation">
             <button class="tab-button active" data-tab="basic">
                 <i class="ph ph-info"></i>
-                Basic Info
+                Información básica
             </button>
             <button class="tab-button" data-tab="location">
                 <i class="ph ph-map-pin"></i>
-                Location
+                Ubicación
             </button>
             <button class="tab-button" data-tab="climate">
                 <i class="ph ph-sun"></i>
-                Climate
+                Clima
             </button>
             <button class="tab-button" data-tab="access">
                 <i class="ph ph-road-horizon"></i>
-                Access
+                Acceso
             </button>
             <button class="tab-button" data-tab="schedule">
                 <i class="ph ph-clock"></i>
-                Schedule
+                Horario
             </button>
             <button class="tab-button" data-tab="contact">
                 <i class="ph ph-phone"></i>
-                Contact
+                Contacto
             </button>
             <button class="tab-button" data-tab="activities">
                 <i class="ph ph-activity"></i>
-                Activities
+                Actividades
             </button>
             <button class="tab-button" data-tab="audience">
                 <i class="ph ph-users"></i>
-                Audience
+                Público objetivo
             </button>
             <button class="tab-button" data-tab="services">
                 <i class="ph ph-gear"></i>
-                Services
+                Servicios
             </button>
             <button class="tab-button" data-tab="pricing">
                 <i class="ph ph-currency-dollar"></i>
-                Pricing
+                Precios
             </button>
             <button class="tab-button" data-tab="criteria">
                 <i class="ph ph-medal"></i>
-                Criteria
+                Criterios
             </button>
             <button class="tab-button" data-tab="description">
                 <i class="ph ph-file-text"></i>
-                Description
+                Descripción
             </button>
             <button class="tab-button" data-tab="challenges">
                 <i class="ph ph-warning"></i>
-                Challenges
+                Retos
             </button>
             <button class="tab-button" data-tab="gallery">
                 <i class="ph ph-images"></i>
@@ -118,7 +118,7 @@
 
             <!-- Basic Info Tab -->
             <div class="tab-content active" id="basic-tab">
-                <h3 class="tab-title">Basic Information</h3>
+                <h3 class="tab-title">Información básica</h3>
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="title">Destination Title *</label>
@@ -166,7 +166,7 @@
 
             <!-- Location Tab -->
             <div class="tab-content" id="location-tab">
-                <h3 class="tab-title">Location Details</h3>
+                <h3 class="tab-title">Detalles de ubicación</h3>
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="province">Province</label>
@@ -213,7 +213,7 @@
 
             <!-- Climate Tab -->
             <div class="tab-content" id="climate-tab">
-                <h3 class="tab-title">Climate Information</h3>
+                <h3 class="tab-title">Información climática</h3>
                 <div class="climate-seasons">
                     <!-- Dry Season -->
                     <div class="season-group">
@@ -257,7 +257,7 @@
 
             <!-- Access Tab -->
             <div class="tab-content" id="access-tab">
-                <h3 class="tab-title">Access & Transportation</h3>
+                <h3 class="tab-title">Acceso y transporte</h3>
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="access_from">Access From</label>
@@ -295,7 +295,7 @@
 
             <!-- Schedule Tab -->
             <div class="tab-content" id="schedule-tab">
-                <h3 class="tab-title">Schedule & Entry</h3>
+                <h3 class="tab-title">Horario y entrada</h3>
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="schedule_hours">Operating Hours</label>
@@ -333,7 +333,7 @@
 
             <!-- Contact Tab -->
             <div class="tab-content" id="contact-tab">
-                <h3 class="tab-title">Contact Information</h3>
+                <h3 class="tab-title">Información de contacto</h3>
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="contact_person">Contact Person</label>
@@ -371,7 +371,7 @@
 
             <!-- Activities Tab -->
             <div class="tab-content" id="activities-tab">
-                <h3 class="tab-title">Tourist Activities</h3>
+                <h3 class="tab-title">Actividades turísticas</h3>
                 <div class="dynamic-list" id="activities-list">
                     <div class="list-header">
                         <h4>Activities List</h4>
@@ -424,7 +424,7 @@
 
             <!-- Audience Tab -->
             <div class="tab-content" id="audience-tab">
-                <h3 class="tab-title">Target Audience</h3>
+                <h3 class="tab-title">Público objetivo</h3>
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="target_audience_type">Audience Type</label>
@@ -470,22 +470,22 @@
 
             <!-- Services Tab -->
             <div class="tab-content" id="services-tab">
-                <h3 class="tab-title">Services & Facilities</h3>
+                <h3 class="tab-title">Servicios e instalaciones</h3>
                 <div class="dynamic-list" id="services-list">
                     <div class="list-header">
-                        <h4>Available Services</h4>
+                        <h4>Servicios Disponibles</h4>
                         <button type="button" class="control-panel-button add-item-btn" data-list="services">
-                            <i class="fas fa-plus"></i> Add Service
+                            <i class="fas fa-plus"></i> Agregar Servicio
                         </button>
                         <button type="button" class="control-panel-button" id="open-icons-list-modal">
-                            <i class="ph ph-list"></i> Icons List
+                            <i class="ph ph-list"></i> Lista de Iconos
                         </button>
         <!-- Icons List Modal -->
         <div id="iconsListModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:9999; align-items:center; justify-content:center;">
             <div style="background:#fff; max-width:480px; width:90vw; max-height:80vh; border-radius:12px; box-shadow:0 2px 24px #2225; padding:2rem 1.5rem; overflow:auto; position:relative;">
-                <h3 style="margin-top:0; margin-bottom:1rem; font-size:1.3rem;">Phosphor Icon Names</h3>
+                <h3 style="margin-top:0; margin-bottom:1rem; font-size:1.3rem;">Nombres de Iconos Phosphor</h3>
                 <button type="button" id="close-icons-list-modal" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
-                <input type="text" id="iconFilterInput" placeholder="Filter icons..." style="width:100%; margin-bottom:0.75rem; padding:0.4rem 0.7rem; font-size:1rem; border:1px solid #ddd; border-radius:6px;">
+                <input type="text" id="iconFilterInput" placeholder="Filtrar iconos..." style="width:100%; margin-bottom:0.75rem; padding:0.4rem 0.7rem; font-size:1rem; border:1px solid #ddd; border-radius:6px;">
                 <div style="max-height:60vh; overflow-y:auto; border:1px solid #eee; border-radius:8px; padding:0.5rem 0.75rem; background:#fafafa;">
                     <ul id="iconsListUl" style="list-style:none; margin:0; padding:0; font-size:1.05rem;">
                         @foreach(file(public_path('assets/phosphor-icon-names.txt')) as $iconName)
@@ -552,7 +552,7 @@
 
             <!-- Pricing Tab -->
             <div class="tab-content" id="pricing-tab">
-                <h3 class="tab-title">Pricing & Capacity</h3>
+                <h3 class="tab-title">Precios y capacidad</h3>
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="average_price">Average Price</label>
@@ -592,7 +592,7 @@
 
             <!-- Criteria Tab -->
             <div class="tab-content" id="criteria-tab">
-                <h3 class="tab-title">Tourism Criteria</h3>
+                <h3 class="tab-title">Criterios turísticos</h3>
                 <div class="form-grid">
                     <div class="form-group span-full">
                         <label for="tourism_criteria_access">Acceso a personas de tercera edad y/o con discapacidad</label>
@@ -643,7 +643,7 @@
 
             <!-- Description Tab -->
             <div class="tab-content" id="description-tab">
-                <h3 class="tab-title">Descriptions</h3>
+                <h3 class="tab-title">Descripciones</h3>
                 <div class="form-grid">
                     <div class="form-group span-full">
                         <label for="main_description">Main Description</label>
@@ -673,7 +673,7 @@
 
             <!-- Challenges Tab -->
             <div class="tab-content" id="challenges-tab">
-                <h3 class="tab-title">Environmental Challenge</h3>
+                <h3 class="tab-title">Reto ambiental</h3>
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="environmental_challenges_icon">Challenge Icon</label>
@@ -692,15 +692,15 @@
 
             <!-- Gallery Tab -->
             <div class="tab-content" id="gallery-tab">
-                <h3 class="tab-title">Photo Gallery</h3>
+                <h3 class="tab-title">Galería de fotos</h3>
                 <div class="form-group">
-                    <label for="gallery_images">Upload Photos (Max 8 photos, 5MB each)</label>
+                    <label for="gallery_images">Subir fotos (máx. 8 fotos, 5MB cada una)</label>
                     <div class="file-upload-area">
                         <input type="file" id="gallery_images" name="gallery_images[]" multiple accept="image/*" class="file-input">
                         <div class="upload-placeholder">
                             <i class="ph ph-upload"></i>
-                            <p>Drag & drop photos here or click to browse</p>
-                            <small>JPEG, PNG, JPG, GIF up to 5MB each</small>
+                            <p>Arrastra y suelta fotos aquí o haz clic para buscar</p>
+                            <small>JPEG, PNG, JPG, GIF hasta 5MB cada una</small>
                         </div>
                     </div>
                     @error('gallery_images.*')
@@ -710,15 +710,15 @@
 
                 <!-- Preview Area for New Images -->
                 <div id="imagePreviewContainer" class="image-preview-container" style="display: none;">
-                    <h4>New Images to Upload</h4>
+                        <h4>Nuevas imágenes para subir</h4>
                     <div id="imagePreviewGrid" class="gallery-grid"></div>
                 </div>
 
                 @if($destination->gallery_images && count($destination->gallery_images) > 0)
                     <div class="existing-gallery">
-                        <h4>Current Photos</h4>
+                        <h4>Fotos actuales</h4>
                     <div style="margin-bottom: 0.5rem; color: #444; font-size: 0.98rem;">
-                        <strong>Note:</strong> Maximum image size is 5MB. The <strong>first photo</strong> in this gallery will be displayed as the main image in the destination page hero section.
+                        <strong>Nota:</strong> El tamaño máximo de imagen es 5MB. La <strong>primera foto</strong> de esta galería se mostrará como imagen principal en la sección hero de la página del destino.
                     </div>
                         <div class="gallery-grid" id="galleryGrid">
                             @foreach($destination->gallery_images as $index => $image)
@@ -748,13 +748,13 @@
             <!-- Form Actions -->
             <div class="form-actions">
                 <button type="submit" class="control-panel-button control-panel-button-primary">
-                    <i class="fas fa-save"></i> Save Changes
+                    <i class="fas fa-save"></i> Guardar cambios
                 </button>
                 <button type="button" class="control-panel-button control-panel-button-secondary" onclick="resetForm()">
-                    <i class="fas fa-undo"></i> Reset
+                    <i class="fas fa-undo"></i> Restablecer
                 </button>
                 <a href="{{ route('editor.destinations.index') }}" class="control-panel-button control-panel-button-secondary">
-                    <i class="fas fa-times"></i> Cancel
+                    <i class="fas fa-times"></i> Cancelar
                 </a>
             </div>
         </form>

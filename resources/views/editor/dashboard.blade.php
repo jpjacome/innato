@@ -1,213 +1,123 @@
 <x-editor-layout>
     <div class="control-panel-card welcome-card">
-        <h2 class="control-panel-title">Welcome, {{ Auth::user()->name }}</h2>
-        <p class="control-panel-subtitle">Editor Dashboard - Manage Destination Content</p>
-        
-        <div class="control-panel-grid" id="control-panel-grid-1">
-            <!-- Destinations Stats -->
-            <div class="control-panel-card stats-card">
-                <h3 class="control-panel-subtitle">
-                    <i class="fas fa-map-marker-alt"></i>
-                    Destinations
-                </h3>
-                <p class="control-panel-stat">{{ $destinationsCount }}</p>
-                <p class="control-panel-stat-description">Total destinations to manage</p>
-            </div>
-            
-            <!-- Recent Activity -->
-            <div class="control-panel-card stats-card">
-                <h3 class="control-panel-subtitle">
-                    <i class="fas fa-edit"></i>
-                    Quick Access
-                </h3>
-                <a href="{{ route('editor.destinations.index') }}" class="control-panel-button">
-                    Manage Destinations
-                </a>
-            </div>
-        </div>
+        <h2 class="control-panel-title">Bienvenido, {{ Auth::user()->name }}</h2>
     </div>
 
     <!-- Destinations Overview -->
     <div class="control-panel-card">
         <h3 class="control-panel-subtitle">
             <i class="fas fa-list"></i>
-            Your Destinations
+            Tus Destinos
         </h3>
-        
         @if($destinations->count() > 0)
-            <div class="destinations-grid">
-                @foreach($destinations as $destination)
-                    <div class="destination-card">
-                        <div class="destination-header">
-                            <h4>
-                                <a href="{{ route('destination.show', $destination->slug) }}" target="_blank" class="destination-title-link">
-                                    {{ $destination->title }}
-                                    <i class="fas fa-external-link-alt"></i>
-                                </a>
-                            </h4>
-                            <span class="destination-status status-{{ $destination->status }}">
-                                {{ ucfirst($destination->status) }}
-                            </span>
-                        </div>
-                        <p class="destination-subtitle">{{ $destination->subtitle }}</p>
-                        <p class="destination-location">📍 {{ $destination->province }}, {{ $destination->canton }}</p>
-                        
-                        <div class="destination-actions">
-                            <a href="{{ route('destination.show', $destination->slug) }}" target="_blank" class="control-panel-button control-panel-button-secondary">
-                                <i class="fas fa-eye"></i> View Page
-                            </a>
-                            <a href="{{ route('editor.destinations.edit', $destination) }}" class="control-panel-button control-panel-button-primary">
-                                <i class="fas fa-edit"></i> Edit Content
-                            </a>
-                        </div>
-                    </div>
-                @endforeach
+            <div class="destinations-table-container">
+                <table class="destinations-table">
+                    <thead>
+                        <tr>
+                            <th>Destino</th>
+                            <th>Tipo</th>
+                            <th>Ubicación</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($destinations as $destination)
+                            <tr>
+                                <td>
+                                    <div class="destination-info">
+                                        <h4>
+                                            <a href="{{ route('destination.show', $destination->slug) }}" target="_blank" class="destination-title-link">
+                                                {{ $destination->title }}
+                                                <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                        </h4>
+                                        <p>{{ $destination->subtitle }}</p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="destination-type">{{ $destination->subtitle }}</span>
+                                </td>
+                                <td>
+                                    <div class="location-info">
+                                        <span>{{ $destination->province }}</span>
+                                        <small>{{ $destination->canton }}</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="status-badge status-{{ $destination->status }}">
+                                        {{ ucfirst($destination->status) }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <a href="{{ route('destination.show', $destination->slug) }}" 
+                                           class="control-panel-button control-panel-button-secondary btn-sm"
+                                           target="_blank">
+                                            <i class="fas fa-external-link-alt"></i> Ver página pública
+                                        </a>
+                                        <a href="{{ route('editor.destinations.edit', $destination) }}" 
+                                           class="control-panel-button control-panel-button-primary btn-sm">
+                                            <i class="fas fa-edit"></i> Editar
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         @else
             <div class="empty-state">
                 <i class="fas fa-map-marker-alt fa-3x"></i>
-                <h4>No destinations found</h4>
-                <p>There are no destinations available for editing at the moment.</p>
+                <h4>No se encontraron destinos</h4>
+                <p>No hay destinos disponibles para editar en este momento.</p>
             </div>
         @endif
     </div>
 
-    <!-- Custom Styles for Editor Dashboard -->
-    <style>
-        .destinations-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1rem;
-        }
-
-        .destination-card {
-            background: var(--control-panel-card-bg);
-            border: 1px solid var(--control-panel-border);
-            border-radius: 8px;
-            padding: 1.5rem;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .destination-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .destination-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 0.5rem;
-        }
-
-        .destination-header h4 {
-            margin: 0;
-            color: var(--control-panel-text);
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-
-        .destination-title-link {
-            color: var(--control-panel-text);
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: color 0.2s;
-        }
-
-        .destination-title-link:hover {
-            color: var(--control-panel-accent);
-            text-decoration: none;
-        }
-
-        .destination-title-link i {
-            font-size: 0.8rem;
-            opacity: 0.7;
-        }
-
-        .destination-status {
-            padding: 0.25rem 0.75rem;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .status-active {
-            background: #10b981;
-            color: white;
-        }
-
-        .status-inactive {
-            background: #6b7280;
-            color: white;
-        }
-
-        .destination-subtitle {
-            color: var(--control-panel-text-muted);
-            margin: 0.5rem 0;
-            font-size: 0.9rem;
-        }
-
-        .destination-location {
-            color: var(--control-panel-text-muted);
-            margin: 0.5rem 0;
-            font-size: 0.85rem;
-        }
-
-        .destination-actions {
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--control-panel-border);
-            display: flex;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-        }
-
-        .destination-actions .control-panel-button {
-            flex: 1;
-            min-width: 120px;
-            text-align: center;
-            font-size: 0.85rem;
-            padding: 0.5rem 1rem;
-        }
-
-        .control-panel-button-secondary {
-            background: var(--control-panel-border);
-            color: var(--control-panel-text);
-            border: 1px solid var(--control-panel-border);
-        }
-
-        .control-panel-button-secondary:hover {
-            background: var(--control-panel-text-muted);
-            color: white;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 3rem 1rem;
-            color: var(--control-panel-text-muted);
-        }
-
-        .empty-state i {
-            color: var(--control-panel-text-muted);
-            opacity: 0.5;
-            margin-bottom: 1rem;
-        }
-
-        .empty-state h4 {
-            margin: 1rem 0 0.5rem 0;
-            color: var(--control-panel-text);
-        }
-
-        .control-panel-stat-description {
-            font-size: 0.8rem;
-            color: var(--control-panel-text-muted);
-            margin-top: 0.25rem;
-        }
-    </style>
+    <!-- Latest Reservations Overview -->
+    <div class="control-panel-card">
+        <h3 class="control-panel-subtitle dashboard-subtitle">
+            <i class="fas fa-calendar-check"></i>
+            Últimas Reservas
+        </h3>
+        @if(isset($reservations) && $reservations->count() > 0)
+            <table class="control-panel-table">
+                <thead>
+                    <tr>
+                        <th>Nombre del huésped</th>
+                        <th>Email</th>
+                        <th>Fecha</th>
+                        <th>Destino</th>
+                        <th>Personas</th>
+                        <th>Teléfono</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($reservations as $reservation)
+                        <tr>
+                            <td>{{ $reservation->name }}</td>
+                            <td>{{ $reservation->email }}</td>
+                            <td>{{ $reservation->date }}</td>
+                            <td>{{ $reservation->destination ? $reservation->destination->title : '-' }}</td>
+                            <td>{{ $reservation->people_count }}</td>
+                            <td>{{ $reservation->phone_number }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            <nav role="navigation" aria-label="Pagination Navigation" class="pagination-nav control-panel-pagination">
+                {{ $reservations->links() }}
+            </nav>
+        @else
+            <div class="empty-state">
+                <i class="fas fa-calendar-times fa-2x"></i>
+                <h4>No se encontraron reservas</h4>
+                <p>No hay reservas para tus destinos aún.</p>
+            </div>
+        @endif
+    </div>
 
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">

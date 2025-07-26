@@ -1,3 +1,5 @@
+
+
 /* #region COLOR VARIABLES */
 /* ========== COLOR VARIABLES ========== */
 :root {
@@ -196,11 +198,6 @@ header {
     left: 0;
     width: 100%;
     z-index: 1001;
-}
-@media (max-width: 600px) {
-  header{
-    padding: 1rem 1.5rem;
-  }
 }
 
 .header-bar{

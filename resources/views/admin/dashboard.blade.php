@@ -1,19 +1,19 @@
 
 <x-control-panel-layout>
     <div class="control-panel-card welcome-card">
-        <h2 class="control-panel-title">Welcome, {{ Auth::user()->name }}</h2>
+        <h2 class="control-panel-title">Bienvenid@, {{ Auth::user()->name }}</h2>
     </div>
 
     <div class="control-panel-card">
-        <h2 class="control-panel-title">Latest Reservations</h2>
+        <h2 class="control-panel-title">Reservas más recientes</h2>
         <table class="control-panel-table">
             <thead>
                 <tr>
-                    <th>Guest Name</th>
-                    <th>Email</th>
-                    <th>Date</th>
-                    <th>Destination</th>
-                    <th>Actions</th>
+                    <th>Nombre del huésped</th>
+                    <th>Correo electrónico</th>
+                    <th>Fecha</th>
+                    <th>Destino</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,12 +24,12 @@
                         <td>{{ $reservation->date }}</td>
                         <td>{{ $reservation->destination ? $reservation->destination->title : '-' }}</td>
                         <td class="control-panel-actions-cell">
-                            <button class="control-panel-button control-panel-button-danger reservation-delete-button" data-id="{{ $reservation->id }}">Delete</button>
+                            <button class="control-panel-button control-panel-button-danger reservation-delete-button" data-id="{{ $reservation->id }}">Eliminar</button>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="control-panel-text-muted">No reservations found.</td>
+                        <td colspan="5" class="control-panel-text-muted">No se encontraron reservas.</td>
                     </tr>
                 @endforelse
             </tbody>

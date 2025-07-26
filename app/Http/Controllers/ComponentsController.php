@@ -26,12 +26,35 @@ class ComponentsController extends Controller
             'nav_contact_text' => 'required|string|max:255',
             'nav_reviews_text' => 'required|string|max:255',
             'search_placeholder' => 'required|string|max:255',
-            'header_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'header_logo' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048', // allow SVG and images
         ]);
 
         // Handle logo upload
         if ($request->hasFile('header_logo')) {
-            $logoPath = $request->file('header_logo')->move(public_path('assets/imgs'), 'logo.svg');
+            $file = $request->file('header_logo');
+            $ext = strtolower($file->getClientOriginalExtension());
+            $allowed = ['jpeg','jpg','png','gif','svg'];
+            if (in_array($ext, $allowed)) {
+                $filename = 'logo.' . $ext;
+                $targetPath = public_path('assets/imgs/' . $filename);
+                try {
+                    $file->move(public_path('assets/imgs'), $filename);
+                    // Touch the file to update its modified time
+                    @touch($targetPath);
+                    // Optionally, remove old logo files with other extensions
+                    foreach ($allowed as $oldExt) {
+                        if ($oldExt !== $ext) {
+                            $oldPath = public_path('assets/imgs/logo.' . $oldExt);
+                            if (file_exists($oldPath)) {
+                                @unlink($oldPath);
+                            }
+                        }
+                    }
+                } catch (\Exception $e) {
+                    \Log::error('Header logo upload failed: ' . $e->getMessage());
+                    return redirect()->back()->withErrors(['header_logo' => 'Logo upload failed. Please check permissions or file type.']);
+                }
+            }
         }
 
         // For now, we'll just update a settings record to store the navigation texts

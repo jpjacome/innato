@@ -1,59 +1,59 @@
 <x-control-panel-layout>
-    <div class="control-panel-card">
-        <div class="page-header" style="margin-bottom: 0;">
+    <div class="control-panel-card edit-destinations-card">
+        <div class="page-header">
             <h2 class="control-panel-title">
                 <i class="fas fa-map-marker-alt"></i>
-                Admin - Manage All Destinations
+                Admin - Gestionar todos los destinos
             </h2>
-            <p class="control-panel-subtitle">View and edit all destinations with their assigned editors</p>
+            <p class="control-panel-subtitle">Ver y editar todos los destinos con sus editores asignados</p>
 
             <div class="control-panel-card regions-container">
-                <h3 class="control-panel-subtitle"><i class="fas fa-globe"></i> Manage Regions</h3>
+                <h3 class="control-panel-subtitle"><i class="fas fa-globe"></i> Gestionar regiones</h3>
                 <div id="regionsManager">
-                    <ul id="regionsList" style="margin-bottom:1rem;">
+                    <ul id="regionsList" class="regions-list">
                         <!-- Regions will be loaded here -->
                     </ul>
-                    <input type="text" id="newRegionInput" placeholder="Add new region..." style="padding:0.5rem; border:1px solid #ccc; border-radius:4px; margin-right:0.5rem;">
-                    <button type="button" id="addRegionBtn" class="control-panel-button control-panel-button-primary">Add Region</button>
+                    <input type="text" id="newRegionInput" placeholder="Agregar nueva región..." class="region-input">
+                    <button type="button" id="addRegionBtn" class="control-panel-button control-panel-button-primary">Agregar región</button>
                 </div>
             </div>
-            <div style="margin-top: 1rem;">
+            <div class="add-destination-btn-wrapper">
                 <button type="button" class="control-panel-button control-panel-button-primary" id="addDestinationBtn">
-                    <i class="fas fa-plus"></i> Add Destination
+                    <i class="fas fa-plus"></i> Agregar destino
                 </button>
             </div>
             <!-- Add Destination Modal -->
-            <div id="addDestinationModal" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4); justify-content:center; align-items:center;">
-                <div class="modal-content" style="background:#fff; padding:2rem; border-radius:8px; min-width:320px; max-width:90vw; box-shadow:0 2px 16px rgba(0,0,0,0.2); position:relative;">
-                    <button type="button" id="closeModalBtn" style="position:absolute; top:1rem; right:1rem; background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
-                    <h3 style="margin-bottom:1rem;">Create New Destination</h3>
+            <div id="addDestinationModal" class="modal" style="display:none;">
+                <div class="modal-content">
+                    <button type="button" id="closeModalBtn" class="modal-close-btn">&times;</button>
+                    <h3 class="modal-title">Crear nuevo destino</h3>
                     <form id="createDestinationForm">
-                        <div style="margin-bottom:1rem;">
-                            <label for="destinationName" style="display:block; margin-bottom:0.5rem;">Destination Name</label>
-                            <input type="text" id="destinationName" name="destinationName" class="form-control" required style="width:100%; padding:0.5rem; border:1px solid #ccc; border-radius:4px;">
+                        <div class="modal-form-group">
+                            <label for="destinationName">Nombre del destino</label>
+                            <input type="text" id="destinationName" name="destinationName" class="form-control" required>
                         </div>
-                        <div style="margin-bottom:1rem;">
-                            <label for="editorSelect" style="display:block; margin-bottom:0.5rem;">Assign Editor</label>
-                            <select id="editorSelect" name="editorSelect" class="form-control" required style="width:100%; padding:0.5rem; border:1px solid #ccc; border-radius:4px;">
-                                <option value="">Select an editor...</option>
+                        <div class="modal-form-group">
+                            <label for="editorSelect">Asignar editor</label>
+                            <select id="editorSelect" name="editorSelect" class="form-control" required>
+                                <option value="">Selecciona un editor...</option>
                                 <!-- Editor options will be populated by backend -->
                             </select>
                         </div>
-                        <div style="margin-bottom:1rem;">
-                            <label for="destinationSlug" style="display:block; margin-bottom:0.5rem;">Destination Slug</label>
-                            <div style="font-size:0.9rem; color:#888; margin-bottom:0.25rem;">
-                                URL: <span>/destination/</span><span id="slugPreview" style="font-weight:600;"></span>
+                        <div class="modal-form-group">
+                            <label for="destinationSlug">Slug del destino</label>
+                            <div class="modal-url-preview">
+                                URL: <span>/destino/</span><span id="slugPreview"></span>
                             </div>
-                            <input type="text" id="destinationSlug" name="destinationSlug" class="form-control" required style="width:100%; padding:0.5rem; border:1px solid #ccc; border-radius:4px;" placeholder="e.g. playa-libertador">
+                            <input type="text" id="destinationSlug" name="destinationSlug" class="form-control" required placeholder="ej. playa-libertador">
                         </div>
-                        <div style="margin-bottom:1rem;">
-                            <label for="destinationRegion" style="display:block; margin-bottom:0.5rem;">Region</label>
-                            <select id="destinationRegion" name="destinationRegion" class="form-control" required style="width:100%; padding:0.5rem; border:1px solid #ccc; border-radius:4px;">
-                                <option value="">Select a region...</option>
+                        <div class="modal-form-group">
+                            <label for="destinationRegion">Región</label>
+                            <select id="destinationRegion" name="destinationRegion" class="form-control" required>
+                                <option value="">Selecciona una región...</option>
                                 <!-- Regions will be loaded dynamically -->
                             </select>
                         </div>
-                        <button type="submit" class="control-panel-button control-panel-button-primary">Create Destination</button>
+                        <button type="submit" class="control-panel-button control-panel-button-primary">Crear destino</button>
                     </form>
                 </div>
             </div>
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 var select = document.getElementById('editorSelect');
-                select.innerHTML = '<option value="">Select an editor...</option>';
+                select.innerHTML = '<option value="">Selecciona un editor...</option>';
                 data.forEach(function(editor) {
                     var option = document.createElement('option');
                     option.value = editor.id;
@@ -76,14 +76,14 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(() => {
                 var select = document.getElementById('editorSelect');
-                select.innerHTML = '<option value="">Could not load editors</option>';
+                select.innerHTML = '<option value="">No se pudieron cargar los editores</option>';
             });
         // Fetch regions for dropdown
         fetch('/admin/regions-list')
             .then(response => response.json())
             .then(data => {
                 var regionSelect = document.getElementById('destinationRegion');
-                regionSelect.innerHTML = '<option value="">Select a region...</option>';
+                regionSelect.innerHTML = '<option value="">Selecciona una región...</option>';
                 data.forEach(function(region) {
                     var option = document.createElement('option');
                     option.value = region;
@@ -123,10 +123,10 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(result => {
             if (result.success) {
-                alert('Destination created successfully!');
+                alert('¡Destino creado exitosamente!');
                 window.location.reload();
             } else {
-                alert('Error creating destination.');
+                alert('Error al crear el destino.');
             }
         })
         .catch(() => {
@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Delete destination handler
     document.querySelectorAll('.delete-destination-btn').forEach(function(btn) {
         btn.addEventListener('click', function() {
-            if (confirm('Are you sure you want to delete this destination?')) {
+            if (confirm('¿Estás seguro de que deseas eliminar este destino?')) {
                 var id = btn.getAttribute('data-id');
                 fetch('/admin/destinations/' + id, {
                     method: 'DELETE',
@@ -147,14 +147,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(response => response.json())
                 .then(result => {
                     if (result.success) {
-                        alert('Destination deleted successfully!');
+                        alert('¡Destino eliminado exitosamente!');
                         window.location.reload();
                     } else {
-                        alert('Error deleting destination.');
+                        alert('Error al eliminar el destino.');
                     }
                 })
                 .catch(() => {
-                    alert('Error deleting destination.');
+                    alert('Error al eliminar el destino.');
                 });
             }
         });
@@ -175,11 +175,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         li.style.alignItems = 'center';
                         li.style.marginBottom = '0.5rem';
                         const delBtn = document.createElement('button');
-                        delBtn.textContent = 'Delete';
+                        delBtn.textContent = 'Eliminar';
                         delBtn.className = 'control-panel-button control-panel-button-secondary region-delete-button';
                         delBtn.style.marginLeft = '1rem';
                         delBtn.onclick = function() {
-                            if (confirm('Delete region "' + region + '"?')) {
+                        if (confirm('¿Eliminar la región "' + region + '"?')) {
                                 fetch('/admin/regions-delete', {
                                     method: 'POST',
                                     headers: {
@@ -222,11 +222,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 <table class="destinations-table">
                     <thead>
                         <tr>
-                            <th>Destination</th>
-                            <th>Location</th>
-                            <th>Assigned Editor</th>
-                            <th>Status</th>
-                            <th>Actions</th>
+                            <th>Destino</th>
+                            <th>Ubicación</th>
+                            <th>Editor asignado</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -255,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                             <span class="editor-name">{{ $destination->assignedEditor->name }}</span>
                                             <small class="editor-email">{{ $destination->assignedEditor->email }}</small>
                                         @else
-                                            <span class="no-editor">No editor assigned</span>
+                                            <span class="no-editor">Sin editor asignado</span>
                                         @endif
                                     </div>
                                 </td>
@@ -269,14 +269,14 @@ document.addEventListener('DOMContentLoaded', function() {
                                         <a href="{{ route('destination.show', $destination->slug) }}" 
                                            class="control-panel-button control-panel-button-secondary btn-sm"
                                            target="_blank">
-                                            <i class="fas fa-eye"></i> View
+                                            <i class="fas fa-eye"></i> Ver
                                         </a>
                                         <a href="{{ route('admin.destinations.edit', $destination) }}" 
                                            class="control-panel-button control-panel-button-primary btn-sm">
-                                            <i class="fas fa-edit"></i> Edit
+                                            <i class="fas fa-edit"></i> Editar
                                         </a>
                                         <button class="control-panel-button control-panel-button-danger btn-sm delete-destination-btn" data-id="{{ $destination->id }}">
-                                            <i class="fas fa-trash"></i> Delete
+                                            <i class="fas fa-trash"></i> Eliminar
                                         </button>
                                     </div>
                                 </td>
@@ -288,21 +288,13 @@ document.addEventListener('DOMContentLoaded', function() {
         @else
             <div class="empty-state">
                 <i class="fas fa-map-marker-alt fa-3x"></i>
-                <h4>No destinations found</h4>
-                <p>There are no destinations in the system at the moment.</p>
+                <h4>No se encontraron destinos</h4>
+                <p>No hay destinos en el sistema en este momento.</p>
             </div>
         @endif
     </div>
 
     <!-- Custom Styles for Admin Destinations Table -->
-    <style>
-        .page-header {
-            margin-bottom: 2rem;
-            border-bottom: 1px solid var(--control-panel-border);
-        }
-
-        
-    </style>
 
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">

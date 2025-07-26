@@ -27,7 +27,6 @@ use Illuminate\Support\Facades\Storage;
     <header class="control-panel-header">
         <div class="control-panel-header-content">
             <div class="control-panel-logo">
-                <x-interactive-icon size="40px" />
                 @if(isset($settings) && $settings && isset($settings->logo) && $settings->logo && $settings->show_logo)
                     <img src="{{ Storage::url($settings->logo) }}" alt="Logo" class="control-panel-logo-image">
                 @else
@@ -46,6 +45,7 @@ use Illuminate\Support\Facades\Storage;
                 <a href="/home" class="control-panel-button header-nav-button" target="_blank">Home</a>
                 <a href="{{ route('editor.dashboard') }}" class="control-panel-button {{ request()->routeIs('editor.dashboard') ? 'active' : '' }} header-nav-button">Panel Principal</a>
                 <a href="{{ route('editor.destinations.index') }}" class="control-panel-button {{ request()->routeIs('editor.destinations.*') ? 'active' : '' }} header-nav-button">Destinos</a>
+                <a href="{{ route('editor.users.index') }}" class="control-panel-button header-nav-button">Usuarios</a>
                 
                 <button onclick="toggleTheme()" class="control-panel-button control-panel-button-secondary">
                     <svg xmlns="http://www.w3.org/2000/svg" class="control-panel-icon dark-icon" viewBox="0 0 20 20" fill="currentColor">
@@ -72,6 +72,7 @@ use Illuminate\Support\Facades\Storage;
             <a href="/home" class="control-panel-button" target="_blank">Home</a>
             <a href="{{ route('editor.dashboard') }}" class="control-panel-button {{ request()->routeIs('editor.dashboard') ? 'active' : '' }}">Panel Principal</a>
             <a href="{{ route('editor.destinations.index') }}" class="control-panel-button {{ request()->routeIs('editor.destinations.*') ? 'active' : '' }}">Destinos</a>
+            <a href="{{ route('editor.users.index') }}" class="control-panel-button">Usuarios</a>
             
             <button onclick="toggleTheme()" class="control-panel-button control-panel-button-secondary">
                 <svg xmlns="http://www.w3.org/2000/svg" class="control-panel-icon dark-icon-mobile" viewBox="0 0 20 20" fill="currentColor">

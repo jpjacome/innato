@@ -689,11 +689,19 @@ body{
 
 @media (max-width: 600px) {
     .destination-bento-grid {
+        display: grid;
         grid-template-columns: 1fr;
+        width: 100%;
+        max-width: 100%;
         gap: 1rem;
         margin-top: 1.5rem;
         margin-bottom: 3rem;
-        max-width: 100%;
+        box-sizing: border-box;
+        outline: 2px dashed #e3342f; /* DEBUG: Remove after confirming */
+    }
+    .destination-bento-grid > * {
+        grid-column: 1 / -1 !important;
+    }
     }
 }
 

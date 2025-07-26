@@ -2,7 +2,7 @@
     <div class="control-panel-card">
         <div class="flex justify-between items-center mb-6">
             <h2 class="control-panel-title">User Management</h2>
-            <a href="{{ route('users.create') }}" class="control-panel-button">
+            <a href="{{ route('users.create') }}" class="control-panel-button create-user-button">
                 Create New User
             </a>
         </div>

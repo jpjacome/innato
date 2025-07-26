@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Destination extends Model
 {
+    // ...existing code...
     protected $fillable = [
         'slug',
         'title',

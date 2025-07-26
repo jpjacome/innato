@@ -10,8 +10,14 @@ class UserManagementController extends Controller
 {
     public function index()
     {
-        $users = User::all();
-        return view('admin.users.index', compact('users'));
+        $user = auth()->user();
+        if ($user->isAdmin()) {
+            $users = User::all();
+            return view('admin.users.index', compact('users'));
+        } else {
+            $users = collect([$user]);
+            return view('editor.users.index', compact('users'));
+        }
     }
 
     public function create()
@@ -21,7 +27,23 @@ class UserManagementController extends Controller
 
     public function edit(User $user)
     {
-        return view('admin.users.edit', compact('user'));
+        $authUser = auth()->user();
+        // Admins can edit any user, editors can only edit themselves
+        if ($authUser->isAdmin()) {
+            return view('admin.users.edit', compact('user'));
+        } elseif ($authUser->isEditor() && $authUser->id == $user->id) {
+            return view('editor.users.edit', compact('user'));
+        }
+
+        // Debug information
+        \Log::info('User edit access denied', [
+            'auth_user_id' => $authUser->id,
+            'auth_user_role' => $authUser->role,
+            'requested_user_id' => $user->id,
+            'comparison_result' => $authUser->id == $user->id
+        ]);
+
+        abort(403, 'Unauthorized action.');
     }
 
     public function store(Request $request)
@@ -47,6 +69,23 @@ class UserManagementController extends Controller
 
     public function update(Request $request, User $user)
     {
+        $authUser = auth()->user();
+
+        // Check permissions: admins can update any user, editors can only update themselves
+        if (!$authUser->isAdmin() && (!$authUser->isEditor() || $authUser->id != $user->id)) {
+            \Log::info('User update access denied', [
+                'auth_user_id' => $authUser->id,
+                'auth_user_role' => $authUser->role,
+                'requested_user_id' => $user->id
+            ]);
+            abort(403, 'Unauthorized action.');
+        }
+
+        // For editors, ensure they can't change their role
+        if ($authUser->isEditor() && $authUser->id == $user->id) {
+            $request->merge(['role' => 'editor']);
+        }
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
@@ -83,4 +122,4 @@ class UserManagementController extends Controller
         $user->delete();
         return back()->with('success', 'User deleted successfully.');
     }
-} 
+}

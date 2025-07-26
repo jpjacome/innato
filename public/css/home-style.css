@@ -1,3 +1,4 @@
+
 /* #region HERO */
 /* ========== HERO SECTION ========== */
 .hero {
@@ -332,9 +333,26 @@
 
 }
 
-.destinations-section .innato-map-container .region:hover {
-  filter: brightness(1.2) drop-shadow(0 2px 8px #0a735555);
-  opacity: 0.85;
+  .destinations-section .innato-map-container .region:hover {
+    filter: brightness(1.2) drop-shadow(0 2px 8px #0a735555);
+    opacity: 0.85;
+  }
+
+/* Tooltip for map regions */
+.map-tooltip {
+  position: fixed;
+  background: var(--color-4, #0a7355);
+  color: #fff;
+  padding: 0.45em 1em;
+  border-radius: 6px;
+  font-size: 1.05em;
+  font-weight: 500;
+  box-shadow: 0 2px 12px 0 #0002;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 1000;
+  opacity: 0.97;
+  transition: opacity 0.15s, transform 0.15s;
 }
 @media (max-width: 900px) {
   .destinations-section .innato-map-container {
@@ -645,4 +663,23 @@
   100% {
     transform: translateX(-50%);
   }
+}
+
+.region-link span{
+  color: var(--color-2);
+}
+.highlighted {
+  position: relative;
+  color: var(--color-4);
+  font-weight: bold;
+}
+.highlighted::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -2px;
+  height: 3px;
+  background: var(--color-4);
+  border-radius: 2px;
+  width: 100%;
+  display: block;
 }

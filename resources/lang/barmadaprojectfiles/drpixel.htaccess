@@ -1,0 +1,11 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Forward /innato requests to innato/public
+    RewriteCond %{REQUEST_URI} ^/innato(?:/|$)
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^innato/(.*)$ innato/public/$1 [L]
+
+    # (Optional) Add any other rules for your main site below
+</IfModule>

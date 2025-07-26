@@ -2,11 +2,11 @@
     <div class="control-panel-card control-panel-with-fixed-actions">
         <div class="control-panel-header-flex">
             <a href="{{ route('admin.pages') }}" class="control-panel-button control-panel-button-secondary">
-                <i class="fas fa-arrow-left"></i> Back to Pages
+                <i class="fas fa-arrow-left"></i> Volver a Páginas
             </a>
-            <h2 class="control-panel-title control-panel-title-no-margin">Edit Destinations Page</h2>
+            <h2 class="control-panel-title control-panel-title-no-margin">Editar Página de Destinos</h2>
         </div>
-        <p class="control-panel-text-muted">Edit the content and settings for your Destinations page.</p>
+        <p class="control-panel-text-muted">Edita el contenido y la configuración de tu página de destinos.</p>
 
         @if(session('success'))
             <div class="alert alert-success control-panel-alert-success-custom">
@@ -33,15 +33,15 @@
                 <h3 class="control-panel-subtitle"><i class="fas fa-image"></i> Banner</h3>
                 <div class="control-panel-form-grid">
                     <div>
-                        <label for="banner_title" class="control-panel-label">Banner Title</label>
+                        <label for="banner_title" class="control-panel-label">Título del Banner</label>
                         <input type="text" id="banner_title" name="banner_title" class="control-panel-input" value="{{ old('banner_title', $destinationsSetting->banner_title ?? 'ECUADOR ES UN PARAÍSO, VEÁMOSLO JUNTOS.') }}">
                     </div>
                     <div>
-                        <label for="banner_description" class="control-panel-label">Banner Description</label>
+                        <label for="banner_description" class="control-panel-label">Descripción del Banner</label>
                         <textarea id="banner_description" name="banner_description" class="control-panel-input" rows="3">{{ old('banner_description', $destinationsSetting->banner_description ?? 'Encuentra artículos de aventura y actividades al aire libre, artesanías, cultura, festividades, gastronomía, vida silvestre, tradiciones, leyendas, sitios históricos y más.') }}</textarea>
                     </div>
                     <div>
-                        <label for="banner_image" class="control-panel-label">Banner Image</label>
+                        <label for="banner_image" class="control-panel-label">Imagen del Banner</label>
                         @if(!empty($destinationsSetting->banner_image))
                             <div><img src="{{ asset('storage/' . $destinationsSetting->banner_image) }}" alt="Banner" style="max-width:120px;"></div>
                         @endif
@@ -52,7 +52,7 @@
 
             <!-- Headline Section -->
             <div class="control-panel-card pages-card control-panel-form-section">
-                <h3 class="control-panel-subtitle"><i class="fas fa-users"></i> Headline Cards</h3>
+                <h3 class="control-panel-subtitle"><i class="fas fa-users"></i> Tarjetas de Encabezado</h3>
                 @php
                     $defaultHeadlineCards = [
                         [
@@ -122,11 +122,11 @@
                 <h3 class="control-panel-subtitle"><i class="fas fa-map-marker-alt"></i> Destinos</h3>
                 <div class="control-panel-form-grid">
                     <div>
-                        <label for="destinations_title" class="control-panel-label">Destinations Title</label>
+                        <label for="destinations_title" class="control-panel-label">Título de Destinos</label>
                         <input type="text" id="destinations_title" name="destinations_title" class="control-panel-input" value="{{ old('destinations_title', $destinationsSetting->destinations_title ?? 'EXPLORA ECUADOR Y SUS COMUNIDADES') }}">
                     </div>
                     <div>
-                        <label for="destinations_button_text" class="control-panel-label">Button Text</label>
+                        <label for="destinations_button_text" class="control-panel-label">Texto del Botón</label>
                         <input type="text" id="destinations_button_text" name="destinations_button_text" class="control-panel-input" value="{{ old('destinations_button_text', $destinationsSetting->destinations_button_text ?? 'UBICACIÓN') }}">
                     </div>
                 </div>
@@ -178,13 +178,13 @@
     <!-- Fixed Action Buttons -->
     <div class="control-panel-fixed-actions">
         <a href="{{ route('admin.pages') }}" class="control-panel-button">
-            <i class="fas fa-times"></i> Cancel
+            <i class="fas fa-times"></i> Cancelar
         </a>
         <button type="submit" form="destinations-edit-form" class="control-panel-button">
-            <i class="fas fa-save"></i> Save Changes
+            <i class="fas fa-save"></i> Guardar Cambios
         </button>
         <a href="/destinations" target="_blank" class="control-panel-button">
-            <i class="fas fa-external-link-alt"></i> View Destinations Page
+            <i class="fas fa-external-link-alt"></i> Ver Página de Destinos
         </a>
     </div>
 </x-control-panel-layout>

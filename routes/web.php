@@ -162,32 +162,32 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Dashboard - The main entry point for authenticated users
     Route::get('/dashboard', function () {
         $user = auth()->user();
-        
+
         // Redirect users to their role-specific dashboard
         if ($user->isEditor()) {
             return redirect()->route('editor.dashboard');
         }
-        
+
         if ($user->isAdmin()) {
             return redirect()->route('admin.dashboard');
         }
-        
+
         // Fallback for other users - show admin dashboard
         return redirect()->route('admin.dashboard');
     })->name('dashboard');
-    
+
     // Profile Settings
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    
+
     // Theme Toggle
     Route::post('/theme', function () {
         $theme = request('theme', 'light');
         session(['theme' => $theme]);
         return response()->json(['success' => true]);
     })->name('theme.toggle');
-    
+
     // Example routes
     Route::get('/examples/interactive-icon', function () {
         return view('examples.interactive-icon-demo');
@@ -227,33 +227,25 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
             'reservations' => $reservations
         ]);
     })->name('admin.dashboard');
-    
-    // User Management
-    Route::get('/users', [UserManagementController::class, 'index'])->name('users.index');
-    Route::get('/users/create', [UserManagementController::class, 'create'])->name('users.create');
-    Route::post('/users', [UserManagementController::class, 'store'])->name('users.store');
-    Route::get('/users/{user}/edit', [UserManagementController::class, 'edit'])->name('users.edit');
-    Route::put('/users/{user}', [UserManagementController::class, 'update'])->name('users.update');
-    Route::delete('/users/{user}', [UserManagementController::class, 'destroy'])->name('users.destroy');
-    
+
     // Dashboard Settings - Using a single consistent path
     Route::get('/admin/settings', [SettingsController::class, 'index'])->name('admin.settings');
     Route::put('/admin/settings', [SettingsController::class, 'update'])->name('settings.update');
-    
+
     // Hero Settings (for the welcome page)
     Route::get('/hero-settings', [HeroSettingsController::class, 'edit'])->name('hero-settings.edit');
     Route::put('/hero-settings', [HeroSettingsController::class, 'update'])->name('hero-settings.update');
-    
+
     // Telescope integration
     Route::get('/admin/telescope', function () {
         return redirect('/telescope');
     })->name('admin.telescope');
-    
+
     // Pulse integration
     Route::get('/admin/pulse', function () {
         return redirect('/pulse');
     })->name('admin.pulse');
-    
+
     // Admin Destinations Management
     Route::get('/admin/destinations', [AdminDestinationController::class, 'index'])->name('admin.destinations.index');
     Route::get('/admin/destinations/{destination}/edit', [AdminDestinationController::class, 'edit'])->name('admin.destinations.edit');
@@ -266,6 +258,19 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
         }
         return response()->json(['success' => false], 404);
     });
+
+    // Admin User Creation Routes
+    Route::get('/users/create', [UserManagementController::class, 'create'])->name('users.create');
+    Route::post('/users', [UserManagementController::class, 'store'])->name('users.store');
+    Route::delete('/users/{user}', [UserManagementController::class, 'destroy'])->name('users.destroy');
+});
+
+// User Management - accessible to admins and editors
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/users', [UserManagementController::class, 'index'])->name('users.index');
+    // Editors and admins can edit their own user; admins can edit anyone
+    Route::get('/users/{user}/edit', [UserManagementController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{user}', [UserManagementController::class, 'update'])->name('users.update');
 });
 
 // Admin and Editor Routes
@@ -285,7 +290,7 @@ Route::middleware(['auth', EditorMiddleware::class])->group(function () {
     // Experience Center Page Admin Edit
     Route::get('/admin/pages/edit-experience-center', [\App\Http\Controllers\ExperienceCenterController::class, 'edit'])->name('admin.experience-center.edit');
     Route::post('/admin/pages/edit-experience-center', [\App\Http\Controllers\ExperienceCenterController::class, 'update'])->name('admin.experience-center.update');
-    
+
     // Component Routes
     Route::get('/admin/components/edit-header', [\App\Http\Controllers\ComponentsController::class, 'editHeader'])->name('admin.components.edit-header');
     Route::put('/admin/components/edit-header', [\App\Http\Controllers\ComponentsController::class, 'updateHeader'])->name('admin.components.update-header');
@@ -297,7 +302,7 @@ Route::middleware(['auth', EditorMiddleware::class])->group(function () {
     Route::post('/admin/reviews', [\App\Http\Controllers\Admin\ReviewController::class, 'store'])->name('admin.reviews.store');
     Route::put('/admin/reviews/{review}', [\App\Http\Controllers\Admin\ReviewController::class, 'update'])->name('admin.reviews.update');
     Route::delete('/admin/reviews/{review}', [\App\Http\Controllers\Admin\ReviewController::class, 'destroy'])->name('admin.reviews.destroy');
-    
+
     // Maintenance Logs Management
     Route::get('/admin/maintenance', [App\Http\Controllers\Admin\MaintenanceLogController::class, 'index'])->name('admin.maintenance.index');
     Route::get('/admin/maintenance/create', [App\Http\Controllers\Admin\MaintenanceLogController::class, 'create'])->name('admin.maintenance.create');
@@ -315,6 +320,10 @@ Route::middleware(['auth', EditorMiddleware::class])->prefix('editor')->name('ed
     Route::get('/destinations', [\App\Http\Controllers\Editor\EditorDestinationController::class, 'index'])->name('destinations.index');
     Route::get('/destinations/{destination}/edit', [\App\Http\Controllers\Editor\EditorDestinationController::class, 'edit'])->name('destinations.edit');
     Route::put('/destinations/{destination}', [\App\Http\Controllers\Editor\EditorDestinationController::class, 'update'])->name('destinations.update');
+    // Editor user routes
+    Route::get('/users', [\App\Http\Controllers\Editor\UserController::class, 'index'])->name('users.index');
+    Route::get('/users/{user}/edit', [\App\Http\Controllers\Editor\UserController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{user}', [\App\Http\Controllers\Editor\UserController::class, 'update'])->name('users.update');
 });
 
 // Reservation routes
@@ -330,7 +339,7 @@ Route::fallback(function() {
     if (request()->path() === '/') {
         return app()->make(WelcomeController::class)->index();
     }
-    
+
     abort(404);
 });
 

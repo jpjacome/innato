@@ -3,34 +3,45 @@
 @endphp
 
 <x-editor-layout>
-    <div class="control-panel-card">
+    <div class="control-panel-card destination-card">
         <div class="page-header">
             <div class="header-content">
                 <div class="header-info">
                     <h2 class="control-panel-title">
-                        <i class="ph ph-pencil-simple"></i>
+                        <i class="fas fa-edit"></i>
                         Edit Destination: {{ $destination->title }}
                     </h2>
-                    <p class="control-panel-subtitle">Manage all content for this destination</p>
+                    <p class="control-panel-subtitle">Admin editing mode - All fields available</p>
                 </div>
                 <div class="header-actions">
-                    <a href="{{ route('editor.destinations.index') }}" class="control-panel-button control-panel-button-secondary">
-                        <i class="ph ph-arrow-left"></i> Back to Destinations
+                    <a href="{{ route('destination.show', $destination->slug) }}" 
+                       class="control-panel-button control-panel-button-secondary" target="_blank">
+                        <i class="fas fa-eye"></i> View Public Page
+                    </a>
+                    <a href="{{ route('admin.destinations.index') }}" class="control-panel-button control-panel-button-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to Destinations
                     </a>
                 </div>
             </div>
         </div>
 
+        @if($destination->assignedEditor)
+            <div class="editor-info-card">
+                <h3><i class="fas fa-user"></i> Assigned Editor</h3>
+                <p><strong>{{ $destination->assignedEditor->name }}</strong> ({{ $destination->assignedEditor->email }})</p>
+            </div>
+        @endif
+
         @if(session('success'))
             <div class="alert alert-success">
-                <i class="ph ph-check-circle"></i>
+                <i class="fas fa-check-circle"></i>
                 {{ session('success') }}
             </div>
         @endif
 
         @if($errors->any())
             <div class="alert alert-error">
-                <i class="ph ph-warning"></i>
+                <i class="fas fa-exclamation-triangle"></i>
                 Please fix the following errors:
                 <ul>
                     @foreach($errors->all() as $error)
@@ -124,6 +135,15 @@
                             <span class="error-text">{{ $message }}</span>
                         @enderror
                     </div>
+
+                    <div class="form-group">
+                        <label for="slug">Slug *</label>
+                        <input type="text" id="slug" name="slug" value="{{ old('slug', $destination->slug) }}" required>
+                        <small class="form-help">Unique identifier for the URL (e.g. playa-mariscal)</small>
+                        @error('slug')
+                            <span class="error-text">{{ $message }}</span>
+                        @enderror
+                    </div>
                     
                     <div class="form-group">
                         <label for="coordinates">GPS Coordinates</label>
@@ -197,7 +217,7 @@
                 <div class="climate-seasons">
                     <!-- Dry Season -->
                     <div class="season-group">
-                        <h4><i class="ph ph-sun"></i> Dry Season</h4>
+                        <h4><i class="fas fa-sun"></i> Dry Season</h4>
                         <div class="form-grid">
                             <div class="form-group">
                                 <label for="dry_season_name">Season Name</label>
@@ -216,7 +236,7 @@
                     
                     <!-- Wet Season -->
                     <div class="season-group">
-                        <h4><i class="ph ph-cloud-rain"></i> Wet Season</h4>
+                        <h4><i class="fas fa-cloud-rain"></i> Wet Season</h4>
                         <div class="form-grid">
                             <div class="form-group">
                                 <label for="wet_season_name">Season Name</label>
@@ -341,7 +361,7 @@
                     
                     <div class="form-group">
                         <label for="contact_email">Email Address</label>
-                        <input type="email" id="contact_email" name="contact_email" value="{{ old('contact_email', $destination->contact_email) }}">
+                        <input type="email" id="contact_email" name="contact_email" value="{{ old('contact_email', $destination->contact_email) === 'unknown' ? '' : old('contact_email', $destination->contact_email) }}">
                         @error('contact_email')
                             <span class="error-text">{{ $message }}</span>
                         @enderror
@@ -356,8 +376,26 @@
                     <div class="list-header">
                         <h4>Activities List</h4>
                         <button type="button" class="control-panel-button add-item-btn" data-list="activities">
-                            <i class="ph ph-plus"></i> Add Activity
+                            <i class="fas fa-plus"></i> Add Activity
                         </button>
+                        <button type="button" class="control-panel-button" id="open-activities-icons-list-modal">
+                            <i class="ph ph-list"></i> Icons List
+                        </button>
+        <!-- Activities Icons List Modal -->
+        <div id="activitiesIconsListModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:9999; align-items:center; justify-content:center;">
+            <div style="background:#fff; max-width:480px; width:90vw; max-height:80vh; border-radius:12px; box-shadow:0 2px 24px #2225; padding:2rem 1.5rem; overflow:auto; position:relative;">
+                <h3 style="margin-top:0; margin-bottom:1rem; font-size:1.3rem;">Phosphor Icon Names</h3>
+                <button type="button" id="close-activities-icons-list-modal" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
+                <input type="text" id="activitiesIconFilterInput" placeholder="Filter icons..." style="width:100%; margin-bottom:0.75rem; padding:0.4rem 0.7rem; font-size:1rem; border:1px solid #ddd; border-radius:6px;">
+                <div style="max-height:60vh; overflow-y:auto; border:1px solid #eee; border-radius:8px; padding:0.5rem 0.75rem; background:#fafafa;">
+                    <ul id="activitiesIconsListUl" style="list-style:none; margin:0; padding:0; font-size:1.05rem;">
+                        @foreach(file(public_path('assets/phosphor-icon-names.txt')) as $iconName)
+                            <li style="padding:2px 0; border-bottom:1px solid #f0f0f0;">{{ trim($iconName) }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </div>
                     </div>
                     <div class="items-container">
                         @if($destination->activities)
@@ -371,10 +409,11 @@
                                         <div class="form-group">
                                             <label>Activity Name</label>
                                             <input type="text" name="activities[{{ $index }}][name]" value="{{ $activity['name'] ?? $activity }}" required>
+                        <input type="text" name="activities[{{ $index }}][name]" value="{{ $activity['name'] ?? $activity }}">
                                         </div>
                                     </div>
                                     <button type="button" class="remove-item-btn">
-                                        <i class="ph ph-trash"></i>
+                                        <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
                             @endforeach
@@ -436,11 +475,29 @@
                     <div class="list-header">
                         <h4>Available Services</h4>
                         <button type="button" class="control-panel-button add-item-btn" data-list="services">
-                            <i class="ph ph-plus"></i> Add Service
+                            <i class="fas fa-plus"></i> Add Service
                         </button>
+                        <button type="button" class="control-panel-button" id="open-icons-list-modal">
+                            <i class="ph ph-list"></i> Icons List
+                        </button>
+        <!-- Icons List Modal -->
+        <div id="iconsListModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:9999; align-items:center; justify-content:center;">
+            <div style="background:#fff; max-width:480px; width:90vw; max-height:80vh; border-radius:12px; box-shadow:0 2px 24px #2225; padding:2rem 1.5rem; overflow:auto; position:relative;">
+                <h3 style="margin-top:0; margin-bottom:1rem; font-size:1.3rem;">Phosphor Icon Names</h3>
+                <button type="button" id="close-icons-list-modal" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
+                <input type="text" id="iconFilterInput" placeholder="Filter icons..." style="width:100%; margin-bottom:0.75rem; padding:0.4rem 0.7rem; font-size:1rem; border:1px solid #ddd; border-radius:6px;">
+                <div style="max-height:60vh; overflow-y:auto; border:1px solid #eee; border-radius:8px; padding:0.5rem 0.75rem; background:#fafafa;">
+                    <ul id="iconsListUl" style="list-style:none; margin:0; padding:0; font-size:1.05rem;">
+                        @foreach(file(public_path('assets/phosphor-icon-names.txt')) as $iconName)
+                            <li style="padding:2px 0; border-bottom:1px solid #f0f0f0;">{{ trim($iconName) }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </div>
                     </div>
                     <div class="items-container">
-                        @if($destination->services)
+                        @if($destination->services && count($destination->services) > 0)
                             @foreach($destination->services as $index => $service)
                                 <div class="dynamic-item">
                                     <div class="form-grid">
@@ -455,16 +512,39 @@
                                         <div class="form-group">
                                             <label>Available</label>
                                             <select name="services[{{ $index }}][available]">
-                                                <option value="1" {{ ($service['available'] ?? true) ? 'selected' : '' }}>Yes</option>
-                                                <option value="0" {{ !($service['available'] ?? true) ? 'selected' : '' }}>No</option>
+                                                <option value="1" {{ (isset($service['available']) && $service['available']) ? 'selected' : '' }}>Yes</option>
+                                                <option value="0" {{ (isset($service['available']) && !$service['available']) ? 'selected' : '' }}>No</option>
                                             </select>
                                         </div>
                                     </div>
                                     <button type="button" class="remove-item-btn">
-                                        <i class="ph ph-trash"></i>
+                                        <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
                             @endforeach
+                        @else
+                            <div class="dynamic-item">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label>Service Icon</label>
+                                        <input type="text" name="services[0][icon]" value="ph ph-gear" placeholder="ph ph-gear">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Service Name</label>
+                                        <input type="text" name="services[0][name]">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Available</label>
+                                        <select name="services[0][available]">
+                                            <option value="1">Yes</option>
+                                            <option value="0">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button type="button" class="remove-item-btn">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
                         @endif
                     </div>
                 </div>
@@ -513,38 +593,51 @@
             <!-- Criteria Tab -->
             <div class="tab-content" id="criteria-tab">
                 <h3 class="tab-title">Tourism Criteria</h3>
-                <div class="dynamic-list" id="criteria-list">
-                    <div class="list-header">
-                        <h4>Tourism Criteria</h4>
-                        <button type="button" class="control-panel-button add-item-btn" data-list="criteria">
-                            <i class="ph ph-plus"></i> Add Criteria
-                        </button>
+                <div class="form-grid">
+                    <div class="form-group span-full">
+                        <label for="tourism_criteria_access">Acceso a personas de tercera edad y/o con discapacidad</label>
+                        <select id="tourism_criteria_access" name="tourism_criteria[access]">
+                            <option value="SI" {{ (old('tourism_criteria.access', $destination->tourism_criteria['access'] ?? '') == 'SI') ? 'selected' : '' }}>SI</option>
+                            <option value="NO" {{ (old('tourism_criteria.access', $destination->tourism_criteria['access'] ?? '') == 'NO') ? 'selected' : '' }}>NO</option>
+                        </select>
                     </div>
-                    <div class="items-container">
-                        @if($destination->tourism_criteria)
-                            @foreach($destination->tourism_criteria as $index => $criteria)
-                                <div class="dynamic-item">
-                                    <div class="form-grid">
-                                        <div class="form-group">
-                                            <label>Criteria Name</label>
-                                            <input type="text" name="tourism_criteria[{{ $index }}][name]" value="{{ $criteria['name'] }}" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Status</label>
-                                            <select name="tourism_criteria[{{ $index }}][status]" required>
-                                                <option value="positive" {{ $criteria['status'] === 'positive' ? 'selected' : '' }}>Positive</option>
-                                                <option value="neutral" {{ $criteria['status'] === 'neutral' ? 'selected' : '' }}>Neutral</option>
-                                                <option value="negative" {{ $criteria['status'] === 'negative' ? 'selected' : '' }}>Negative</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <button type="button" class="remove-item-btn">
-                                        <i class="ph ph-trash"></i>
-                                    </button>
-                                </div>
-                            @endforeach
-                        @endif
+                    <div class="form-group span-full">
+                        <label for="tourism_criteria_access_status">Estado del acceso para personas de tercera edad y/o con discapacidad</label>
+                        <select id="tourism_criteria_access_status" name="tourism_criteria[access_status]">
+                            <option value="SI" {{ (old('tourism_criteria.access_status', $destination->tourism_criteria['access_status'] ?? '') == 'SI') ? 'selected' : '' }}>SI</option>
+                            <option value="NO" {{ (old('tourism_criteria.access_status', $destination->tourism_criteria['access_status'] ?? '') == 'NO') ? 'selected' : '' }}>NO</option>
+                        </select>
                     </div>
+                    <div class="form-group span-full">
+                        <label for="tourism_criteria_security">Seguridad en los alrededores</label>
+                        <select id="tourism_criteria_security" name="tourism_criteria[security]">
+                            <option value="SI" {{ (old('tourism_criteria.security', $destination->tourism_criteria['security'] ?? '') == 'SI') ? 'selected' : '' }}>SI</option>
+                            <option value="NO" {{ (old('tourism_criteria.security', $destination->tourism_criteria['security'] ?? '') == 'NO') ? 'selected' : '' }}>NO</option>
+                        </select>
+                    </div>
+                    <div class="form-group span-full">
+                        <label for="tourism_criteria_personnel">Cordialidad del Personal</label>
+                        <input type="text" id="tourism_criteria_personnel" name="tourism_criteria[personnel]" value="{{ old('tourism_criteria.personnel', $destination->tourism_criteria['personnel'] ?? '') }}">
+                    </div>
+                    <div class="form-group span-full">
+                        <label for="tourism_criteria_languages">Desempeño del personal en otros idiomas</label>
+                        <select id="tourism_criteria_languages" name="tourism_criteria[languages]">
+                            <option value="SI" {{ (old('tourism_criteria.languages', $destination->tourism_criteria['languages'] ?? '') == 'SI') ? 'selected' : '' }}>SI</option>
+                            <option value="NO" {{ (old('tourism_criteria.languages', $destination->tourism_criteria['languages'] ?? '') == 'NO') ? 'selected' : '' }}>NO</option>
+                        </select>
+                    </div>
+                    <div class="form-group span-full">
+                        <label for="tourism_criteria_decoration">Concepto en la decoración del sitio</label>
+                        <input type="text" id="tourism_criteria_decoration" name="tourism_criteria[decoration]" value="{{ old('tourism_criteria.decoration', $destination->tourism_criteria['decoration'] ?? '') }}">
+                    </div>
+                    <div class="form-group span-full">
+                        <label for="tourism_criteria_waste">Manejo de desechos</label>
+                        <select id="tourism_criteria_waste" name="tourism_criteria[waste]">
+                            <option value="SI" {{ (old('tourism_criteria.waste', $destination->tourism_criteria['waste'] ?? '') == 'SI') ? 'selected' : '' }}>SI</option>
+                            <option value="NO" {{ (old('tourism_criteria.waste', $destination->tourism_criteria['waste'] ?? '') == 'NO') ? 'selected' : '' }}>NO</option>
+                        </select>
+                    </div>
+                </div>
                 </div>
             </div>
 
@@ -580,38 +673,19 @@
 
             <!-- Challenges Tab -->
             <div class="tab-content" id="challenges-tab">
-                <h3 class="tab-title">Environmental Challenges</h3>
-                <div class="dynamic-list" id="challenges-list">
-                    <div class="list-header">
-                        <h4>Environmental Challenges</h4>
-                        <button type="button" class="control-panel-button add-item-btn" data-list="challenges">
-                            <i class="ph ph-plus"></i> Add Challenge
-                        </button>
+                <h3 class="tab-title">Environmental Challenge</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="environmental_challenges_icon">Challenge Icon</label>
+                        <input type="text" id="environmental_challenges_icon" name="environmental_challenges[0][icon]" value="{{ old('environmental_challenges.0.icon', $destination->environmental_challenges[0]['icon'] ?? 'ph ph-trash') }}" placeholder="ph ph-trash">
                     </div>
-                    <div class="items-container">
-                        @if($destination->environmental_challenges)
-                            @foreach($destination->environmental_challenges as $index => $challenge)
-                                <div class="dynamic-item">
-                                    <div class="form-grid">
-                                        <div class="form-group">
-                                            <label>Challenge Icon</label>
-                                            <input type="text" name="environmental_challenges[{{ $index }}][icon]" value="{{ $challenge['icon'] ?? 'ph ph-warning' }}" placeholder="ph ph-warning">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Challenge Title</label>
-                                            <input type="text" name="environmental_challenges[{{ $index }}][title]" value="{{ $challenge['title'] }}" required>
-                                        </div>
-                                        <div class="form-group span-full">
-                                            <label>Challenge Description</label>
-                                            <textarea name="environmental_challenges[{{ $index }}][description]" rows="3" required>{{ $challenge['description'] }}</textarea>
-                                        </div>
-                                    </div>
-                                    <button type="button" class="remove-item-btn">
-                                        <i class="ph ph-trash"></i>
-                                    </button>
-                                </div>
-                            @endforeach
-                        @endif
+                    <div class="form-group">
+                        <label for="environmental_challenges_title">Challenge Title</label>
+                        <input type="text" id="environmental_challenges_title" name="environmental_challenges[0][title]" value="{{ old('environmental_challenges.0.title', $destination->environmental_challenges[0]['title'] ?? 'Contaminación') }}" required>
+                    </div>
+                    <div class="form-group span-full">
+                        <label for="environmental_challenges_description">Challenge Description</label>
+                        <textarea id="environmental_challenges_description" name="environmental_challenges[0][description]" rows="3" required>{{ old('environmental_challenges.0.description', $destination->environmental_challenges[0]['description'] ?? 'Generación de residuos, especialmente plásticos en feriados que contaminan el entorno natural y marino.') }}</textarea>
                     </div>
                 </div>
             </div>
@@ -643,11 +717,21 @@
                 @if($destination->gallery_images && count($destination->gallery_images) > 0)
                     <div class="existing-gallery">
                         <h4>Current Photos</h4>
-                        <div class="gallery-grid">
+                    <div style="margin-bottom: 0.5rem; color: #444; font-size: 0.98rem;">
+                        <strong>Note:</strong> Maximum image size is 5MB. The <strong>first photo</strong> in this gallery will be displayed as the main image in the destination page hero section.
+                    </div>
+                        <div class="gallery-grid" id="galleryGrid">
                             @foreach($destination->gallery_images as $index => $image)
                                 <div class="gallery-item" data-index="{{ $index }}">
+                                    <div class="gallery-position-badge" style="position:absolute;top:8px;left:8px;background:#222;color:#fff;padding:2px 8px;border-radius:12px;font-size:0.9rem;z-index:2;">{{ $index + 1 }}</div>
                                     <img src="{{ Storage::url($image) }}" alt="Gallery image {{ $index + 1 }}">
                                     <div class="gallery-item-actions">
+                                        <button type="button" class="move-left" data-index="{{ $index }}" @if($index == 0) disabled @endif>
+                                            <i class="ph ph-arrow-left"></i>
+                                        </button>
+                                        <button type="button" class="move-right" data-index="{{ $index }}" @if($index == count($destination->gallery_images) - 1) disabled @endif>
+                                            <i class="ph ph-arrow-right"></i>
+                                        </button>
                                         <button type="button" class="remove-gallery-image" data-index="{{ $index }}">
                                             <i class="ph ph-trash"></i>
                                         </button>
@@ -655,6 +739,7 @@
                                     <input type="hidden" name="existing_gallery_images[]" value="{{ $image }}">
                                 </div>
                             @endforeach
+                            <input type="hidden" id="galleryOrderInput" name="gallery_order" value="{{ implode(',', $destination->gallery_images) }}">
                         </div>
                     </div>
                 @endif
@@ -663,13 +748,13 @@
             <!-- Form Actions -->
             <div class="form-actions">
                 <button type="submit" class="control-panel-button control-panel-button-primary">
-                    <i class="ph ph-floppy-disk"></i> Save Changes
+                    <i class="fas fa-save"></i> Save Changes
                 </button>
                 <button type="button" class="control-panel-button control-panel-button-secondary" onclick="resetForm()">
-                    <i class="ph ph-arrow-counter-clockwise"></i> Reset
+                    <i class="fas fa-undo"></i> Reset
                 </button>
                 <a href="{{ route('editor.destinations.index') }}" class="control-panel-button control-panel-button-secondary">
-                    <i class="ph ph-x"></i> Cancel
+                    <i class="fas fa-times"></i> Cancel
                 </a>
             </div>
         </form>
@@ -680,6 +765,94 @@
 
     <!-- JavaScript for Tab Functionality -->
     <script>
+        // Icons List Modal functionality with filter (Services & Activities)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Services modal
+            const openModalBtn = document.getElementById('open-icons-list-modal');
+            const closeModalBtn = document.getElementById('close-icons-list-modal');
+            const modal = document.getElementById('iconsListModal');
+            const filterInput = document.getElementById('iconFilterInput');
+            const iconsListUl = document.getElementById('iconsListUl');
+
+            if (openModalBtn && modal) {
+                openModalBtn.addEventListener('click', function() {
+                    modal.style.display = 'flex';
+                    if (filterInput) filterInput.value = '';
+                    if (iconsListUl) {
+                        Array.from(iconsListUl.children).forEach(li => li.style.display = '');
+                    }
+                });
+            }
+            if (closeModalBtn && modal) {
+                closeModalBtn.addEventListener('click', function() {
+                    modal.style.display = 'none';
+                });
+            }
+            // Close modal when clicking outside
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            }
+            // Filter logic
+            if (filterInput && iconsListUl) {
+                filterInput.addEventListener('input', function() {
+                    const filter = this.value.trim().toLowerCase();
+                    Array.from(iconsListUl.children).forEach(li => {
+                        if (li.textContent.toLowerCase().includes(filter)) {
+                            li.style.display = '';
+                        } else {
+                            li.style.display = 'none';
+                        }
+                    });
+                });
+            }
+
+            // Activities modal
+            const openActivitiesModalBtn = document.getElementById('open-activities-icons-list-modal');
+            const closeActivitiesModalBtn = document.getElementById('close-activities-icons-list-modal');
+            const activitiesModal = document.getElementById('activitiesIconsListModal');
+            const activitiesFilterInput = document.getElementById('activitiesIconFilterInput');
+            const activitiesIconsListUl = document.getElementById('activitiesIconsListUl');
+
+            if (openActivitiesModalBtn && activitiesModal) {
+                openActivitiesModalBtn.addEventListener('click', function() {
+                    activitiesModal.style.display = 'flex';
+                    if (activitiesFilterInput) activitiesFilterInput.value = '';
+                    if (activitiesIconsListUl) {
+                        Array.from(activitiesIconsListUl.children).forEach(li => li.style.display = '');
+                    }
+                });
+            }
+            if (closeActivitiesModalBtn && activitiesModal) {
+                closeActivitiesModalBtn.addEventListener('click', function() {
+                    activitiesModal.style.display = 'none';
+                });
+            }
+            // Close modal when clicking outside
+            if (activitiesModal) {
+                activitiesModal.addEventListener('click', function(e) {
+                    if (e.target === activitiesModal) {
+                        activitiesModal.style.display = 'none';
+                    }
+                });
+            }
+            // Filter logic
+            if (activitiesFilterInput && activitiesIconsListUl) {
+                activitiesFilterInput.addEventListener('input', function() {
+                    const filter = this.value.trim().toLowerCase();
+                    Array.from(activitiesIconsListUl.children).forEach(li => {
+                        if (li.textContent.toLowerCase().includes(filter)) {
+                            li.style.display = '';
+                        } else {
+                            li.style.display = 'none';
+                        }
+                    });
+                });
+            }
+        });
         document.addEventListener('DOMContentLoaded', function() {
             // Tab functionality
             const tabButtons = document.querySelectorAll('.tab-button');
@@ -714,6 +887,61 @@
                     e.target.closest('.dynamic-item').remove();
                 }
             });
+
+            // Gallery image reordering
+            document.getElementById('galleryGrid')?.addEventListener('click', function(e) {
+                if (e.target.closest('.move-left')) {
+                    const item = e.target.closest('.gallery-item');
+                    const index = parseInt(item.dataset.index);
+                    if (index > 0) {
+                        const grid = document.getElementById('galleryGrid');
+                        grid.insertBefore(item, grid.children[index - 1]);
+                        updateGalleryOrder();
+                    }
+                }
+                if (e.target.closest('.move-right')) {
+                    const item = e.target.closest('.gallery-item');
+                    const index = parseInt(item.dataset.index);
+                    const grid = document.getElementById('galleryGrid');
+                    if (index < grid.children.length - 1) {
+                        grid.insertBefore(grid.children[index + 1], item);
+                        updateGalleryOrder();
+                    }
+                }
+            });
+            function updateGalleryOrder() {
+                const grid = document.getElementById('galleryGrid');
+                const items = Array.from(grid.querySelectorAll('.gallery-item'));
+                // Update data-index only; hidden inputs stay inside .gallery-item
+                items.forEach((item, idx) => {
+                    item.dataset.index = idx;
+                    // Update the position badge
+                    const badge = item.querySelector('.gallery-position-badge');
+                    if (badge) badge.textContent = idx + 1;
+
+                    // Update arrow button states
+                    const leftBtn = item.querySelector('.move-left');
+                    const rightBtn = item.querySelector('.move-right');
+                    if (leftBtn) leftBtn.disabled = (idx === 0);
+                    if (rightBtn) rightBtn.disabled = (idx === items.length - 1);
+                });
+                // Update the order input
+                const orderInput = document.getElementById('galleryOrderInput');
+                if (orderInput) {
+                    const order = items.map(item => item.querySelector('input[name="existing_gallery_images[]"]').value);
+                    orderInput.value = order.join(',');
+                }
+            }
+
+            // On form submit, re-append .gallery-item elements in their current order to force correct input serialization
+            const form = document.getElementById('destination-form');
+            if (form) {
+                form.addEventListener('submit', function() {
+                    const grid = document.getElementById('galleryGrid');
+                    const items = Array.from(grid.querySelectorAll('.gallery-item'));
+                    items.forEach(item => grid.appendChild(item));
+                });
+            }
         });
 
         function addListItem(listType) {
@@ -736,7 +964,7 @@
                             </div>
                         </div>
                         <button type="button" class="remove-item-btn">
-                            <i class="ph ph-trash"></i>
+                            <i class="fas fa-trash"></i>
                         </button>
                     </div>
                 `;
@@ -761,7 +989,7 @@
                             </div>
                         </div>
                         <button type="button" class="remove-item-btn">
-                            <i class="ph ph-trash"></i>
+                            <i class="fas fa-trash"></i>
                         </button>
                     </div>
                 `;
@@ -783,7 +1011,7 @@
                             </div>
                         </div>
                         <button type="button" class="remove-item-btn">
-                            <i class="ph ph-trash"></i>
+                            <i class="fas fa-trash"></i>
                         </button>
                     </div>
                 `;
@@ -805,7 +1033,7 @@
                             </div>
                         </div>
                         <button type="button" class="remove-item-btn">
-                            <i class="ph ph-trash"></i>
+                            <i class="fas fa-trash"></i>
                         </button>
                     </div>
                 `;

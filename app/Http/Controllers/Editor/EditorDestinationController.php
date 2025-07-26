@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Destination;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class EditorDestinationController extends Controller
 {
+    use AuthorizesRequests;
     public function index()
     {
         $user = auth()->user();
@@ -38,12 +40,9 @@ class EditorDestinationController extends Controller
 
     public function update(Request $request, Destination $destination)
     {
+        $this->authorize('update', $destination);
+
         $user = auth()->user();
-        
-        // Check if user can edit this destination
-        if (!$user->canEditDestination($destination->id)) {
-            abort(403, 'You are not authorized to edit this destination.');
-        }
 
         // Enhanced debugging for target audience issue
         \Log::info('=== ENHANCED EDITOR DESTINATION UPDATE DEBUG ===');
@@ -86,85 +85,86 @@ class EditorDestinationController extends Controller
         $validated = $request->validate([
             // Basic Info
             'title' => 'required|string|max:255',
-            'subtitle' => 'required|string|max:255',
-            'coordinates' => 'required|string|max:255',
-            'conservation_status' => 'required|string|max:255',
-            
+            'slug' => 'required|string|max:255',
+            'subtitle' => 'nullable|string|max:255',
+            'coordinates' => 'nullable|string|max:255',
+            'conservation_status' => 'nullable|string|max:255',
+
             // Location
-            'province' => 'required|string|max:255',
-            'canton' => 'required|string|max:255',
-            'parish' => 'required|string|max:255',
-            'sector' => 'required|string|max:255',
-            'reference_distance' => 'required|string|max:255',
-            
+            'province' => 'nullable|string|max:255',
+            'canton' => 'nullable|string|max:255',
+            'parish' => 'nullable|string|max:255',
+            'sector' => 'nullable|string|max:255',
+            'reference_distance' => 'nullable|string|max:255',
+
             // Climate
-            'climate_dry_season' => 'required|array',
-            'climate_dry_season.name' => 'required|string|max:255',
-            'climate_dry_season.months' => 'required|string|max:255',
-            'climate_dry_season.temperature' => 'required|string|max:255',
-            'climate_wet_season' => 'required|array',
-            'climate_wet_season.name' => 'required|string|max:255',
-            'climate_wet_season.months' => 'required|string|max:255',
-            'climate_wet_season.temperature' => 'required|string|max:255',
-            
+            'climate_dry_season' => 'nullable|array',
+            'climate_dry_season.name' => 'nullable|string|max:255',
+            'climate_dry_season.months' => 'nullable|string|max:255',
+            'climate_dry_season.temperature' => 'nullable|string|max:255',
+            'climate_wet_season' => 'nullable|array',
+            'climate_wet_season.name' => 'nullable|string|max:255',
+            'climate_wet_season.months' => 'nullable|string|max:255',
+            'climate_wet_season.temperature' => 'nullable|string|max:255',
+
             // Access
-            'access_from' => 'required|string|max:255',
-            'access_route' => 'required|string|max:255',
-            'access_transport' => 'required|string|max:255',
-            'access_time' => 'required|string|max:255',
-            
+            'access_from' => 'nullable|string|max:255',
+            'access_route' => 'nullable|string|max:255',
+            'access_transport' => 'nullable|string|max:255',
+            'access_time' => 'nullable|string|max:255',
+
             // Schedule
-            'schedule_hours' => 'required|string|max:255',
-            'entry_fee' => 'required|string|max:255',
-            'season_availability' => 'required|string|max:255',
-            'requirements' => 'required|string|max:255',
-            
+            'schedule_hours' => 'nullable|string|max:255',
+            'entry_fee' => 'nullable|string|max:255',
+            'season_availability' => 'nullable|string|max:255',
+            'requirements' => 'nullable|string|max:255',
+
             // Contact
-            'contact_person' => 'required|string|max:255',
-            'contact_role' => 'required|string|max:255',
-            'contact_phone' => 'required|string|max:255',
-            'contact_email' => 'required|email|max:255',
-            
+            'contact_person' => 'nullable|string|max:255',
+            'contact_role' => 'nullable|string|max:255',
+            'contact_phone' => 'nullable|string|max:255',
+            'contact_email' => 'nullable|email|max:255',
+
             // Activities
             'activities' => 'nullable|array',
             'activities.*.icon' => 'nullable|string|max:255',
             'activities.*.name' => 'nullable|string|max:255',
-            
+
             // Target Audience
             'target_audience_type' => 'nullable|string|max:255',
             'target_audience_origin' => 'nullable|string|max:255',
             'target_audience_age' => 'nullable|string|max:255',
             'target_audience_transport' => 'nullable|string|max:255',
             'target_audience_stay' => 'nullable|string|max:255',
-            
+
             // Services
             'services' => 'nullable|array',
             'services.*.icon' => 'nullable|string|max:255',
             'services.*.name' => 'nullable|string|max:255',
             'services.*.available' => 'nullable|boolean',
-            
+
             // Pricing
             'average_price' => 'nullable|string|max:255',
             'capacity' => 'nullable|string|max:255',
             'payment_methods' => 'nullable|string|max:255',
             'mobile_coverage' => 'nullable|string|max:255',
-            
+
             // Tourism Criteria
             'tourism_criteria' => 'nullable|array',
             'tourism_criteria.*.name' => 'nullable|string|max:255',
             'tourism_criteria.*.status' => 'nullable|in:positive,neutral,negative',
-            
+
             // Descriptions
             'main_description' => 'nullable|string',
             'secondary_description' => 'nullable|string',
             'strengths_benefits' => 'nullable|string',
-            
+
             // Environmental Challenges
             'environmental_challenges' => 'nullable|array',
             'environmental_challenges.*.icon' => 'nullable|string|max:255',
             'environmental_challenges.*.title' => 'nullable|string|max:255',
             'environmental_challenges.*.description' => 'nullable|string',
-            
+
             // Gallery Images
             'gallery_images' => 'nullable|array|max:8',
             'gallery_images.*' => 'image|mimes:jpeg,png,jpg,gif|max:5120',
