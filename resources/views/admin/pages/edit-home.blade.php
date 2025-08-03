@@ -205,6 +205,52 @@
                         >
                     </div>
                 </div>
+                <div class="control-panel-form-grid">
+                    <div>
+                        <label for="dest_span_amazonia" class="control-panel-label">Texto del Span Amazonia</label>
+                        <input 
+                            type="text" 
+                            id="dest_span_amazonia" 
+                            name="dest_span_amazonia" 
+                            value="{{ old('dest_span_amazonia', $homeSetting->dest_span_amazonia ?? 'Amazonía') }}"
+                            class="control-panel-input"
+                            placeholder="Ingresa el texto para el span de Amazonia"
+                        >
+                    </div>
+                    <div>
+                        <label for="dest_span_costa" class="control-panel-label">Texto del Span Costa</label>
+                        <input 
+                            type="text" 
+                            id="dest_span_costa" 
+                            name="dest_span_costa" 
+                            value="{{ old('dest_span_costa', $homeSetting->dest_span_costa ?? 'Costa') }}"
+                            class="control-panel-input"
+                            placeholder="Ingresa el texto para el span de Costa"
+                        >
+                    </div>
+                    <div>
+                        <label for="dest_span_sierra" class="control-panel-label">Texto del Span Sierra</label>
+                        <input 
+                            type="text" 
+                            id="dest_span_sierra" 
+                            name="dest_span_sierra" 
+                            value="{{ old('dest_span_sierra', $homeSetting->dest_span_sierra ?? 'Sierra') }}"
+                            class="control-panel-input"
+                            placeholder="Ingresa el texto para el span de Sierra"
+                        >
+                    </div>
+                    <div>
+                        <label for="dest_span_galapagos" class="control-panel-label">Texto del Span Galápagos</label>
+                        <input 
+                            type="text" 
+                            id="dest_span_galapagos" 
+                            name="dest_span_galapagos" 
+                            value="{{ old('dest_span_galapagos', $homeSetting->dest_span_galapagos ?? 'Galápagos') }}"
+                            class="control-panel-input"
+                            placeholder="Ingresa el texto para el span de Galápagos"
+                        >
+                    </div>
+                </div>
             </div>
         </form>
     </div>

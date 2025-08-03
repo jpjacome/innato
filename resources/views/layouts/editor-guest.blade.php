@@ -196,13 +196,19 @@
         <div class="editor-login-container">
             <div class="editor-logo-container">
                 <a href="/">
-                    <img src="{{ asset('assets/imgs/logo.svg') }}" alt="Innato Logo" />
+                    <img src="{{ asset('assets/imgs/logo.png') }}" alt="Innato Logo" />
                 </a>
             </div>
 
             <div class="editor-form-container">
                 @yield('content')
-            </div>
+            </div>        
+
+        <div class="login-message">
+            <p>¿Eres líder de una comunidad?</p>
+            <p>Escríbenos a hola@innato.com</p>            
+        </div>
+
         </div>
     </body>
 </html>

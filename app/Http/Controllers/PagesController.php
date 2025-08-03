@@ -98,15 +98,27 @@ class PagesController extends Controller
                 $aboutSetting->banner_image = $bannerPath;
             }
             $aboutSetting->headline_title = $request->input('headline_title');
+
+            // Get old headline_cards from DB for fallback
+            $oldHeadlineCards = [];
+            if (!empty($aboutSetting->headline_cards)) {
+                $oldHeadlineCards = json_decode($aboutSetting->headline_cards, true);
+            }
+
             $headlineCards = $request->input('headline_cards');
-            // Handle headline card images
+            // Handle headline card images, preserve old if not uploaded
             foreach ($headlineCards as $i => &$card) {
                 if ($request->hasFile("headline_cards.$i.image")) {
                     $imgFile = $request->file("headline_cards.$i.image");
                     $imgPath = $imgFile->store('about', 'public');
                     $card['image'] = $imgPath;
+                } else if (isset($oldHeadlineCards[$i]['image'])) {
+                    $card['image'] = $oldHeadlineCards[$i]['image'];
+                } else {
+                    $card['image'] = null;
                 }
             }
+            unset($card); // break reference
             $aboutSetting->headline_cards = json_encode($headlineCards);
             $aboutSetting->destinations_title = $request->input('destinations_title');
             $aboutSetting->destinations_button_text = $request->input('destinations_button_text');
@@ -146,6 +158,10 @@ class PagesController extends Controller
             'headline_amazon_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:8192',
             'destinations_title' => 'required|string|max:255',
             'destinations_description' => 'required|string',
+            'dest_span_amazonia' => 'required|string|max:255',
+            'dest_span_costa' => 'required|string|max:255',
+            'dest_span_sierra' => 'required|string|max:255',
+            'dest_span_galapagos' => 'required|string|max:255',
             'destinations_button_text' => 'required|string|max:255',
             'destinations_footer_text' => 'required|string|max:255',
             'hero_video' => 'nullable|file|mimes:mp4,mov,avi,wmv|max:20480', // 20MB max
@@ -160,6 +176,10 @@ class PagesController extends Controller
             'headline_description',
             'destinations_title',
             'destinations_description',
+            'dest_span_amazonia',
+            'dest_span_costa',
+            'dest_span_sierra',
+            'dest_span_galapagos',
             'destinations_button_text',
             'destinations_footer_text',
         ]);

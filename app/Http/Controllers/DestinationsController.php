@@ -7,9 +7,28 @@ use App\Models\DestinationsSetting;
 
 class DestinationsController extends Controller
 {
-    public function show()
+    public function show(Request $request)
     {
-        $destinations = \App\Models\Destination::where('status', 'active')->orderBy('title')->get();
+        $query = $request->input('search');
+        if ($query) {
+            $destinations = \App\Models\Destination::where('status', 'active')
+                ->where(function($q) use ($query) {
+                    $q->where('title', 'like', "%$query%")
+                      ->orWhere('main_description', 'like', "%$query%")
+                      ->orWhere('subtitle', 'like', "%$query%")
+                      ->orWhere('province', 'like', "%$query%")
+                      ->orWhere('canton', 'like', "%$query%")
+                      ->orWhere('parish', 'like', "%$query%")
+                      ->orWhere('sector', 'like', "%$query%")
+                      ->orWhere('activities', 'like', "%$query%")
+                      ->orWhere('services', 'like', "%$query%")
+                      ;
+                })
+                ->orderBy('title')
+                ->get();
+        } else {
+            $destinations = \App\Models\Destination::where('status', 'active')->orderBy('title')->get();
+        }
         return view('destinations', compact('destinations'));
     }
 

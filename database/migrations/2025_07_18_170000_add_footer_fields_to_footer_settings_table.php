@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('phone')->nullable();
             $table->string('location')->nullable();
+            $table->string('email')->nullable();
             $table->string('twitter_url')->nullable();
             $table->string('instagram_url')->nullable();
             $table->string('newsletter_title')->nullable();
@@ -37,6 +38,7 @@ return new class extends Migration
                 'address',
                 'phone',
                 'location',
+                'email',
                 'twitter_url',
                 'instagram_url',
                 'newsletter_title',

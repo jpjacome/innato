@@ -45,6 +45,10 @@
                         <label for="footer_location" class="control-panel-label">Location</label>
                         <input type="text" id="footer_location" name="footer_location" class="control-panel-input" value="{{ old('footer_location', $footerSetting->location ?? 'QUITO - ECUADOR') }}" placeholder="QUITO - ECUADOR">
                     </div>
+                    <div>
+                        <label for="footer_email" class="control-panel-label">Email</label>
+                        <input type="email" id="footer_email" name="footer_email" class="control-panel-input" value="{{ old('footer_email', $footerSetting->email ?? 'info@innato.com') }}" placeholder="hola@innato.com">
+                    </div>
                 </div>
             </div>
 

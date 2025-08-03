@@ -4,13 +4,11 @@
 
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>INNATO – Turismo Comunitario</title>
-    <link rel="stylesheet" href="../css/general.css">
+@section('title', 'INNATO – Turismo Comunitario')
+@section('single-destination-css')
     <link rel="stylesheet" href="../css/single-destination-style.css">
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-</head>
+@endsection
+@include('components.public-head')
 <body class="home-page">
     <!-- Header Component -->
     <x-header />

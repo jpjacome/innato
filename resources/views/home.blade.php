@@ -1,99 +1,17 @@
-<script>
-// Highlight the correct #dest-* span when hovering each region
-document.addEventListener('DOMContentLoaded', function () {
-    const regionToSpan = {
-        'region-1': 'dest-costa',
-        'region-2': 'dest-sierra',
-        'region-3': 'dest-amazonia',
-        'region-4': 'dest-galapagos'
-    };
-    Object.entries(regionToSpan).forEach(([regionId, spanId]) => {
-        const region = document.getElementById(regionId);
-        const span = document.getElementById(spanId);
-        if (region && span) {
-            region.addEventListener('mouseenter', function() {
-                span.classList.add('highlighted');
-            });
-            region.addEventListener('mouseleave', function() {
-                span.classList.remove('highlighted');
-            });
-        }
-    });
-});
-</script>
-    <script>
-    // On hover of #region-1, add 'highlighted' class to #dest-amazonia
-    document.addEventListener('DOMContentLoaded', function () {
-        var region1 = document.getElementById('region-1');
-        var destAmazonia = document.getElementById('dest-costa');
-        if (region1 && destAmazonia) {
-            region1.addEventListener('mouseenter', function() {
-                destAmazonia.classList.add('highlighted');
-            });
-            region1.addEventListener('mouseleave', function() {
-                destAmazonia.classList.remove('highlighted');
-            });
-        }
-    });
-    </script>
-    <script>
-    // On hover of #region-1, add 'highlighted' class to the first headline region span
-    document.addEventListener('DOMContentLoaded', function () {
-        var region1 = document.getElementById('region-1');
-        var headlineSpans = document.querySelectorAll('#headline span');
-        if (region1 && headlineSpans.length > 0) {
-            var firstSpan = headlineSpans[0];
-            region1.addEventListener('mouseenter', function() {
-                firstSpan.classList.add('highlighted');
-            });
-            region1.addEventListener('mouseleave', function() {
-                firstSpan.classList.remove('highlighted');
-            });
-        }
-    });
-    </script>
-    <script>
-    // Map region ids to headline span ids
-    document.addEventListener('DOMContentLoaded', function () {
-        const regionToHeadline = {
-            'region-1': 'headline-costa',
-            'region-2': 'headline-sierra',
-            'region-3': 'headline-amazonia',
-            'region-4': 'headline-galapagos'
-        };
-        document.querySelectorAll('.region').forEach(function(regionEl) {
-            const regionId = regionEl.id;
-            const spanId = regionToHeadline[regionId];
-            if (!spanId) return;
-            const span = document.getElementById(spanId);
-            if (!span) return;
-            regionEl.addEventListener('mouseenter', function() {
-                span.classList.add('region-highlight');
-            });
-            regionEl.addEventListener('mouseleave', function() {
-                span.classList.remove('region-highlight');
-            });
-        });
-    });
-    </script>
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INNATO – Turismo Comunitario</title>
-    <link rel="stylesheet" href="{{ asset('css/general.css') }}">
+@section('title', 'INNATO – Turismo Comunitario')
+@section('home-css')
     <link rel="stylesheet" href="../css/home-style.css">
-    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-</head>
+@endsection
+@include('components.public-head')
 <body class="home-page">
     <!-- Header Component -->
     <x-header />
 
     <!-- Hero Section -->
     <section class="hero fade-in-1 parallax" id="hero">
-        <video class="hero-video" autoplay muted loop>
+        <video class="hero-video" autoplay muted loop playsinline>
             <source src="{{ $homeSetting->hero_video_path ? asset('storage/' . $homeSetting->hero_video_path) : asset('assets/vids/vid1.mp4') }}" type="video/mp4">
             Your browser does not support the video tag.
         </video>
@@ -114,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
     </script>
 
         <div class="icon fade-in-3">
-            <img id="icon-costa" src="../assets/imgs/icon-costa.svg" alt="Orange vector abstract illustration">
+            <img id="icon-costa" src="../assets/imgs/icon-costa2.svg" alt="Orange vector abstract illustration">
         </div>
 
     <!-- Headline + Destinations Section (shared Alpine.js scope) -->
@@ -122,26 +40,20 @@ document.addEventListener('DOMContentLoaded', function () {
         <!-- Headline Section -->
         <section id="headline" class="wrapper headline-section">
             <h2 class="headline-title fade-in-2">{{ $homeSetting->headline_title }}</h2>
-        <p class="fade-in-2">
-            Ecuador es conocido por la diversidad de sus regiones principales:
-            <span id="headline-amazonia" data-region-name="Amazonia">Amazonía</span>,
-            <span id="headline-costa" data-region-name="Costa">Costa</span>,
-            <span id="headline-sierra" data-region-name="Sierra">Sierra</span> y
-            <span id="headline-galapagos" data-region-name="Galapagos">Galápagos</span>.
-        </p>
+            <p class="fade-in-2">{{ $homeSetting->headline_description }}</p>
             <div class="headline-cards fade-in-1">
-                <div class="headline-card">
+                <a href="/destinations/costa" class="headline-card" style="text-decoration: none; color: inherit;">
                     <img src="{{ $homeSetting->headline_coast_image ? asset('storage/' . $homeSetting->headline_coast_image) : 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80' }}" alt="Coast Nature" class="headline-card-img">
-                    <a href="#coast" class="cta-button headline-btn">COAST <i class="ph ph-arrow-right"></i></a>
-                </div>
-                <div class="headline-card">
+                    <span class="cta-button headline-btn">COAST <i class="ph ph-arrow-right"></i></span>
+                </a>
+                <a href="/destinations/sierra" class="headline-card" style="text-decoration: none; color: inherit;">
                     <img src="{{ $homeSetting->headline_andes_image ? asset('storage/' . $homeSetting->headline_andes_image) : 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80' }}" alt="Andes Nature" class="headline-card-img">
-                    <a href="#andes" class="cta-button headline-btn">ANDES <i class="ph ph-arrow-right"></i></a>
-                </div>
-                <div class="headline-card">
+                    <span class="cta-button headline-btn">ANDES <i class="ph ph-arrow-right"></i></span>
+                </a>
+                <a href="/destinations/amazonia" class="headline-card" style="text-decoration: none; color: inherit;">
                     <img src="{{ $homeSetting->headline_amazon_image ? asset('storage/' . $homeSetting->headline_amazon_image) : 'https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=600&q=80' }}" alt="Amazon Nature" class="headline-card-img">
-                    <a href="#amazon" class="cta-button headline-btn">AMAZON <i class="ph ph-arrow-right"></i></a>
-                </div>
+                    <span class="cta-button headline-btn">AMAZON <i class="ph ph-arrow-right"></i></span>
+                </a>
             </div>
         </section>
 
@@ -150,13 +62,12 @@ document.addEventListener('DOMContentLoaded', function () {
         <div class="container container-1 fade-in-1">
             <h2 class="destinations-title fade-in-1">{{ $homeSetting->destinations_title }}</h2>
             <p class="destinations-description fade-in-1">
-                Ecuador es conocido por la diversidad de sus regiones principales:
-                <a href="/destinations/amazonia" class="region-link"><span id="dest-amazonia">Amazonía</span></a>,
-                <a href="/destinations/costa" class="region-link"><span id="dest-costa">Costa</span></a>,
-                <a href="/destinations/sierra" class="region-link"><span id="dest-sierra">Sierra</span></a> y
-                <a href="/destinations/galapagos" class="region-link"><span id="dest-galapagos">Galápagos</span></a>.
+                {{ $homeSetting->destinations_description }}
+                <a href="/destinations/amazonia" class="region-link"><span id="dest-amazonia">{{ $homeSetting->dest_span_amazonia }}</span></a>,
+                <a href="/destinations/costa" class="region-link"><span id="dest-costa">{{ $homeSetting->dest_span_costa }}</span></a>,
+                <a href="/destinations/sierra" class="region-link"><span id="dest-sierra">{{ $homeSetting->dest_span_sierra }}</span></a> and
+                <a href="/destinations/galapagos" class="region-link"><span id="dest-galapagos">{{ $homeSetting->dest_span_galapagos }}</span></a>.
             </p>
-            <button class="cta-button fade-in-1">{{ $homeSetting->destinations_button_text }}</button>
             <p id="container-1-footer" class="fade-in-3">{{ $homeSetting->destinations_footer_text }}</p>
         </div>
         <div class="container container-2">
@@ -274,69 +185,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     <x-footer />
     <script src="{{ asset('assets/js/home.js') }}"></script>
-
-    <script>
-    document.addEventListener('alpine:init', () => {
-        // Wait for Alpine to be ready
-        // Remove underline from all region spans
-        function clearRegionUnderline() {
-            ['amazonia','costa','sierra','galapagos'].forEach(function(r) {
-                const el = document.getElementById('dest-' + r);
-                if (el) el.classList.remove('region-underline');
-            });
-        }
-
-        // Add underline to a specific region span
-        function setRegionUnderline(region) {
-            let id = '';
-            if (region === 'Amazonía' || region === 'Amazonia') id = 'dest-amazonia';
-            else if (region === 'Costa') id = 'dest-costa';
-            else if (region === 'Sierra') id = 'dest-sierra';
-            else if (region === 'Galápagos' || region === 'Galapagos') id = 'dest-galapagos';
-            if (id) {
-                const el = document.getElementById(id);
-                if (el) el.classList.add('region-underline');
-            }
-        }
-
-        // Attach mouseenter/mouseleave to map regions
-        ['Amazonía','Amazonia','Costa','Sierra','Galápagos','Galapagos'].forEach(function(region) {
-            // Try both with and without accents
-            var regionId = region.toLowerCase().replace('á','a').replace('í','i').replace('ó','o').replace('é','e').replace('ú','u');
-            var svgEl = document.querySelector('[data-region="' + region + '"]');
-            if (svgEl) {
-                svgEl.addEventListener('mouseenter', function() {
-                    clearRegionUnderline();
-                    setRegionUnderline(region);
-                });
-                svgEl.addEventListener('mouseleave', function() {
-                    clearRegionUnderline();
-                });
-            }
-        });
-    });
-    </script>
     @stack('scripts')
-<script>
-// Simple: highlight headline span on map region hover using data-region-name
-document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.region').forEach(function(regionEl) {
-        const regionName = regionEl.getAttribute('data-region-name');
-        regionEl.addEventListener('mouseenter', function() {
-            const span = document.querySelector('span[data-region-name="' + regionName + '"]');
-            if (span) span.classList.add('region-highlight');
-        });
-        regionEl.addEventListener('mouseleave', function() {
-            const span = document.querySelector('span[data-region-name="' + regionName + '"]');
-            if (span) span.classList.remove('region-highlight');
-        });
-    });
-});
-</script>
-<style>
-.region-highlight {
-    border-bottom: 3px solid #0a7355 !important;
-}
-</style>
 </body>
 </html>

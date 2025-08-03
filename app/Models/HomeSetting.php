@@ -17,6 +17,10 @@ class HomeSetting extends Model
         'headline_amazon_image',
         'destinations_title',
         'destinations_description',
+        'dest_span_amazonia',
+        'dest_span_costa',
+        'dest_span_sierra',
+        'dest_span_galapagos',
         'destinations_button_text',
         'destinations_footer_text',
     ];
@@ -34,6 +38,10 @@ class HomeSetting extends Model
         'headline_amazon_image' => null,
         'destinations_title' => 'EXPLORA ECUADOR Y SUS COMUNIDADES',
         'destinations_description' => 'Ecuador es conocido por la diversidad de sus regiones principales: Amazonía, Costa, Sierra.',
+        'dest_span_amazonia' => 'Amazonía',
+        'dest_span_costa' => 'Costa',
+        'dest_span_sierra' => 'Sierra',
+        'dest_span_galapagos' => 'Galápagos',
         'destinations_button_text' => 'CONOCE MÁS',
         'destinations_footer_text' => 'Haz clic en una región para observarla más de cerca.',
     ];

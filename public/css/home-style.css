@@ -28,6 +28,21 @@
     object-fit: cover;
 }
 
+@media (max-width: 800px) {
+  .hero-video {
+    min-width: 100vw;
+    min-height: 100vh;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    transform: none;
+    object-fit: cover;
+    background: #000;
+  }
+}
+}
+
 .hero-overlay {
     position: absolute;
     top: 0;
@@ -48,9 +63,9 @@
 }
 
 .hero h1 {
-  opacity: 0;
+    opacity: 0;
     font-size: clamp(25px, 3.5rem, 10vw);
-    color: white;
+    color: var(--color-1);
     margin-bottom: 2rem;
 }
 .hero p {
@@ -121,7 +136,7 @@
 .headline-card:hover i{
   background-color: var(--color-4);
   color: white;
-  outline: 1px solid transparent!important;
+  border: 1px solid transparent!important;
 }
 .headline-card:hover img{
   filter: sepia(0);
@@ -163,7 +178,7 @@
   font-size: 2.5rem;
   border-radius: 100%;
   padding: 5px;
-  outline: 2px solid var(--color-black);
+  border: 2px solid var(--color-black);
 }
 
 /* #endregion HEADLINE CARDS */
@@ -317,6 +332,10 @@
   fill: white;
 }
 
+.region.region-highlight path {
+  fill: white;
+}
+
 #region-4::after{
   content: '';
   position: absolute;
@@ -337,6 +356,11 @@
     filter: brightness(1.2) drop-shadow(0 2px 8px #0a735555);
     opacity: 0.85;
   }
+
+.region.region-highlight {
+  filter: brightness(1.2) drop-shadow(0 2px 8px #0a735555);
+  opacity: 0.85;
+}
 
 /* Tooltip for map regions */
 .map-tooltip {
@@ -391,6 +415,8 @@
   }
 
 /* #endregion DESTINATION */
+
+
 
 /* #region VALUE SECTION */
 .value-description {
@@ -464,150 +490,7 @@
 }
 /* #endregion FOUNDERS SECTION */
 
-/* #region REVIEWS SECTION */
 
-.reviews-section {
-  position: relative;
-  height: fit-content;
-  background-color: var(--color-1);  
-  animation-delay: 0.01s;
-  padding: 2rem 1rem;
-}
-
-@media (max-width: 768px) {
-  .reviews-section {
-    padding: 1.5rem 0.5rem;
-  }
-}
-.reviews-list {
-  display: flex;
-  max-width: 100vw;
-  justify-content: center;
-  gap: 2rem;
-  flex-wrap: nowrap;
-  overflow: hidden;
-}
-
-@media (max-width: 1024px) {
-  .reviews-list {
-    gap: 1.5rem;
-    max-width: 90vw;
-  }
-}
-
-@media (max-width: 768px) {
-  .reviews-list {
-    gap: 1rem;
-    max-width: 95vw;
-  }
-}
-
-.review-card {
-    background: #fff;
-    border-radius: 15px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
-    padding: 1.5rem 1.5rem;
-    width: 350px;
-    max-width: 400px;
-    min-width: 300px;
-    height: 210px;
-    text-align: left;
-    flex-shrink: 0;
-}
-
-@media (max-width: 1024px) {
-  .review-card {
-    width: 350px;
-    max-width: 350px;
-    min-width: 280px;
-  }
-}
-
-@media (max-width: 768px) {
-  .review-card {
-    width: 320px;
-    max-width: 90vw;
-    min-width: 250px;
-    height: auto;
-    min-height: 180px;
-  }
-}
-  .review-card .stars{
-    position: relative;
-    width: 100%;
-  }
-  .review-card .stars .more {
-    position: absolute;
-    right: 0;
-    top: -5px;
-    display: block;
-    margin: 0;
-    padding: 5px;
-    cursor: pointer;
-    transition: .1s ease-in-out;
-  }
-    .review-card .stars .more:hover{
-      top: -6px;
-      transform: scale(1.2);
-      transform-origin: center;
-    }
-.review-text {
-  margin-bottom: 5px;
-  font-size: 1rem;
-  color: #222;
-}
-.reviewer-name{
-  text-align: right;
-  margin-right: 1rem;
-}
-.reviews-icon {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 2;
-    font-size: 2.5rem;
-    border-radius: 100%;
-    padding: 5px;
-    outline: 2px solid var(--color-black);
-    cursor: pointer;
-}
-.reviews-icon:hover {
-    background-color: var(--color-4);
-    color: white;
-    outline: 1px solid transparent !important;
-}
-.reviews-icon-left {
-  left: 2rem;
-}
-.reviews-icon-right {
-  right: 2rem;
-}
-@media (max-width: 768px) {
-  .reviews-icon {
-    font-size: 2rem;
-    padding: 8px;
-  }
-  .reviews-icon-left {
-    left: 1rem;
-  }
-  .reviews-icon-right {
-    right: 1rem;
-  }
-}
-
-@media (max-width: 600px) {
-  .reviews-icon {
-    font-size: 1.5rem;
-    padding: 6px;
-  }
-  .reviews-icon-left {
-    left: 0.5rem;
-  }
-  .reviews-icon-right {
-    right: 0.5rem;
-  }
-}
-/* #endregion REVIEWS SECTION */
 
 .destinations-values{
   width: 100%;
@@ -667,6 +550,19 @@
 
 .region-link span{
   color: var(--color-2);
+  position: relative;
+}
+
+.region-link span:hover::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -2px;
+  height: 3px;
+  background: var(--color-4);
+  border-radius: 2px;
+  width: 100%;
+  display: block;
+  z-index: 1;
 }
 .highlighted {
   position: relative;

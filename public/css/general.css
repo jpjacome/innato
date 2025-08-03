@@ -3,7 +3,7 @@
 /* #region COLOR VARIABLES */
 /* ========== COLOR VARIABLES ========== */
 :root {
-  --color-1: #F0E9DE;
+  --color-1: #ebe3d7;
   --color-2: #D6DF27; 
   --color-3: #645EA6; 
   --color-4: #ED5934;
@@ -68,8 +68,10 @@ body {
 }
 
 h1{
-  font-family: 'Franie', sans-serif; /* For headlines (elegant) */
+  font-family: 'Franie Semibold', sans-serif; /* For headlines (elegant) */
   color: var(--color-black);
+  font-size: 3rem;
+  margin-bottom: 1rem;
 }
 
 h2{
@@ -84,10 +86,6 @@ h3, h4 {
   line-height: 1.3em;
 }
 
-h1 {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-}
 
 h3 {
   font-size: 1.5rem;
@@ -189,6 +187,24 @@ button:hover, .cta-button:hover {
 
 /* #endregion ANIMATIONS */
 
+/* #region REGION ICON FILTERS */
+.icon-costa {
+    filter: invert(46%) sepia(58%) saturate(2945%) hue-rotate(342deg) brightness(96%) contrast(95%);
+}
+.icon-sierra {
+    filter: invert(86%) sepia(32%) saturate(1101%) hue-rotate(9deg) brightness(105%) contrast(80%);
+}
+.icon-amazonia {
+    filter: invert(22%) sepia(40%) saturate(1487%) hue-rotate(108deg) brightness(91%) contrast(96%);
+}
+.icon-galapagos {
+    filter: invert(38%) sepia(10%) saturate(2812%) hue-rotate(206deg) brightness(96%) contrast(82%);
+}
+.icon-comunidad {
+    filter: none;
+}
+/* #endregion REGION ICON FILTERS */
+
 /* #region HEADER */
 /* ========== HEADER ========== */
 header {
@@ -208,7 +224,12 @@ header {
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid var(--color-black);
-
+}
+@media screen and (max-width: 600px) {
+    .header-bar{
+        padding: 1rem 1.5rem;
+    }
+  
 }
 .main-nav{
   opacity: 0;
@@ -243,6 +264,9 @@ nav a {
     nav a:hover {
         background-color: var(--color-2);
     }
+    nav a.active {
+        background-color: var(--color-2);
+    }
 .header-dropdown-container{
   position: absolute;
   top: 100%;
@@ -264,6 +288,30 @@ nav a {
   .logo img{
     height: 45px;
   }
+
+/* Login link in header */
+.header-login-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.5rem;
+  font-size: 1.2em;
+  border-radius: 100%;
+  border: 1px solid var(--color-black);
+  background-color: var(--color-2);
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  outline: none!important;
+  transition: background-color 0.3s, outline 0.3s;
+}
+.header-login-link i {
+  font-size: 1.2em;
+}
+.header-login-link:hover {
+  background-color: var(--color-2);
+  border: 2px solid var(--color-black);
+}
 
 /* #endregion HEADER */
 
@@ -304,9 +352,34 @@ section{
     font-size: 1.1rem;
     outline: none;
     background: transparent;
-    color: var(--color-1);
+    color: var(--color-black);
     box-shadow: 0 1px 4px rgba(0,0,0,0.04);
     transition: border 0.2s;
+}
+
+.search-bar-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-2);
+    color: var(--color-black);
+    border: 1px solid var(--color-black);
+    border-radius: 100%;
+    width: 36px;
+    height: 36px;
+    font-size: 1.2em;
+    cursor: pointer;
+    outline: none!important;
+    transition: background-color 0.3s, outline 0.3s;
+    margin-left: 0.2rem;
+    padding: 0;
+}
+.search-bar-btn i {
+    font-size: 1.2em;
+}
+.search-bar-btn:hover {
+    background-color: var(--color-2);
+    border: 2px solid var(--color-black);
 }
 .search-bar-input:focus {
     border: 1px solid var(--color-black);
@@ -332,7 +405,8 @@ section{
     font-size: 1.2em;
     font-weight: 600;
     border-radius: 100%;
-    outline: 1px solid var(--color-black);
+    border: 1px solid var(--color-black);
+    outline: none!important;
     background-color: var(--color-2);
     width: 35px;
     line-height: 35px;
@@ -349,7 +423,7 @@ section{
     }
     #search-toggle:hover {
         background-color: var(--color-2);
-        outline: 2px solid var(--color-black);
+        border: 2px solid var(--color-black);
     }
 /* #endregion SEARCH BAR */
 
@@ -469,19 +543,20 @@ section{
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 0;
   background: var(--color-1);
   z-index: 999;
-  display: none;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.3s;
   opacity: 0;
   pointer-events: none;
+  overflow: hidden;
+  transition: height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.3s;
 }
 .mobile-menu.show {
-  display: flex;
+  height: 100vh;
   opacity: 1;
   pointer-events: auto;
 }
@@ -581,6 +656,7 @@ footer .wrapper-1{
   }
 
 footer .container{
+
   height: 100%;
   min-width: 33%;
   
@@ -687,14 +763,204 @@ footer .container{
     border-bottom: 1px solid var(--color-black);
 }
 
+/* #region REVIEWS SECTION */
+
+.reviews-section {
+  position: relative;
+  height: fit-content;
+  background-color: var(--color-1);  
+  animation-delay: 0.01s;
+  padding: 2rem 1rem;
+}
+
+@media (max-width: 768px) {
+  .reviews-section {
+    padding: 1.5rem 0.5rem;
+  }
+}
+.reviews-list {
+  display: flex;
+  max-width: 100vw;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+@media (max-width: 1024px) {
+  .reviews-list {
+    gap: 1.5rem;
+    max-width: 90vw;
+  }
+}
+
+@media (max-width: 768px) {
+  .reviews-list {
+    gap: 1rem;
+    max-width: 95vw;
+  }
+}
+
+.review-card {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    padding: 1.5rem 1.5rem;
+    width: 350px;
+    max-width: 400px;
+    min-width: 300px;
+    height: 210px;
+    text-align: left;
+    flex-shrink: 0;
+}
+
+@media (max-width: 1024px) {
+  .review-card {
+    width: 350px;
+    max-width: 350px;
+    min-width: 280px;
+  }
+}
+
+@media (max-width: 768px) {
+  .review-card {
+    width: 320px;
+    max-width: 90vw;
+    min-width: 250px;
+    height: auto;
+    min-height: 180px;
+  }
+}
+  .review-card .stars{
+    position: relative;
+    width: 100%;
+  }
+  .review-card .stars .more {
+    position: absolute;
+    right: 0;
+    top: -5px;
+    display: block;
+    margin: 0;
+    padding: 5px;
+    cursor: pointer;
+    transition: .1s ease-in-out;
+  }
+    .review-card .stars .more:hover{
+      top: -6px;
+      transform: scale(1.2);
+      transform-origin: center;
+    }
+.review-text {
+  margin-bottom: 5px;
+  font-size: 1rem;
+  color: #222;
+}
+.reviewer-name{
+  text-align: right;
+  margin-right: 1rem;
+}
+.reviews-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+    font-size: 2.5rem;
+    border-radius: 100%;
+    padding: 5px;
+    border: 2px solid var(--color-black);
+    cursor: pointer;
+}
+.reviews-icon:hover {
+    background-color: var(--color-4);
+    color: white;
+    border: 1px solid transparent !important;
+}
+.reviews-icon-left {
+  left: 2rem;
+}
+.reviews-icon-right {
+  right: 2rem;
+}
+@media (max-width: 768px) {
+  .reviews-icon {
+    font-size: 2rem;
+    padding: 8px;
+  }
+  .reviews-icon-left {
+    left: 1rem;
+  }
+  .reviews-icon-right {
+    right: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .reviews-icon {
+    font-size: 1.5rem;
+    padding: 6px;
+  }
+  .reviews-icon-left {
+    left: 0.5rem;
+  }
+  .reviews-icon-right {
+    right: 0.5rem;
+  }
+}
+/* #endregion REVIEWS SECTION */
+
 /* #region REVIEWS RESPONSIVE */
 /* ========== REVIEWS RESPONSIVE ========== */
 @media (max-width: 1400px) {
   .reviews-list {
     max-width: 90vw;
   }
-  .reviews-list .review-card:nth-child(n+3) {
-    display: none;
-  }
 }
 /* #endregion REVIEWS RESPONSIVE */
+
+/* Newsletter Modal Popup */
+.newsletter-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+.newsletter-modal-content {
+    display: flex;
+    background: #fff;
+    color: #222;
+    padding: 2rem 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 32px #0003;
+    font-size: 1.2rem;
+    text-align: center;
+    min-width: 260px;
+    max-width: 90vw;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.newsletter-modal-close {
+  width: fit-content;
+  margin-top: 1.5rem;
+  background: var(--color-4);
+  color: var(--color-1);
+  border: none;
+  border-radius: 6px;
+  padding: 0.5em 1.2em;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.login-message{
+  color: var(--color-1);
+  margin-top: -1rem;
+}
+.login-message p{
+  margin: 0 1rem .5rem;
+}

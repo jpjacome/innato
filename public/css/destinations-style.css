@@ -561,6 +561,9 @@ body{
     gap: 1.5rem;
     max-width: 90vw;
   }
+  .icon{
+    display: none;
+  }
 }
 
 @media (max-width: 768px) {

@@ -216,6 +216,7 @@
   width: auto;
   height: 60%;
   object-fit: cover;
+  object-position: top;
   display: block;
   filter: sepia(0.3);
   transform-origin: left bottom;

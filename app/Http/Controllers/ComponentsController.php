@@ -84,6 +84,7 @@ class ComponentsController extends Controller
             'footer_address' => 'required|string|max:255',
             'footer_phone' => 'required|string|max:255',
             'footer_location' => 'required|string|max:255',
+            'footer_email' => 'required|email|max:255',
             'twitter_url' => 'nullable|url',
             'instagram_url' => 'nullable|url',
             'newsletter_title' => 'required|string|max:255',
@@ -97,10 +98,10 @@ class ComponentsController extends Controller
         ]);
 
         $footerSetting = FooterSetting::firstOrNew();
-        
         $footerSetting->address = $request->footer_address;
         $footerSetting->phone = $request->footer_phone;
         $footerSetting->location = $request->footer_location;
+        $footerSetting->email = $request->footer_email;
         $footerSetting->twitter_url = $request->twitter_url;
         $footerSetting->instagram_url = $request->instagram_url;
         $footerSetting->newsletter_title = $request->newsletter_title;

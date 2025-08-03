@@ -5,6 +5,11 @@ Route::delete('/admin/reservations/{id}', [ReservationController::class, 'destro
 use Illuminate\Http\Request;
 use App\Models\Destination;
 use App\Models\User;
+use App\Http\Controllers\NewsletterController;
+
+Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])
+    ->name('newsletter.subscribe')
+    ->middleware('throttle:5,1'); // 5 requests per minute per IP
 
 Route::post('/admin/destinations/create', function(Request $request) {
     // Support JSON payloads for AJAX

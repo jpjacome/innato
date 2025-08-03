@@ -145,4 +145,153 @@ document.addEventListener('DOMContentLoaded', function () {  // Function to hand
     }
     updateCarousel();
   });
+
+
+
+  
+  
 });
+
+// Highlight SVG map region when hovering .region-link (robust accent-insensitive matching)
+function normalizeRegionName(name) {
+    return name
+        .toLowerCase()
+        .replace(/á/g, 'a')
+        .replace(/é/g, 'e')
+        .replace(/í/g, 'i')
+        .replace(/ó/g, 'o')
+        .replace(/ú/g, 'u');
+}
+document.addEventListener('DOMContentLoaded', function () {
+    // Highlight map region when hovering region-link
+    document.querySelectorAll('.region-link').forEach(function(link) {
+        var span = link.querySelector('span');
+        if (!span) return;
+        var regionName = normalizeRegionName(span.textContent.trim());
+        link.addEventListener('mouseenter', function() {
+            document.querySelectorAll('.region').forEach(function(region) {
+                var svgRegionName = normalizeRegionName(region.getAttribute('data-region-name'));
+                if (svgRegionName === regionName) {
+                    region.classList.add('region-highlight');
+                }
+            });
+        });
+        link.addEventListener('mouseleave', function() {
+            document.querySelectorAll('.region').forEach(function(region) {
+                var svgRegionName = normalizeRegionName(region.getAttribute('data-region-name'));
+                if (svgRegionName === regionName) {
+                    region.classList.remove('region-highlight');
+                }
+            });
+        });
+    });
+    // Highlight region-link when hovering map region
+    document.querySelectorAll('.region').forEach(function(region) {
+        var svgRegionName = normalizeRegionName(region.getAttribute('data-region-name'));
+        region.addEventListener('mouseenter', function() {
+            document.querySelectorAll('.region-link span').forEach(function(span) {
+                var regionName = normalizeRegionName(span.textContent.trim());
+                if (svgRegionName === regionName) {
+                    span.classList.add('region-highlight');
+                }
+            });
+        });
+        region.addEventListener('mouseleave', function() {
+            document.querySelectorAll('.region-link span').forEach(function(span) {
+                var regionName = normalizeRegionName(span.textContent.trim());
+                if (svgRegionName === regionName) {
+                    span.classList.remove('region-highlight');
+                }
+            });
+        });
+    });
+});
+
+// Alpine.js region underline logic
+
+document.addEventListener('alpine:init', () => {
+    function clearRegionUnderline() {
+        ['amazonia','costa','sierra','galapagos'].forEach(function(r) {
+            const el = document.getElementById('dest-' + r);
+            if (el) el.classList.remove('region-underline');
+        });
+    }
+    function setRegionUnderline(region) {
+        let id = '';
+        if (region === 'Amazonía' || region === 'Amazonia') id = 'dest-amazonia';
+        else if (region === 'Costa') id = 'dest-costa';
+        else if (region === 'Sierra') id = 'dest-sierra';
+        else if (region === 'Galápagos' || region === 'Galapagos') id = 'dest-galapagos';
+        if (id) {
+            const el = document.getElementById(id);
+            if (el) el.classList.add('region-underline');
+        }
+    }
+    ['Amazonía','Amazonia','Costa','Sierra','Galápagos','Galapagos'].forEach(function(region) {
+        var regionId = region.toLowerCase().replace('á','a').replace('í','i').replace('ó','o').replace('é','e').replace('ú','u');
+        var svgEl = document.querySelector('[data-region="' + region + '"]');
+        if (svgEl) {
+            svgEl.addEventListener('mouseenter', function() {
+                clearRegionUnderline();
+                setRegionUnderline(region);
+            });
+            svgEl.addEventListener('mouseleave', function() {
+                clearRegionUnderline();
+            });
+        }
+    });
+});
+
+// Simple: highlight headline span on map region hover using data-region-name
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.region').forEach(function(regionEl) {
+        const regionName = regionEl.getAttribute('data-region-name');
+        regionEl.addEventListener('mouseenter', function() {
+            const span = document.querySelector('span[data-region-name="' + regionName + '"]');
+            if (span) span.classList.add('region-highlight');
+        });
+        regionEl.addEventListener('mouseleave', function() {
+            const span = document.querySelector('span[data-region-name="' + regionName + '"]');
+            if (span) span.classList.remove('region-highlight');
+        });
+    });
+});
+
+// Clean, single mapping-based highlight logic for regions and spans
+
+document.addEventListener('DOMContentLoaded', function () {
+    const regionToSpan = {
+        'region-1': 'dest-costa',
+        'region-2': 'dest-sierra',
+        'region-3': 'dest-amazonia',
+        'region-4': 'dest-galapagos'
+    };
+    // Highlight span when hovering map region
+    Object.entries(regionToSpan).forEach(([regionId, spanId]) => {
+        const region = document.getElementById(regionId);
+        const span = document.getElementById(spanId);
+        if (region && span) {
+            region.addEventListener('mouseenter', function() {
+                span.classList.add('highlighted');
+            });
+            region.addEventListener('mouseleave', function() {
+                span.classList.remove('highlighted');
+            });
+        }
+    });
+    // Highlight map region when hovering span
+    Object.entries(regionToSpan).forEach(([regionId, spanId]) => {
+        const region = document.getElementById(regionId);
+        const span = document.getElementById(spanId);
+        if (region && span) {
+            span.addEventListener('mouseenter', function() {
+                region.classList.add('highlighted');
+            });
+            span.addEventListener('mouseleave', function() {
+                region.classList.remove('highlighted');
+            });
+        }
+    });
+});
+

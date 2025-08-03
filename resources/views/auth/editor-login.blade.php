@@ -34,7 +34,6 @@
                 <span class="control-panel-checkbox-text">{{ __('Remember me') }}</span>
             </label>
         </div>
-
         <div class="control-panel-form-actions">
             @if (Route::has('password.request'))
                 <a class="control-panel-link" href="{{ route('password.request') }}">

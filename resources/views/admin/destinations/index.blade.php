@@ -7,16 +7,7 @@
             </h2>
             <p class="control-panel-subtitle">Ver y editar todos los destinos con sus editores asignados</p>
 
-            <div class="control-panel-card regions-container">
-                <h3 class="control-panel-subtitle"><i class="fas fa-globe"></i> Gestionar regiones</h3>
-                <div id="regionsManager">
-                    <ul id="regionsList" class="regions-list">
-                        <!-- Regions will be loaded here -->
-                    </ul>
-                    <input type="text" id="newRegionInput" placeholder="Agregar nueva región..." class="region-input">
-                    <button type="button" id="addRegionBtn" class="control-panel-button control-panel-button-primary">Agregar región</button>
-                </div>
-            </div>
+            
             <div class="add-destination-btn-wrapper">
                 <button type="button" class="control-panel-button control-panel-button-primary" id="addDestinationBtn">
                     <i class="fas fa-plus"></i> Agregar destino

@@ -8,6 +8,7 @@
         <div class="container container-1">
             <div class="footer-address">{{ $footerSetting->address }}</div>
             <div class="footer-phone">{{ $footerSetting->phone }}</div>
+            <div class="footer-email">{{ $footerSetting->email }}</div>
             <div class="footer-location">{{ $footerSetting->location }}</div>
             <div class="footer-socials">
                 @if($footerSetting->twitter_url)
@@ -24,10 +25,20 @@
         </div>
         <div class="container" id="container-2">
             <h3 class="footer-newsletter-title">{{ $footerSetting->newsletter_title }}</h3>
-            <form class="footer-newsletter-form" autocomplete="off">
-                <input type="email" class="footer-newsletter-input" placeholder="{{ $footerSetting->newsletter_placeholder }}" required />
-                <button type="submit" class="footer-newsletter-btn">{{ $footerSetting->newsletter_button_text }}</button>
+            <form x-data="{ sending: false }" @submit="sending = true" class="footer-newsletter-form" method="POST" action="{{ route('newsletter.subscribe') }}" autocomplete="off">
+                @csrf
+                <!-- Honeypot field for spam bots -->
+                <input type="text" name="website" style="display:none" tabindex="-1" autocomplete="off">
+                <input type="email" name="email" class="footer-newsletter-input" placeholder="{{ $footerSetting->newsletter_placeholder }}" required />
+                <button type="submit" class="footer-newsletter-btn" x-text="sending ? 'Sending...' : '{{ $footerSetting->newsletter_button_text }}'" :disabled="sending"></button>
             </form>
+            <!-- Newsletter confirmation/error modal -->
+            <div x-data="{ show: {{ session('success') || session('error') ? 'true' : 'false' }} }" x-show="show" @click.away="show = false" style="display: none;" class="newsletter-modal">
+                <div class="newsletter-modal-content">
+                    <span x-text="'{{ session('success') ?? session('error') }}'"></span>
+                    <button @click="show = false" class="newsletter-modal-close">Close</button>
+                </div>
+            </div>
         </div>
         <div class="container container-3">
             <img src="/assets/imgs/badge.png" alt="">

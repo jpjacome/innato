@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
-    <title>INNATO – Turismo Comunitario</title>
-    <link rel="stylesheet" href="{{ asset('css/general.css') }}">
+@section('title', 'INNATO – Turismo Comunitario')
+@section('about-css')
     <link rel="stylesheet" href="../css/about-style.css">
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-</head>
+@endsection
+@include('components.public-head')
 <body>
     <!-- Header Component -->
     <x-header />

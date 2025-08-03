@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>INNATO – Turismo Comunitario</title>
-    <link rel="stylesheet" href="{{ asset('css/general.css') }}">
+@section('title', 'INNATO – Turismo Comunitario')
+@section('experience-center-css')
     <link rel="stylesheet" href="../css/experience-center-style.css">
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-</head>
+@endsection
+@include('components.public-head')
 <body>
     <!-- Header Component -->
     <x-header />
@@ -34,10 +32,10 @@
                 @endif
                 Your browser does not support the video tag.
             </video>
-            <img src="../assets/imgs/edge1.svg" alt="">
+            <img class="edge" src="../assets/imgs/edge1.svg" alt="">
         </div>
         <div class="container container-3">            
-            <img src="../assets/imgs/edge2.svg" alt="">
+            <img class="edge" src="../assets/imgs/edge2.svg" alt="">
             @if(!empty($setting->container3_image))
                 <img class="bg fade-img" src="{{ asset('storage/' . $setting->container3_image) }}" alt="">
             @else

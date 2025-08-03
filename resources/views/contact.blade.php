@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>INNATO – Turismo Comunitario</title>
-    <link rel="stylesheet" href="{{ asset('css/general.css') }}">
+@section('title', 'INNATO – Turismo Comunitario')
+@section('contact-css')
     <link rel="stylesheet" href="../css/contact-style.css">
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-</head>
+@endsection
+@include('components.public-head')
 <body>
     <!-- Header Component -->
     <x-header />
@@ -26,7 +24,7 @@
             </div>
         </div>
         <div class="container container-2">
-            <img src="../assets/imgs/edge3.svg" alt="">
+            <img class="edge" src="../assets/imgs/edge3.svg" alt="">
             <div class="form-container">
                 <form class="contact-form fade-in-2">
                     <div class="form-group">
