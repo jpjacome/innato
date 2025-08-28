@@ -12,9 +12,9 @@
             <div class="footer-location">{{ $footerSetting->location }}</div>
             <div class="footer-socials">
                 @if($footerSetting->twitter_url)
-                    <a href="{{ $footerSetting->twitter_url }}" target="_blank"><i class="ph ph-x-logo"></i></a>
+                    <a href="{{ $footerSetting->twitter_url }}" target="_blank"><i class="ph ph-tiktok-logo"></i></a>
                 @else
-                    <i class="ph ph-x-logo"></i>
+                    <i class="ph ph-tiktok-logo"></i>
                 @endif
                 @if($footerSetting->instagram_url)
                     <a href="{{ $footerSetting->instagram_url }}" target="_blank"><i class="ph ph-instagram-logo"></i></a>

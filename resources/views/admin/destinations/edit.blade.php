@@ -9,17 +9,17 @@
                 <div class="header-info">
                     <h2 class="control-panel-title">
                         <i class="fas fa-edit"></i>
-                        Edit Destination: {{ $destination->title }}
+                        Editar Destino: {{ $destination->title }}
                     </h2>
                     <p class="control-panel-subtitle">Modo edición administrador - Todos los campos disponibles</p>
                 </div>
                 <div class="header-actions">
                     <a href="{{ route('destination.show', $destination->slug) }}" 
                        class="control-panel-button control-panel-button-secondary" target="_blank">
-                        <i class="fas fa-eye"></i> View Public Page
+                        <i class="fas fa-eye"></i> Ver Página Pública
                     </a>
                     <a href="{{ route('admin.destinations.index') }}" class="control-panel-button control-panel-button-secondary">
-                        <i class="fas fa-arrow-left"></i> Back to Destinations
+                        <i class="fas fa-arrow-left"></i> Volver a Destinos
                     </a>
                 </div>
             </div>
@@ -121,7 +121,7 @@
                 <h3 class="tab-title">Información básica</h3>
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="title">Destination Title *</label>
+                        <label for="title">Título del Destino *</label>
                         <input type="text" id="title" name="title" value="{{ old('title', $destination->title) }}" required>
                         @error('title')
                             <span class="error-text">{{ $message }}</span>
@@ -129,7 +129,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="subtitle">Subtitle/Category</label>
+                        <label for="subtitle">Subtítulo / Categoría</label>
                         <input type="text" id="subtitle" name="subtitle" value="{{ old('subtitle', $destination->subtitle) }}">
                         @error('subtitle')
                             <span class="error-text">{{ $message }}</span>
@@ -139,23 +139,23 @@
                     <div class="form-group">
                         <label for="slug">Slug *</label>
                         <input type="text" id="slug" name="slug" value="{{ old('slug', $destination->slug) }}" required>
-                        <small class="form-help">Unique identifier for the URL (e.g. playa-mariscal)</small>
+                        <small class="form-help">Identificador único para la URL (ej: playa-mariscal)</small>
                         @error('slug')
                             <span class="error-text">{{ $message }}</span>
                         @enderror
                     </div>
                     
                     <div class="form-group">
-                        <label for="coordinates">GPS Coordinates</label>
+                        <label for="coordinates">Coordenadas GPS</label>
                         <input type="text" id="coordinates" name="coordinates" value="{{ old('coordinates', $destination->coordinates) }}">
-                        <small class="form-help">Format: S 1°52'56" W 80°44'03" - 0 M.S.N.M</small>
+                        <small class="form-help">Formato: S 1°52'56" W 80°44'03" - 0 M.S.N.M</small>
                         @error('coordinates')
                             <span class="error-text">{{ $message }}</span>
                         @enderror
                     </div>
                     
                     <div class="form-group">
-                        <label for="conservation_status">Conservation Status</label>
+                        <label for="conservation_status">Estado de Conservación</label>
                         <input type="text" id="conservation_status" name="conservation_status" value="{{ old('conservation_status', $destination->conservation_status) }}">
                         @error('conservation_status')
                             <span class="error-text">{{ $message }}</span>
@@ -169,7 +169,7 @@
                 <h3 class="tab-title">Detalles de ubicación</h3>
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="province">Province</label>
+                        <label for="province">Provincia</label>
                         <input type="text" id="province" name="province" value="{{ old('province', $destination->province) }}">
                         @error('province')
                             <span class="error-text">{{ $message }}</span>
@@ -177,7 +177,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="canton">Canton</label>
+                        <label for="canton">Cantón</label>
                         <input type="text" id="canton" name="canton" value="{{ old('canton', $destination->canton) }}">
                         @error('canton')
                             <span class="error-text">{{ $message }}</span>
@@ -185,7 +185,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="parish">Parish</label>
+                        <label for="parish">Parroquia</label>
                         <input type="text" id="parish" name="parish" value="{{ old('parish', $destination->parish) }}">
                         @error('parish')
                             <span class="error-text">{{ $message }}</span>
@@ -201,9 +201,9 @@
                     </div>
                     
                     <div class="form-group span-full">
-                        <label for="reference_distance">Reference Distance</label>
+                        <label for="reference_distance">Distancia de Referencia</label>
                         <input type="text" id="reference_distance" name="reference_distance" value="{{ old('reference_distance', $destination->reference_distance) }}">
-                        <small class="form-help">Example: 49.9 KM del GAD de Santa Elena</small>
+                        <small class="form-help">Ejemplo: 49.9 KM del GAD de Santa Elena</small>
                         @error('reference_distance')
                             <span class="error-text">{{ $message }}</span>
                         @enderror
@@ -260,7 +260,7 @@
                 <h3 class="tab-title">Acceso y transporte</h3>
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="access_from">Access From</label>
+                        <label for="access_from">Acceso Desde</label>
                         <input type="text" id="access_from" name="access_from" value="{{ old('access_from', $destination->access_from) }}">
                         @error('access_from')
                             <span class="error-text">{{ $message }}</span>
@@ -268,7 +268,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="access_route">Route Description</label>
+                        <label for="access_route">Descripción de la Ruta</label>
                         <input type="text" id="access_route" name="access_route" value="{{ old('access_route', $destination->access_route) }}">
                         @error('access_route')
                             <span class="error-text">{{ $message }}</span>
@@ -276,7 +276,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="access_transport">Transport Options</label>
+                        <label for="access_transport">Opciones de Transporte</label>
                         <input type="text" id="access_transport" name="access_transport" value="{{ old('access_transport', $destination->access_transport) }}">
                         @error('access_transport')
                             <span class="error-text">{{ $message }}</span>
@@ -284,7 +284,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="access_time">Travel Time</label>
+                        <label for="access_time">Tiempo de Viaje</label>
                         <input type="text" id="access_time" name="access_time" value="{{ old('access_time', $destination->access_time) }}">
                         @error('access_time')
                             <span class="error-text">{{ $message }}</span>
@@ -298,7 +298,7 @@
                 <h3 class="tab-title">Horario y entrada</h3>
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="schedule_hours">Operating Hours</label>
+                        <label for="schedule_hours">Horario de Atención</label>
                         <input type="text" id="schedule_hours" name="schedule_hours" value="{{ old('schedule_hours', $destination->schedule_hours) }}">
                         @error('schedule_hours')
                             <span class="error-text">{{ $message }}</span>
@@ -306,7 +306,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="entry_fee">Entry Fee</label>
+                        <label for="entry_fee">Tarifa de Entrada</label>
                         <input type="text" id="entry_fee" name="entry_fee" value="{{ old('entry_fee', $destination->entry_fee) }}">
                         @error('entry_fee')
                             <span class="error-text">{{ $message }}</span>
@@ -314,7 +314,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="season_availability">Season Availability</label>
+                        <label for="season_availability">Disponibilidad por Temporada</label>
                         <input type="text" id="season_availability" name="season_availability" value="{{ old('season_availability', $destination->season_availability) }}">
                         @error('season_availability')
                             <span class="error-text">{{ $message }}</span>
@@ -322,7 +322,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="requirements">Entry Requirements</label>
+                        <label for="requirements">Requisitos de Ingreso</label>
                         <input type="text" id="requirements" name="requirements" value="{{ old('requirements', $destination->requirements) }}">
                         @error('requirements')
                             <span class="error-text">{{ $message }}</span>
@@ -336,7 +336,7 @@
                 <h3 class="tab-title">Información de contacto</h3>
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="contact_person">Contact Person</label>
+                        <label for="contact_person">Persona de Contacto</label>
                         <input type="text" id="contact_person" name="contact_person" value="{{ old('contact_person', $destination->contact_person) }}">
                         @error('contact_person')
                             <span class="error-text">{{ $message }}</span>
@@ -344,7 +344,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="contact_role">Role/Position</label>
+                        <label for="contact_role">Cargo / Rol</label>
                         <input type="text" id="contact_role" name="contact_role" value="{{ old('contact_role', $destination->contact_role) }}">
                         @error('contact_role')
                             <span class="error-text">{{ $message }}</span>
@@ -352,7 +352,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="contact_phone">Phone Number</label>
+                        <label for="contact_phone">Número de Teléfono</label>
                         <input type="text" id="contact_phone" name="contact_phone" value="{{ old('contact_phone', $destination->contact_phone) }}">
                         @error('contact_phone')
                             <span class="error-text">{{ $message }}</span>
@@ -360,7 +360,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="contact_email">Email Address</label>
+                        <label for="contact_email">Correo Electrónico</label>
                         <input type="email" id="contact_email" name="contact_email" value="{{ old('contact_email', $destination->contact_email) === 'unknown' ? '' : old('contact_email', $destination->contact_email) }}">
                         @error('contact_email')
                             <span class="error-text">{{ $message }}</span>
@@ -374,19 +374,19 @@
                 <h3 class="tab-title">Actividades turísticas</h3>
                 <div class="dynamic-list" id="activities-list">
                     <div class="list-header">
-                        <h4>Activities List</h4>
+                        <h4>Lista de Actividades</h4>
                         <button type="button" class="control-panel-button add-item-btn" data-list="activities">
-                            <i class="fas fa-plus"></i> Add Activity
+                            <i class="fas fa-plus"></i> Agregar Actividad
                         </button>
                         <button type="button" class="control-panel-button" id="open-activities-icons-list-modal">
-                            <i class="ph ph-list"></i> Icons List
+                            <i class="ph ph-list"></i> Lista de Iconos
                         </button>
         <!-- Activities Icons List Modal -->
         <div id="activitiesIconsListModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:9999; align-items:center; justify-content:center;">
             <div style="background:#fff; max-width:480px; width:90vw; max-height:80vh; border-radius:12px; box-shadow:0 2px 24px #2225; padding:2rem 1.5rem; overflow:auto; position:relative;">
-                <h3 style="margin-top:0; margin-bottom:1rem; font-size:1.3rem;">Phosphor Icon Names</h3>
+                <h3 style="margin-top:0; margin-bottom:1rem; font-size:1.3rem;">Nombres de Iconos Phosphor</h3>
                 <button type="button" id="close-activities-icons-list-modal" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
-                <input type="text" id="activitiesIconFilterInput" placeholder="Filter icons..." style="width:100%; margin-bottom:0.75rem; padding:0.4rem 0.7rem; font-size:1rem; border:1px solid #ddd; border-radius:6px;">
+                <input type="text" id="activitiesIconFilterInput" placeholder="Filtrar iconos..." style="width:100%; margin-bottom:0.75rem; padding:0.4rem 0.7rem; font-size:1rem; border:1px solid #ddd; border-radius:6px;">
                 <div style="max-height:60vh; overflow-y:auto; border:1px solid #eee; border-radius:8px; padding:0.5rem 0.75rem; background:#fafafa;">
                     <ul id="activitiesIconsListUl" style="list-style:none; margin:0; padding:0; font-size:1.05rem;">
                         @foreach(file(public_path('assets/phosphor-icon-names.txt')) as $iconName)
@@ -403,11 +403,11 @@
                                 <div class="dynamic-item">
                                     <div class="form-grid">
                                         <div class="form-group">
-                                            <label>Activity Icon</label>
+                                            <label>Ícono de Actividad</label>
                                             <input type="text" name="activities[{{ $index }}][icon]" value="{{ $activity['icon'] ?? 'ph ph-activity' }}" placeholder="ph ph-activity">
                                         </div>
                                         <div class="form-group">
-                                            <label>Activity Name</label>
+                                            <label>Nombre de la Actividad</label>
                                             <input type="text" name="activities[{{ $index }}][name]" value="{{ $activity['name'] ?? $activity }}" required>
                         <input type="text" name="activities[{{ $index }}][name]" value="{{ $activity['name'] ?? $activity }}">
                                         </div>
@@ -427,7 +427,7 @@
                 <h3 class="tab-title">Público objetivo</h3>
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="target_audience_type">Audience Type</label>
+                        <label for="target_audience_type">Tipo de Público</label>
                         <input type="text" id="target_audience_type" name="target_audience_type" value="{{ old('target_audience_type', $destination->target_audience_type) }}">
                         @error('target_audience_type')
                             <span class="error-text">{{ $message }}</span>
@@ -435,7 +435,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="target_audience_origin">Origin</label>
+                        <label for="target_audience_origin">Origen</label>
                         <input type="text" id="target_audience_origin" name="target_audience_origin" value="{{ old('target_audience_origin', $destination->target_audience_origin) }}">
                         @error('target_audience_origin')
                             <span class="error-text">{{ $message }}</span>
@@ -443,7 +443,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="target_audience_age">Age Range</label>
+                        <label for="target_audience_age">Rango de Edad</label>
                         <input type="text" id="target_audience_age" name="target_audience_age" value="{{ old('target_audience_age', $destination->target_audience_age) }}">
                         @error('target_audience_age')
                             <span class="error-text">{{ $message }}</span>
@@ -451,7 +451,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="target_audience_transport">Preferred Transport</label>
+                        <label for="target_audience_transport">Transporte Preferido</label>
                         <input type="text" id="target_audience_transport" name="target_audience_transport" value="{{ old('target_audience_transport', $destination->target_audience_transport) }}">
                         @error('target_audience_transport')
                             <span class="error-text">{{ $message }}</span>
@@ -459,7 +459,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="target_audience_stay">Typical Stay Duration</label>
+                        <label for="target_audience_stay">Duración Típica de Estancia</label>
                         <input type="text" id="target_audience_stay" name="target_audience_stay" value="{{ old('target_audience_stay', $destination->target_audience_stay) }}">
                         @error('target_audience_stay')
                             <span class="error-text">{{ $message }}</span>
@@ -502,17 +502,17 @@
                                 <div class="dynamic-item">
                                     <div class="form-grid">
                                         <div class="form-group">
-                                            <label>Service Icon</label>
+                                            <label>Ícono del Servicio</label>
                                             <input type="text" name="services[{{ $index }}][icon]" value="{{ $service['icon'] ?? 'ph ph-gear' }}" placeholder="ph ph-gear">
                                         </div>
                                         <div class="form-group">
-                                            <label>Service Name</label>
+                                            <label>Nombre del Servicio</label>
                                             <input type="text" name="services[{{ $index }}][name]" value="{{ $service['name'] ?? $service }}" required>
                                         </div>
                                         <div class="form-group">
-                                            <label>Available</label>
+                                            <label>Disponible</label>
                                             <select name="services[{{ $index }}][available]">
-                                                <option value="1" {{ (isset($service['available']) && $service['available']) ? 'selected' : '' }}>Yes</option>
+                                                <option value="1" {{ (isset($service['available']) && $service['available']) ? 'selected' : '' }}>Sí</option>
                                                 <option value="0" {{ (isset($service['available']) && !$service['available']) ? 'selected' : '' }}>No</option>
                                             </select>
                                         </div>
@@ -526,17 +526,17 @@
                             <div class="dynamic-item">
                                 <div class="form-grid">
                                     <div class="form-group">
-                                        <label>Service Icon</label>
+                                        <label>Ícono del Servicio</label>
                                         <input type="text" name="services[0][icon]" value="ph ph-gear" placeholder="ph ph-gear">
                                     </div>
                                     <div class="form-group">
-                                        <label>Service Name</label>
+                                        <label>Nombre del Servicio</label>
                                         <input type="text" name="services[0][name]">
                                     </div>
                                     <div class="form-group">
-                                        <label>Available</label>
+                                        <label>Disponible</label>
                                         <select name="services[0][available]">
-                                            <option value="1">Yes</option>
+                                            <option value="1">Sí</option>
                                             <option value="0">No</option>
                                         </select>
                                     </div>
@@ -555,25 +555,25 @@
                 <h3 class="tab-title">Precios y capacidad</h3>
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="average_price">Average Price</label>
+                        <label for="average_price">Precio Promedio</label>
                         <input type="text" id="average_price" name="average_price" value="{{ old('average_price', $destination->average_price) }}">
-                        <small class="form-help">Example: $33 USD/persona</small>
+                        <small class="form-help">Ejemplo: $33 USD/persona</small>
                         @error('average_price')
                             <span class="error-text">{{ $message }}</span>
                         @enderror
                     </div>
                     
                     <div class="form-group">
-                        <label for="capacity">Maximum Capacity</label>
+                        <label for="capacity">Capacidad Máxima</label>
                         <input type="text" id="capacity" name="capacity" value="{{ old('capacity', $destination->capacity) }}">
-                        <small class="form-help">Example: 40 PAX</small>
+                        <small class="form-help">Ejemplo: 40 PAX</small>
                         @error('capacity')
                             <span class="error-text">{{ $message }}</span>
                         @enderror
                     </div>
                     
                     <div class="form-group">
-                        <label for="payment_methods">Payment Methods</label>
+                        <label for="payment_methods">Métodos de Pago</label>
                         <input type="text" id="payment_methods" name="payment_methods" value="{{ old('payment_methods', $destination->payment_methods) }}">
                         @error('payment_methods')
                             <span class="error-text">{{ $message }}</span>
@@ -581,7 +581,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="mobile_coverage">Mobile Coverage</label>
+                        <label for="mobile_coverage">Cobertura Móvil</label>
                         <input type="text" id="mobile_coverage" name="mobile_coverage" value="{{ old('mobile_coverage', $destination->mobile_coverage) }}">
                         @error('mobile_coverage')
                             <span class="error-text">{{ $message }}</span>
@@ -646,7 +646,7 @@
                 <h3 class="tab-title">Descripciones</h3>
                 <div class="form-grid">
                     <div class="form-group span-full">
-                        <label for="main_description">Main Description</label>
+                        <label for="main_description">Descripción Principal</label>
                         <textarea id="main_description" name="main_description" rows="4">{{ old('main_description', $destination->main_description) }}</textarea>
                         @error('main_description')
                             <span class="error-text">{{ $message }}</span>
@@ -654,7 +654,7 @@
                     </div>
                     
                     <div class="form-group span-full">
-                        <label for="secondary_description">Secondary Description</label>
+                        <label for="secondary_description">Descripción Secundaria</label>
                         <textarea id="secondary_description" name="secondary_description" rows="4">{{ old('secondary_description', $destination->secondary_description) }}</textarea>
                         @error('secondary_description')
                             <span class="error-text">{{ $message }}</span>
@@ -662,7 +662,7 @@
                     </div>
                     
                     <div class="form-group span-full">
-                        <label for="strengths_benefits">Strengths & Benefits</label>
+                        <label for="strengths_benefits">Fortalezas y Beneficios</label>
                         <textarea id="strengths_benefits" name="strengths_benefits" rows="4">{{ old('strengths_benefits', $destination->strengths_benefits) }}</textarea>
                         @error('strengths_benefits')
                             <span class="error-text">{{ $message }}</span>
@@ -676,15 +676,15 @@
                 <h3 class="tab-title">Reto ambiental</h3>
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="environmental_challenges_icon">Challenge Icon</label>
+                        <label for="environmental_challenges_icon">Ícono del Reto</label>
                         <input type="text" id="environmental_challenges_icon" name="environmental_challenges[0][icon]" value="{{ old('environmental_challenges.0.icon', $destination->environmental_challenges[0]['icon'] ?? 'ph ph-trash') }}" placeholder="ph ph-trash">
                     </div>
                     <div class="form-group">
-                        <label for="environmental_challenges_title">Challenge Title</label>
+                        <label for="environmental_challenges_title">Título del Reto</label>
                         <input type="text" id="environmental_challenges_title" name="environmental_challenges[0][title]" value="{{ old('environmental_challenges.0.title', $destination->environmental_challenges[0]['title'] ?? 'Contaminación') }}" required>
                     </div>
                     <div class="form-group span-full">
-                        <label for="environmental_challenges_description">Challenge Description</label>
+                        <label for="environmental_challenges_description">Descripción del Reto</label>
                         <textarea id="environmental_challenges_description" name="environmental_challenges[0][description]" rows="3" required>{{ old('environmental_challenges.0.description', $destination->environmental_challenges[0]['description'] ?? 'Generación de residuos, especialmente plásticos en feriados que contaminan el entorno natural y marino.') }}</textarea>
                     </div>
                 </div>
@@ -955,11 +955,11 @@
                     <div class="dynamic-item">
                         <div class="form-grid">
                             <div class="form-group">
-                                <label>Activity Icon</label>
+                                <label>Ícono de Actividad</label>
                                 <input type="text" name="activities[${itemCount}][icon]" value="ph ph-activity" placeholder="ph ph-activity">
                             </div>
                             <div class="form-group">
-                                <label>Activity Name</label>
+                                <label>Nombre de la Actividad</label>
                                 <input type="text" name="activities[${itemCount}][name]" required>
                             </div>
                         </div>
@@ -973,17 +973,17 @@
                     <div class="dynamic-item">
                         <div class="form-grid">
                             <div class="form-group">
-                                <label>Service Icon</label>
+                                <label>Ícono del Servicio</label>
                                 <input type="text" name="services[${itemCount}][icon]" value="ph ph-gear" placeholder="ph ph-gear">
                             </div>
                             <div class="form-group">
-                                <label>Service Name</label>
+                                <label>Nombre del Servicio</label>
                                 <input type="text" name="services[${itemCount}][name]" required>
                             </div>
                             <div class="form-group">
-                                <label>Available</label>
+                                <label>Disponible</label>
                                 <select name="services[${itemCount}][available]">
-                                    <option value="1">Yes</option>
+                                    <option value="1">Sí</option>
                                     <option value="0">No</option>
                                 </select>
                             </div>
@@ -1020,15 +1020,15 @@
                     <div class="dynamic-item">
                         <div class="form-grid">
                             <div class="form-group">
-                                <label>Challenge Icon</label>
+                                <label>Ícono del Reto</label>
                                 <input type="text" name="environmental_challenges[${itemCount}][icon]" value="ph ph-warning" placeholder="ph ph-warning">
                             </div>
                             <div class="form-group">
-                                <label>Challenge Title</label>
+                                <label>Título del Reto</label>
                                 <input type="text" name="environmental_challenges[${itemCount}][title]" required>
                             </div>
                             <div class="form-group span-full">
-                                <label>Challenge Description</label>
+                                <label>Descripción del Reto</label>
                                 <textarea name="environmental_challenges[${itemCount}][description]" rows="3" required></textarea>
                             </div>
                         </div>
@@ -1043,7 +1043,7 @@
         }
 
         function resetForm() {
-            if (confirm('Are you sure you want to reset all changes? This action cannot be undone.')) {
+            if (confirm('¿Seguro que deseas restablecer todos los cambios? Esta acción no se puede deshacer.')) {
                 document.getElementById('destination-form').reset();
             }
         }
@@ -1097,7 +1097,7 @@
                     const galleryItem = button.closest('.gallery-item');
                     const index = button.dataset.index;
                     
-                    if (confirm('Are you sure you want to remove this image?')) {
+                    if (confirm('¿Seguro que deseas eliminar esta imagen?')) {
                         galleryItem.remove();
                         
                         // Add hidden input to mark image for removal
@@ -1121,18 +1121,18 @@
             const totalImages = existingImages + files.length;
             
             if (totalImages > maxFiles) {
-                alert(`You can only have a maximum of ${maxFiles} images total. You currently have ${existingImages} images.`);
+                alert(`Sólo puedes tener un máximo de ${maxFiles} imágenes en total. Actualmente tienes ${existingImages} imágenes.`);
                 return false;
             }
             
             for (let file of files) {
                 if (!allowedTypes.includes(file.type)) {
-                    alert(`File "${file.name}" is not a valid image type. Please use JPEG, PNG, JPG, or GIF.`);
+                    alert(`El archivo "${file.name}" no es un tipo de imagen válido. Usa JPEG, PNG, JPG o GIF.`);
                     return false;
                 }
                 
                 if (file.size > maxSize) {
-                    alert(`File "${file.name}" is too large. Maximum size is 5MB.`);
+                    alert(`El archivo "${file.name}" es demasiado grande. El tamaño máximo es 5MB.`);
                     return false;
                 }
             }
@@ -1159,7 +1159,7 @@
                 const previewItem = document.createElement('div');
                 previewItem.className = 'preview-item';
                 previewItem.innerHTML = `
-                    <div class="preview-loading">Loading...</div>
+                    <div class="preview-loading">Cargando...</div>
                     <div class="preview-item-actions">
                         <button type="button" class="remove-preview-image" onclick="removePreviewImage(${index})">
                             <i class="ph ph-trash"></i>

@@ -129,6 +129,15 @@ use App\Models\ReviewsSetting;
 
 // Public Routes - Root redirects to home page
 use App\Models\Review;
+// Domain-specific El Patio landing (both apex and www)
+Route::domain('elpatiohostels.com')->group(function () {
+    Route::get('/', function () { return view('elpatio'); })->name('elpatio.domain');
+});
+Route::domain('www.elpatiohostels.com')->group(function () {
+    Route::get('/', function () { return view('elpatio'); }); // no extra name to avoid duplicate naming
+});
+
+// Primary site root
 Route::match(['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'OPTIONS'], '/', function () {
     $homeSetting = \App\Models\HomeSetting::instance();
     $reviews = Review::published()->orderByDesc('created_at')->get();
@@ -161,6 +170,27 @@ Route::get('/experience-center', function () {
 
 // Public route for Contact (dynamic content)
 Route::get('/contact', [\App\Http\Controllers\ContactController::class, 'show'])->name('contact');
+
+// Fallback /elpatio path so main domain can preview the landing page; redirect to canonical root on elpatio domain
+Route::get('/elpatio', function () {
+    if (in_array(request()->getHost(), ['elpatiohostels.com', 'www.elpatiohostels.com'])) {
+        // Maintain canonical URL structure (root) for the El Patio domain
+        return redirect('/');
+    }
+    return view('elpatio');
+})->name('elpatio');
+
+// Test route for elpatio-test.blade.php
+Route::get('/elpatio-test', function () {
+    return view('elpatio.elpatio-test');
+})->name('elpatio.test');
+
+// Test route for single-blog-post.blade.php
+Route::get('/elpatio-blog-post', function () {
+    return view('elpatio.single-blog-post');
+})->name('elpatio.blog.single');
+
+// (Removed standalone /elpatio route; domain now serves page. Re-add if you want it accessible on main domain.)
 
 // Control Panel Routes (accessible to all authenticated users)
 Route::middleware(['auth', 'verified'])->group(function () {

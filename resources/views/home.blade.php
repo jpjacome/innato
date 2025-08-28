@@ -11,7 +11,7 @@
 
     <!-- Hero Section -->
     <section class="hero fade-in-1 parallax" id="hero">
-        <video class="hero-video" autoplay muted loop playsinline>
+        <video class="hero-video" muted autoplay loop playsinline webkit-playsinline preload="auto" poster="{{ asset('assets/imgs/bg1.png') }}">
             <source src="{{ $homeSetting->hero_video_path ? asset('storage/' . $homeSetting->hero_video_path) : asset('assets/vids/vid1.mp4') }}" type="video/mp4">
             Your browser does not support the video tag.
         </video>
@@ -26,7 +26,19 @@
         document.addEventListener('DOMContentLoaded', function() {
             const heroVideo = document.querySelector('.hero-video');
             if (heroVideo) {
-                heroVideo.playbackRate = 0.8; // Play at 50% speed (slower)
+                heroVideo.playbackRate = 0.8; // slower playback
+                // Ensure autoplay works on mobile; fall back gracefully if blocked
+                const playPromise = heroVideo.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(() => {
+                        // Hide video if autoplay is blocked; rely on hero background image
+                        heroVideo.pause();
+                        heroVideo.removeAttribute('autoplay');
+                        heroVideo.style.display = 'none';
+                        const hero = document.getElementById('hero');
+                        if (hero) hero.classList.add('hero-fallback');
+                    });
+                }
             }
         });
     </script>

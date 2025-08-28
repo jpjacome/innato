@@ -1,11 +1,12 @@
+
+
 /* #region HERO */
-/* ========== HERO SECTION ========== */
 .hero {
   opacity: 0;
     position: relative;
     display: flex;
     flex-direction: column;
-    height: 110vh;
+    height: 90vh;
     background: url(../assets/imgs/bg1.png) center / cover no-repeat;
     text-align: center;
     color: white;
@@ -36,13 +37,19 @@
 .banner-section{
     display: flex;
     position: relative;
-    top: 15px;
+    top: -15vh;
     width: 100%;
     background-color: var(--color-5);
-    padding: 7rem;
+    padding: 9rem 5rem 12rem;
     z-index: 1;
     justify-content: center;
     align-items: flex-start;
+}
+@media (max-width: 800px){
+  .banner-section{
+        padding: 4rem 2rem 9rem;
+        top: -15vh;
+  }
 }
 .banner-section h3{
     font-family: 'Franie Bold', sans-serif;
@@ -72,7 +79,7 @@
 .about-section{
     display: flex;
     position: relative;
-    top: 15px;
+    top: -15vh;
     width: 100%;
     flex-direction: column;
     background-color: var(--color-1);
@@ -166,7 +173,7 @@
 
 .headline-section {
     position: relative;
-    bottom: 5rem;
+    bottom: 29vh;
     clip-path: polygon(0% 0%, 100% 10%, 100% 100%, 0% 97%);
     color: var(--color-black);
     height: fit-content;
@@ -175,6 +182,11 @@
     z-index: 2;
 }
 
+@media (max-width: 800px){
+  .headline-section{
+    bottom: 30vh;
+  }
+}
 .headline-section h2{
     opacity: 0;
     font-size: clamp(20px, 2.1rem, 7vw);
@@ -264,8 +276,9 @@
 }
 @media (max-width: 800px){
   .icon{
-    top: 95vh;
-    right: 1rem;
+        top: 69vh;
+        left: auto;
+        right: 3rem;
   }
 }
 
@@ -295,7 +308,7 @@
 
 .destinations-section {
   position: relative;
-  bottom: 2.5rem;
+  bottom: 14vh;
   display: flex;
   width: 100%;
   height: auto;

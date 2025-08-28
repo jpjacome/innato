@@ -71,7 +71,7 @@ use Illuminate\Support\Facades\Storage;
                 
                 <form method="POST" action="{{ route('logout') }}" class="inline">
                     @csrf
-                    <button type="submit" class="control-panel-button control-panel-button-secondary">
+                    <button type="submit" class="control-panel-button">
                         Logout
                     </button>
                 </form>
@@ -110,7 +110,7 @@ use Illuminate\Support\Facades\Storage;
             
             <form method="POST" action="{{ route('logout') }}" class="inline">
                 @csrf
-                <button type="submit" class="control-panel-button control-panel-button-secondary">
+                <button type="submit" class="control-panel-button">
                     Logout
                 </button>
             </form>

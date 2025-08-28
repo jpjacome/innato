@@ -34,6 +34,7 @@
             </video>
             <img class="edge" src="../assets/imgs/edge1.svg" alt="">
         </div>
+        
         <div class="container container-3">            
             <img class="edge" src="../assets/imgs/edge2.svg" alt="">
             @if(!empty($setting->container3_image))
@@ -43,12 +44,20 @@
             @endif
         </div>
         <div class="container container-4">
-            <h2 class='fade-in-2'>{{ $setting->banner2_title ?? 'VISÍTANOS Y DESCUBRE NUESTROS PRODUCTOS LOCALES.' }}</h2>
-            <p class='fade-in-1'>{{ $setting->banner2_description ?? 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Architecto, exercitationem ex. In veritatis saepe numquam, dolor itaque suscipit fuga tempore?' }}</p>
+            <h2 class='fade-in-3'>{{ $setting->banner2_title ?? 'VISÍTANOS Y DESCUBRE NUESTROS PRODUCTOS LOCALES.' }}</h2>
+            <p class='fade-in-2'>{{ $setting->banner2_description ?? 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Architecto, exercitationem ex. In veritatis saepe numquam, dolor itaque suscipit fuga tempore?' }}</p>
             <button class="cta-button fade-in-1">{{ $setting->banner2_button_text ?? 'CONOCE MÁS' }}</button>
-            <div class="icon fade-in-1">
+            <div class="icon fade-in-2">
                 <img id="icon-comunidad" src="../assets/imgs/icon-comunidad.svg" alt="Purple vector abstract illustration">
             </div>
+        </div>
+        <div class="container container-5">            
+            <img class="edge" src="../assets/imgs/edge2.svg" alt="">
+            @if(!empty($setting->container3_image))
+                <img class="bg fade-img" src="{{ asset('storage/' . $setting->container3_image) }}" alt="">
+            @else
+                <img class="bg fade-img" src="../assets/imgs/bg2.png" alt="">
+            @endif
         </div>
     </section>
 

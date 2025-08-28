@@ -29,7 +29,7 @@
                         $fileTime = filemtime($candidate);
                         if ($fileTime > $latestTime) {
                             $latestTime = $fileTime;
-                            $logoPath = asset('assets/imgs/logo.' . $ext);
+                            $logoPath = asset('assets/imgs/logo.' . $ext) . '?v=' . $fileTime;
                         }
                     }
                 }
@@ -53,9 +53,12 @@
                     </ul>
                 </li>
                 <li><a href="/experience-center" class="{{ navActive('experience-center') }}"><span class="nav-icon ph ph-buildings"></span><span class="nav-text">{{ $headerSetting->nav_experience_text }}</span></a></li>
-                <li><a href="/hostal" class="{{ navActive('hostal') }}"><span class="nav-icon ph ph-house-simple"></span><span class="nav-text">{{ $headerSetting->nav_hostal_text }}</span></a></li>
+                <li><a href="/elpatio" class="{{ navActive('hostal') }}" target="_blank" rel="noopener noreferrer"><span class="nav-icon ph ph-house-simple"></span><span class="nav-text">{{ $headerSetting->nav_hostal_text }}</span></a></li>
                 <li><a href="/contact" class="{{ navActive('contact') }}"><span class="nav-icon ph ph-envelope-simple"></span><span class="nav-text">{{ $headerSetting->nav_contact_text }}</span></a></li>
             </ul>
+            <a href="#" id="whatsapp-link" class="header-whatsapp-link" title="WhatsApp">
+                <img src="{{ asset('assets/imgs/whatsapp1.png') }}" alt="WhatsApp">
+            </a>
             <i id="search-toggle" class="ph ph-magnifying-glass"></i>
             <a href="/login" id="login-link" class="header-login-link" title="Login"><i class="ph ph-user"></i></a>
             <i id="hamburger-toggle" class="ph ph-list hamburger-icon"></i>

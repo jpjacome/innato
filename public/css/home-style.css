@@ -7,7 +7,8 @@
     display: flex;
     flex-direction: column;
     height: 110vh;
-    background: url(../assets/imgs/bg1.png) center / cover no-repeat;
+    background: url(../assets/imgs/bg1.webp) center / cover no-repeat;
+    background-size: cover;
     text-align: center;
     color: white;
     justify-content: center;
@@ -23,24 +24,26 @@
     min-height: 100%;
     width: auto;
     height: auto;
-    z-index: -2;
+    z-index: 0; /* behind content, above background */
     transform: translateX(-50%) translateY(-50%);
     object-fit: cover;
 }
 
 @media (max-width: 800px) {
+  .hero{
+    height: 100vh;
+  }
   .hero-video {
     min-width: 100vw;
     min-height: 100vh;
-    width: 100vw;
-    height: 100vh;
+    width: 110vw;
+    height: 110vh;
     top: 0;
     left: 0;
     transform: none;
     object-fit: cover;
     background: #000;
   }
-}
 }
 
 .hero-overlay {
@@ -50,16 +53,21 @@
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.3);
-    z-index: -1;
+  z-index: 1; /* above video */
 }
 
 .hero-content {
     position: relative;
-    z-index: 1;
+    z-index: 2; /* above overlay */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+/* When video fallback is active, ensure hero still looks fine */
+.hero.hero-fallback {
+  background: url(../assets/imgs/bg1.png) center / cover no-repeat;
 }
 
 .hero h1 {
@@ -92,7 +100,12 @@
     padding: 10rem 0;
     background-color: var(--color-1);
 }
-
+@media (max-width: 800px) {
+  .headline-section{
+    bottom: 12rem;
+        clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 95%);
+  }
+}
 .headline-section h2{
     opacity: 0;
     font-size: clamp(20px, 2.3rem, 7vw);
@@ -194,7 +207,7 @@
 }
 @media (max-width: 800px){
   .icon{
-    top: 95vh;
+    top: 72vh;
     right: 1rem;
   }
 }
@@ -232,12 +245,16 @@
   width: 100%;
   background-color: var(--color-3);
   flex-wrap: wrap;
+  border: none;
 }
 @media (max-width: 800px){
   .destinations-section{
+    position: relative;
+    top: -8rem;
     flex-wrap: nowrap;
     height: auto;
     padding-top: 0;
+    border: none;
   }
 }
   .destinations-section .container{

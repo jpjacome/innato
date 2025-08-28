@@ -38,10 +38,11 @@
                         @php
                             $logoPath = null;
                             $logoExtensions = ['svg','png','jpg','jpeg','gif'];
+                            $updatedAt = session('header_logo_updated_at');
                             foreach ($logoExtensions as $ext) {
                                 $candidate = public_path('assets/imgs/logo.' . $ext);
                                 if (file_exists($candidate)) {
-                                    $logoPath = asset('assets/imgs/logo.' . $ext);
+                                    $logoPath = asset('assets/imgs/logo.' . $ext) . ($updatedAt ? ('?v=' . $updatedAt) : '');
                                     break;
                                 }
                             }

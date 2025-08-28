@@ -204,8 +204,9 @@ body{
 }
 @media (max-width: 800px){
   .icon{
-    top: 95vh;
-    right: 1rem;
+    top: 80vh;
+    left: auto;
+    right: 2rem;
   }
 }
 
@@ -697,7 +698,6 @@ body{
         margin-top: 1.5rem;
         margin-bottom: 3rem;
         box-sizing: border-box;
-        outline: 2px dashed #e3342f; /* DEBUG: Remove after confirming */
     }
     .destination-bento-grid > * {
         grid-column: 1 / -1 !important;
@@ -1586,8 +1586,8 @@ body{
     }
     
     .gallery-main-image {
-        width: calc(100% - 80px);
-        max-width: calc(100% - 80px);
+        width: 100%;
+        margin: 0 auto;
     }
     
     .gallery-main-image img {

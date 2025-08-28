@@ -66,6 +66,14 @@ body{
     width: 100%;
     padding: 1rem 2rem;  
   }
+  .banner-section .container-1{
+    height: 80vh;
+  }
+  .banner-section .container-2{
+    justify-content: flex-start!important;
+    height: auto;
+    padding-bottom: 6rem;
+  }
   .banner-section .container::after{
     display: none;
   }

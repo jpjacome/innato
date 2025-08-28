@@ -1,5 +1,3 @@
-
-
 /* #region COLOR VARIABLES */
 /* ========== COLOR VARIABLES ========== */
 :root {
@@ -235,13 +233,13 @@ header {
   opacity: 0;
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1rem;
 }
 
 nav ul {
   list-style: none;
   display: flex;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 nav a {
@@ -285,8 +283,40 @@ nav a {
     margin-left: 0rem;
   }
 }
+  .logo a{
+    display: flex;
+    height: 100%;
+  }
   .logo img{
-    height: 45px;
+    height: 55px;
+  }
+
+
+
+.header-dropdown-container{
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.logo{
+  opacity: 0;
+  margin-left: 3rem;
+}
+@media (max-width: 800px) {
+  .logo{
+    margin-left: 0rem;
+  }
+}
+  .logo a{
+    display: flex;
+    height: 100%;
+  }
+  .logo img{
+    height: 55px;
   }
 
 /* Login link in header */
@@ -294,11 +324,9 @@ nav a {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 0.5rem;
   font-size: 1.2em;
   border-radius: 100%;
   border: 1px solid var(--color-black);
-  background-color: var(--color-2);
   width: 35px;
   height: 35px;
   cursor: pointer;
@@ -311,6 +339,29 @@ nav a {
 .header-login-link:hover {
   background-color: var(--color-2);
   border: 2px solid var(--color-black);
+}
+
+/* WhatsApp link in header */
+.header-whatsapp-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+  width: 37px;
+  height: 37px;
+  cursor: pointer;
+  outline: none!important;
+  transition: background-color 0.3s, outline 0.3s;
+}
+.header-whatsapp-link img {
+  width: 35px;
+  height: 35px;
+  object-fit: contain;
+}
+.header-whatsapp-link:hover img {
+  width: 37px;
+  height: 37px;
 }
 
 /* #endregion HEADER */
@@ -407,7 +458,6 @@ section{
     border-radius: 100%;
     border: 1px solid var(--color-black);
     outline: none!important;
-    background-color: var(--color-2);
     width: 35px;
     line-height: 35px;
     height: 35px;
@@ -429,7 +479,7 @@ section{
 
 /* #region NAVIGATION */
 /* Responsive nav: show icons only on tablet/mobile, hide text */
-@media (max-width: 1350px) {
+@media (max-width: 1250px) {
   .nav-list .nav-text {
     display: none;
   }
@@ -450,7 +500,7 @@ section{
 }
 
 /* On desktop, show both icon and text */
-@media (min-width: 1350px) {
+@media (min-width: 1250px) {
   .nav-list .nav-icon {
     display: none;
   }
@@ -462,7 +512,7 @@ section{
 /* Hide nav items and show hamburger from 700px and below */
 @media (max-width: 700px) {
   .main-nav {
-    gap: 0.5rem !important;
+    gap: 1rem !important;
   }
   .nav-list {
     display: none !important;

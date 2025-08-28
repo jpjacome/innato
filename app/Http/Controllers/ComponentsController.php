@@ -36,11 +36,16 @@ class ComponentsController extends Controller
             $allowed = ['jpeg','jpg','png','gif','svg'];
             if (in_array($ext, $allowed)) {
                 $filename = 'logo.' . $ext;
-                $targetPath = public_path('assets/imgs/' . $filename);
+                $targetDir = public_path('assets/imgs');
+                if (!is_dir($targetDir)) {
+                    @mkdir($targetDir, 0755, true);
+                }
+                $targetPath = $targetDir . DIRECTORY_SEPARATOR . $filename;
                 try {
-                    $file->move(public_path('assets/imgs'), $filename);
-                    // Touch the file to update its modified time
-                    @touch($targetPath);
+                    // Move uploaded file (overwrites existing)
+                    $file->move($targetDir, $filename);
+                    // Touch the file to update its modified time for cache-busting query param
+                    @touch($targetPath, time());
                     // Optionally, remove old logo files with other extensions
                     foreach ($allowed as $oldExt) {
                         if ($oldExt !== $ext) {
@@ -50,6 +55,8 @@ class ComponentsController extends Controller
                             }
                         }
                     }
+                    // Store a flash value to help the view append cache-busting param immediately after redirect
+                    session()->flash('header_logo_updated_at', filemtime($targetPath));
                 } catch (\Exception $e) {
                     \Log::error('Header logo upload failed: ' . $e->getMessage());
                     return redirect()->back()->withErrors(['header_logo' => 'Logo upload failed. Please check permissions or file type.']);

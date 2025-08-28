@@ -154,6 +154,18 @@ body{
 .banner-section .container-4{
   background-color: var(--color-5);
 }
+.banner-section .container-5{
+  display: none;
+
+}
+@media (max-width: 1100px){
+  .banner-section .container-3{
+    display: none;
+  }
+  .banner-section .container-5{
+    display: flex;
+  }
+}
 .banner-section h1{
     opacity: 0;
     color: var(--color-1);

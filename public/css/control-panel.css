@@ -630,6 +630,7 @@ html, body {
 .control-panel-table {
     width: 100%;
     border-collapse: collapse;
+    background-color: var(--color-1);
 }
 
 .control-panel-table th,
