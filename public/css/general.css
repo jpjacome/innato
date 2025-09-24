@@ -665,19 +665,6 @@ section {
 /* #endregion SECTIONS */
 
 /* #region FOOTER */
-/* ========== FOOTER ========== */
-footer {
-  background-color: var(--color-1);
-  color: white;
-  padding: 2rem;
-  text-align: center;
-  font-size: 0.875rem;
-}
-/* #endregion FOOTER */
-
-
-
-/* #region FOOTER (ADDITIONAL) */
 
 footer{
   position: relative;
@@ -685,6 +672,9 @@ footer{
   font-family: 'Franie Semibold', sans-serif;
   width: 100%;
   color: var(--color-black);
+  padding: 2rem 2rem 1rem;
+  text-align: center;
+  font-size: 0.875rem;
 }
 footer .wrapper-1{
   width: 100%;
@@ -780,16 +770,17 @@ footer .container{
 }
 
 .drpixel{
-  opacity: 0.8;
+    opacity: 0.8;
     display: flex;
-    position: absolute;
-    bottom: 10px;
-    right: 5px;
+    position: relative;
     gap: 5px;
     align-items: center;
     font-size: .6em;
-    transition: .03s ease-out;
+    transition: .03s 
+ease-out;
     cursor: default;
+    justify-content: center;
+    margin-top: 10px;
 }
   .drpixel a{
     cursor: pointer;

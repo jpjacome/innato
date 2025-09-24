@@ -96,8 +96,6 @@
     <!-- Footer -->
     <x-footer />
 
-    <div class="drpixel fade-in-1">
-        <x-interactive-icon size="20px" />carefully crafted by <a href="https://drpixel.it.nf/">DR PIXEL</a>    </div>
     <script src="{{ asset('assets/js/home.js') }}"></script>
     
     @stack('scripts')

@@ -45,7 +45,7 @@
         </div>
     </div>
     <div class="footer-copyright">{{ $footerSetting->copyright_text }}</div>
-</footer>
 <div class="drpixel fade-in-1">
     <x-interactive-icon size="20px" />{{ $footerSetting->attribution_text }} <a href="{{ $footerSetting->attribution_url }}">{{ $footerSetting->attribution_link_text }}</a>
 </div>
+</footer>

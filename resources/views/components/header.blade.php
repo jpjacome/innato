@@ -38,7 +38,7 @@
         </div>
         <nav class="main-nav fade-in-2">
             <ul class="nav-list">
-                <li><a href="/about" class="{{ navActive('about') }}"><span class="nav-icon ph ph-users-three"></span><span class="nav-text">{{ $headerSetting->nav_about_text }}</span></a></li>
+                <li><a href="{{ $headerSetting->nav_about_url ?? '/about' }}" class="{{ navActive('about') }}"><span class="nav-icon ph ph-users-three"></span><span class="nav-text">{{ $headerSetting->nav_about_text }}</span></a></li>
                 <li class="nav-dropdown {{ navActive(['destinations','destinations/costa','destinations/sierra','destinations/amazonia','destinations/galapagos']) }}" x-data="{ open: false }" @mouseleave="open = false" style="position: relative;">
                     <a @mouseenter="open = true" @click.prevent="open = !open" class="{{ navActive(['destinations','destinations/costa','destinations/sierra','destinations/amazonia','destinations/galapagos']) }}">
                         <span class="nav-icon ph ph-path"></span>
@@ -52,9 +52,9 @@
                         <li><a href="/destinations/galapagos" class="{{ navActive('destinations/galapagos') }}">Galapagos</a></li>
                     </ul>
                 </li>
-                <li><a href="/experience-center" class="{{ navActive('experience-center') }}"><span class="nav-icon ph ph-buildings"></span><span class="nav-text">{{ $headerSetting->nav_experience_text }}</span></a></li>
-                <li><a href="/elpatio" class="{{ navActive('hostal') }}" target="_blank" rel="noopener noreferrer"><span class="nav-icon ph ph-house-simple"></span><span class="nav-text">{{ $headerSetting->nav_hostal_text }}</span></a></li>
-                <li><a href="/contact" class="{{ navActive('contact') }}"><span class="nav-icon ph ph-envelope-simple"></span><span class="nav-text">{{ $headerSetting->nav_contact_text }}</span></a></li>
+                <li><a href="{{ $headerSetting->nav_experience_url ?? '/experience-center' }}" class="{{ navActive('experience-center') }}"><span class="nav-icon ph ph-buildings"></span><span class="nav-text">{{ $headerSetting->nav_experience_text }}</span></a></li>
+                <li><a href="{{ $headerSetting->nav_hostal_url ?? '/hostal' }}" class="{{ navActive('hostal') }}" target="_blank" rel="noopener noreferrer"><span class="nav-icon ph ph-house-simple"></span><span class="nav-text">{{ $headerSetting->nav_hostal_text }}</span></a></li>
+                <li><a href="{{ $headerSetting->nav_contact_url ?? '/contact' }}" class="{{ navActive('contact') }}"><span class="nav-icon ph ph-envelope-simple"></span><span class="nav-text">{{ $headerSetting->nav_contact_text }}</span></a></li>
             </ul>
             <a href="#" id="whatsapp-link" class="header-whatsapp-link" title="WhatsApp">
                 <img src="{{ asset('assets/imgs/whatsapp1.png') }}" alt="WhatsApp">
@@ -78,11 +78,11 @@
 <!-- Mobile Menu -->
 <div id="mobile-menu" class="mobile-menu">
     <ul>
-        <li><a href="/about" class="{{ navActive('about') }}">{{ $headerSetting->nav_about_text }}</a></li>
-        <li><a href="/destinations" class="{{ navActive('destinations') }}">{{ $headerSetting->nav_destinations_text }}</a></li>
-        <li><a href="/experience-center" class="{{ navActive('experience-center') }}">{{ $headerSetting->nav_experience_text }}</a></li>
-        <li><a href="/hostal" class="{{ navActive('hostal') }}">{{ $headerSetting->nav_hostal_text }}</a></li>
-        <li><a href="/contact" class="{{ navActive('contact') }}">{{ $headerSetting->nav_contact_text }}</a></li>
+        <li><a href="{{ $headerSetting->nav_about_url ?? '/about' }}" class="{{ navActive('about') }}">{{ $headerSetting->nav_about_text }}</a></li>
+        <li><a href="{{ $headerSetting->nav_destinations_url ?? '/destinations' }}" class="{{ navActive('destinations') }}">{{ $headerSetting->nav_destinations_text }}</a></li>
+        <li><a href="{{ $headerSetting->nav_experience_url ?? '/experience-center' }}" class="{{ navActive('experience-center') }}">{{ $headerSetting->nav_experience_text }}</a></li>
+        <li><a href="{{ $headerSetting->nav_hostal_url ?? '/hostal' }}" class="{{ navActive('hostal') }}">{{ $headerSetting->nav_hostal_text }}</a></li>
+        <li><a href="{{ $headerSetting->nav_contact_url ?? '/contact' }}" class="{{ navActive('contact') }}">{{ $headerSetting->nav_contact_text }}</a></li>
     </ul>
 </div>
 

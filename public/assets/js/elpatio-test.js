@@ -97,11 +97,32 @@ document.addEventListener('DOMContentLoaded', function () {
     fadeEls.forEach(el => observer.observe(el));
   }
 
-  setupFadeObserver('fadein-1', 'fade-in-1');
-  setupFadeObserver('fadein-2', 'fade-in-2');
-  setupFadeObserver('fadein-3', 'fade-in-3');
-  setupFadeObserver('fadein-4', 'fade-in-4');
-  setupFadeObserver('fadeout-1', 'fade-out-1');
+  // If we're on the single blog post page, apply fade classes immediately
+  // so elements don't wait for scroll to show up.
+  const isSinglePost = document.querySelector('.single-blog-post') !== null;
+  function applyFadeClassesImmediately() {
+    const mapping = {
+      'fadein-1': 'fade-in-1',
+      'fadein-2': 'fade-in-2',
+      'fadein-3': 'fade-in-3',
+      'fadein-4': 'fade-in-4',
+      'fadeout-1': 'fade-out-1'
+    };
+    Object.keys(mapping).forEach(key => {
+      const nodes = document.querySelectorAll('.' + key);
+      nodes.forEach(n => n.classList.add(mapping[key]));
+    });
+  }
+
+  if (isSinglePost) {
+    applyFadeClassesImmediately();
+  } else {
+    setupFadeObserver('fadein-1', 'fade-in-1');
+    setupFadeObserver('fadein-2', 'fade-in-2');
+    setupFadeObserver('fadein-3', 'fade-in-3');
+    setupFadeObserver('fadein-4', 'fade-in-4');
+    setupFadeObserver('fadeout-1', 'fade-out-1');
+  }
 
   // Parallax effect for SVG circle windows (multiple)
   function setupParallaxCircle(circleId, svgId, parallaxStrength) {
@@ -246,25 +267,46 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 // Swiper.js initialization for photo gallery
-// Images for the gallery
-const galleryImages = [
-  '/assets/elpatio/imgs/photo1.avif',
-  '/assets/elpatio/imgs/photo2.avif',
-  '/assets/elpatio/imgs/photo3.jpg',
-  '/assets/elpatio/imgs/photo4.jpg',
-  '/assets/elpatio/imgs/photo5.jpg',
-  '/assets/elpatio/imgs/photo6.jpg',
-  '/assets/elpatio/imgs/photo7.jpg',
-  '/assets/elpatio/imgs/photo8.jpg',
-  '/assets/elpatio/imgs/photo9.jpg',
-  '/assets/elpatio/imgs/photo10.webp',
-  '/assets/elpatio/imgs/photo11.webp',
-  '/assets/elpatio/imgs/photo12.webp',
-  '/assets/elpatio/imgs/photo13.webp',
-  '/assets/elpatio/imgs/photo14.webp',
-  '/assets/elpatio/imgs/photo15.webp',
-  '/assets/elpatio/imgs/photo16.png'
-];
+// Images for the gallery - prefer server-provided `window.ElPatioGallery` when available
+let galleryImages = [];
+try {
+  if (window && Array.isArray(window.ElPatioGallery) && window.ElPatioGallery.length) {
+    galleryImages = window.ElPatioGallery.map(function(item) {
+      if (!item) return null;
+      if (typeof item === 'string') {
+        // stored path like 'elpatio/abcdef.jpg'
+        return '/storage/' + item.replace(/^\/+/, '');
+      }
+      if (item.image) {
+        return item.image.startsWith('http') ? item.image : '/storage/' + item.image.replace(/^\/+/, '');
+      }
+      return null;
+    }).filter(Boolean);
+  }
+} catch (e) {
+  // ignore and fall back to defaults
+}
+
+if (!galleryImages.length) {
+  galleryImages = [
+    '/assets/elpatio/imgs/photo1.avif',
+    '/assets/elpatio/imgs/photo2.avif',
+    '/assets/elpatio/imgs/photo3.jpg',
+    '/assets/elpatio/imgs/photo4.jpg',
+    '/assets/elpatio/imgs/photo5.jpg',
+    '/assets/elpatio/imgs/photo6.jpg',
+    '/assets/elpatio/imgs/photo7.jpg',
+    '/assets/elpatio/imgs/photo8.jpg',
+    '/assets/elpatio/imgs/photo9.jpg',
+    '/assets/elpatio/imgs/photo10.webp',
+    '/assets/elpatio/imgs/photo11.webp',
+    '/assets/elpatio/imgs/photo12.webp',
+    '/assets/elpatio/imgs/photo13.webp',
+    '/assets/elpatio/imgs/photo14.webp',
+    '/assets/elpatio/imgs/photo15.webp',
+    '/assets/elpatio/imgs/photo16.png'
+  ];
+}
 
 function createGallerySlides() {
   const mainWrapper = document.querySelector('.swiper-wrapper.main');

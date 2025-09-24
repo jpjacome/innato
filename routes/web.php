@@ -168,8 +168,17 @@ Route::get('/experience-center', function () {
     return view('experience-center');
 });
 
+// Public route for Products (Dynamic content)
+Route::get('/products', function () {
+    $productsSetting = class_exists('App\\Models\\ProductsSetting') ? \App\Models\ProductsSetting::instance() : null;
+    $products = \App\Models\Product::active()->get();
+    return view('products', compact('productsSetting', 'products'));
+})->name('products');
+
 // Public route for Contact (dynamic content)
 Route::get('/contact', [\App\Http\Controllers\ContactController::class, 'show'])->name('contact');
+// Contact form submission
+Route::post('/contact', [\App\Http\Controllers\ContactFormController::class, 'send'])->name('contact.send');
 
 // Fallback /elpatio path so main domain can preview the landing page; redirect to canonical root on elpatio domain
 Route::get('/elpatio', function () {
@@ -177,7 +186,7 @@ Route::get('/elpatio', function () {
         // Maintain canonical URL structure (root) for the El Patio domain
         return redirect('/');
     }
-    return view('elpatio');
+    return view('elpatio.elpatio');
 })->name('elpatio');
 
 // Test route for elpatio-test.blade.php
@@ -185,10 +194,16 @@ Route::get('/elpatio-test', function () {
     return view('elpatio.elpatio-test');
 })->name('elpatio.test');
 
+
 // Test route for single-blog-post.blade.php
 Route::get('/elpatio-blog-post', function () {
     return view('elpatio.single-blog-post');
 })->name('elpatio.blog.single');
+
+// Preview route for the full El Patio landing blade (resource: resources/views/elpatio/elpatio.blade.php)
+Route::get('/elpatio-live', function () {
+    return view('elpatio.elpatio');
+})->name('elpatio.live');
 
 // (Removed standalone /elpatio route; domain now serves page. Re-add if you want it accessible on main domain.)
 
@@ -281,6 +296,21 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
         return redirect('/pulse');
     })->name('admin.pulse');
 
+    // Admin SEO Management Routes
+    Route::prefix('admin/seo')->name('admin.seo.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Admin\AdminSeoController::class, 'index'])->name('index');
+        Route::get('/global', [\App\Http\Controllers\Admin\AdminSeoController::class, 'global'])->name('global');
+        Route::put('/global', [\App\Http\Controllers\Admin\AdminSeoController::class, 'updateGlobal'])->name('global.update');
+        Route::get('/destinations', [\App\Http\Controllers\Admin\AdminSeoController::class, 'destinations'])->name('destinations');
+        Route::get('/destinations/{destination}/edit', [\App\Http\Controllers\Admin\AdminSeoController::class, 'editDestination'])->name('destinations.edit');
+        Route::put('/destinations/{destination}', [\App\Http\Controllers\Admin\AdminSeoController::class, 'updateDestination'])->name('destinations.update');
+        Route::get('/pages', [\App\Http\Controllers\Admin\AdminSeoController::class, 'pages'])->name('pages');
+        Route::post('/sitemap/generate', [\App\Http\Controllers\Admin\AdminSeoController::class, 'generateSitemap'])->name('sitemap.generate');
+        Route::get('/robots', [\App\Http\Controllers\Admin\AdminSeoController::class, 'robots'])->name('robots');
+        Route::put('/robots', [\App\Http\Controllers\Admin\AdminSeoController::class, 'updateRobots'])->name('robots.update');
+        Route::get('/audit', [\App\Http\Controllers\Admin\AdminSeoController::class, 'audit'])->name('audit');
+    });
+
     // Admin Destinations Management
     Route::get('/admin/destinations', [AdminDestinationController::class, 'index'])->name('admin.destinations.index');
     Route::get('/admin/destinations/{destination}/edit', [AdminDestinationController::class, 'edit'])->name('admin.destinations.edit');
@@ -317,6 +347,24 @@ Route::middleware(['auth', EditorMiddleware::class])->group(function () {
     Route::put('/admin/pages/edit-home', [PagesController::class, 'updateHome'])->name('admin.pages.update-home');
     Route::get('/admin/pages/edit-about', [PagesController::class, 'editAbout'])->name('admin.pages.edit-about');
     Route::put('/admin/pages/edit-about', [PagesController::class, 'updateAbout'])->name('admin.pages.update-about');
+    // El Patio admin edit (persisted)
+    Route::get('/admin/pages/edit-elpatio', [\App\Http\Controllers\Admin\ElPatioController::class, 'edit'])->name('admin.pages.edit-elpatio');
+    Route::put('/admin/pages/edit-elpatio', [\App\Http\Controllers\Admin\ElPatioController::class, 'update'])->name('admin.pages.update-elpatio');
+    // El Patio header editor (persist header_menu)
+    Route::get('/admin/pages/edit-elpatio-header', [\App\Http\Controllers\Admin\ElPatioController::class, 'editHeader'])->name('admin.pages.edit-elpatio-header');
+    Route::put('/admin/pages/edit-elpatio-header', [\App\Http\Controllers\Admin\ElPatioController::class, 'updateHeader'])->name('admin.pages.update-elpatio-header');
+    // El Patio footer editor
+    Route::get('/admin/pages/edit-elpatio-footer', [\App\Http\Controllers\Admin\ElPatioController::class, 'editFooter'])->name('admin.pages.edit-elpatio-footer');
+    Route::put('/admin/pages/edit-elpatio-footer', [\App\Http\Controllers\Admin\ElPatioController::class, 'updateFooter'])->name('admin.pages.update-elpatio-footer');
+    // El Patio blog admin editor
+    Route::get('/admin/pages/edit-elpatio-blog', [\App\Http\Controllers\Admin\ElPatioBlogController::class, 'edit'])->name('admin.pages.edit-elpatio-blog');
+    Route::post('/admin/pages/edit-elpatio-blog', [\App\Http\Controllers\Admin\ElPatioBlogController::class, 'store'])->name('admin.pages.store-elpatio-blog');
+    // Single post actions (edit/update/delete)
+    Route::get('/admin/pages/edit-elpatio-blog/{id}/edit', [\App\Http\Controllers\Admin\ElPatioBlogController::class, 'editItem'])->name('admin.pages.edit-elpatio-blog.edit');
+    Route::put('/admin/pages/edit-elpatio-blog/{id}', [\App\Http\Controllers\Admin\ElPatioBlogController::class, 'update'])->name('admin.pages.edit-elpatio-blog.update');
+    Route::delete('/admin/pages/edit-elpatio-blog/{id}', [\App\Http\Controllers\Admin\ElPatioBlogController::class, 'destroy'])->name('admin.pages.edit-elpatio-blog.destroy');
+    // Trix upload endpoint
+    Route::post('/admin/uploads/trix', [\App\Http\Controllers\Admin\ElPatioBlogController::class, 'uploadTrix'])->name('admin.uploads.trix');
     Route::get('/admin/pages/home-stats', [PagesController::class, 'homeStats'])->name('admin.pages.home-stats');
 
     // Contact Page Admin Edit
@@ -325,6 +373,20 @@ Route::middleware(['auth', EditorMiddleware::class])->group(function () {
     // Experience Center Page Admin Edit
     Route::get('/admin/pages/edit-experience-center', [\App\Http\Controllers\ExperienceCenterController::class, 'edit'])->name('admin.experience-center.edit');
     Route::post('/admin/pages/edit-experience-center', [\App\Http\Controllers\ExperienceCenterController::class, 'update'])->name('admin.experience-center.update');
+    // Products Page Admin Edit
+    Route::get('/admin/pages/edit-products', [PagesController::class, 'editProducts'])->name('admin.pages.edit-products');
+    Route::put('/admin/pages/edit-products', [PagesController::class, 'updateProducts'])->name('admin.pages.update-products');
+    
+    // Products Management (CRUD)
+    Route::resource('/admin/products', \App\Http\Controllers\Admin\ProductController::class)->names([
+        'index' => 'admin.products.index',
+        'create' => 'admin.products.create',
+        'store' => 'admin.products.store',
+        'show' => 'admin.products.show',
+        'edit' => 'admin.products.edit',
+        'update' => 'admin.products.update',
+        'destroy' => 'admin.products.destroy',
+    ]);
 
     // Component Routes
     Route::get('/admin/components/edit-header', [\App\Http\Controllers\ComponentsController::class, 'editHeader'])->name('admin.components.edit-header');
@@ -347,6 +409,23 @@ Route::middleware(['auth', EditorMiddleware::class])->group(function () {
     Route::put('/admin/maintenance/{maintenanceLog}', [App\Http\Controllers\Admin\MaintenanceLogController::class, 'update'])->name('admin.maintenance.update');
     Route::delete('/admin/maintenance/{maintenanceLog}', [App\Http\Controllers\Admin\MaintenanceLogController::class, 'destroy'])->name('admin.maintenance.destroy');
     Route::delete('/admin/maintenance/{maintenanceLog}/images/{image}', [App\Http\Controllers\Admin\MaintenanceLogController::class, 'deleteImage'])->name('admin.maintenance.images.destroy');
+});
+
+// Public El Patio blog routes
+Route::get('/elpatio/blog', [\App\Http\Controllers\ElPatioBlogController::class, 'index']);
+Route::get('/elpatio/blog/{slug}', [\App\Http\Controllers\ElPatioBlogController::class, 'show']);
+
+// Simple sitemap for blog posts
+Route::get('/sitemap-elpatio-blog.xml', function () {
+    $posts = \App\Models\ElPatioPost::orderByDesc('published_at')->get();
+    $content = view('sitemaps.elpatio-blog', ['posts' => $posts])->render();
+    return response($content, 200)->header('Content-Type', 'application/xml');
+});
+
+Route::get('/elpatio/blog/rss', function () {
+    $posts = \App\Models\ElPatioPost::orderByDesc('published_at')->limit(20)->get();
+    $content = view('rss.elpatio-blog', ['posts' => $posts])->render();
+    return response($content, 200)->header('Content-Type', 'application/rss+xml');
 });
 
 // Editor Dashboard Routes (Protected by EditorMiddleware)

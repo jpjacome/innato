@@ -15,11 +15,11 @@
       <img class="logo-img" src="/assets/elpatio/imgs/logo4.png" alt="">
     </a>
     <nav class="nav fadein-2" id="nav">
-      <a href="#about" class="menu-item" id="menu-item-3">ABOUT US</a>
+      <a href="#about" class="menu-item" id="menu-item-1">ABOUT US</a>
       <a href="#rooms" class="menu-item" id="menu-item-2">ROOMS</a>
-      <a href="#gallery" class="menu-item" id="menu-item-4">PHOTO GALLERY</a>
-      <a href="#blog" class="menu-item" id="menu-item-5">BLOG</a>
-      <a href="https://innatotravel.com/" class="menu-item" id="menu-item-6">TOURS</a>
+      <a href="#gallery" class="menu-item" id="menu-item-3">PHOTO GALLERY</a>
+      <a href="#blog" class="menu-item" id="menu-item-4">BLOG</a>
+      <a href="https://innatotravel.com/" class="menu-item" id="menu-item-5">TOURS</a>
     </nav>  
     <div class="social-media fadein-3">
       <a href=""><img class="social-media-icon" src="/assets/elpatio/imgs/icon-instagram.svg" alt=""></a>

@@ -64,9 +64,25 @@
         @error('people_count')<div class="control-panel-input-error">{{ $message }}</div>@enderror
     </div>
     <div class="control-panel-form-group">
-        <label for="date" class="control-panel-label">Date</label>
+        <label for="date" class="control-panel-label">Fecha Estimada de Viaje</label>
         <input type="date" name="date" id="date" class="control-panel-input" value="{{ old('date') }}" required>
         @error('date')<div class="control-panel-input-error">{{ $message }}</div>@enderror
+    </div>
+    <div class="control-panel-form-group">
+        <label for="travel_type" class="control-panel-label">Tipo de Viaje</label>
+        <select name="travel_type" id="travel_type" class="control-panel-select">
+            <option value="">Selecciona el tipo de viaje</option>
+            <option value="Amigos" {{ old('travel_type') == 'Amigos' ? 'selected' : '' }}>Amigos</option>
+            <option value="Familia" {{ old('travel_type') == 'Familia' ? 'selected' : '' }}>Familia</option>
+            <option value="Pareja" {{ old('travel_type') == 'Pareja' ? 'selected' : '' }}>Pareja</option>
+            <option value="Solo" {{ old('travel_type') == 'Solo' ? 'selected' : '' }}>Solo</option>
+        </select>
+        @error('travel_type')<div class="control-panel-input-error">{{ $message }}</div>@enderror
+    </div>
+    <div class="control-panel-form-group">
+        <label for="country_of_origin" class="control-panel-label">País de Procedencia</label>
+        <input type="text" name="country_of_origin" id="country_of_origin" class="control-panel-input" value="{{ old('country_of_origin') }}" placeholder="Ej: Ecuador, Colombia, Perú...">
+        @error('country_of_origin')<div class="control-panel-input-error">{{ $message }}</div>@enderror
     </div>
     <div class="control-panel-form-group">
         <label for="phone_number" class="control-panel-label">Phone Number</label>

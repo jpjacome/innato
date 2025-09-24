@@ -15,6 +15,8 @@ class Reservation extends Model
         'people_count',
         'date',
         'phone_number',
+        'travel_type',
+        'country_of_origin',
     ];
 
     // Relationship: destination (foreign key destination_id)

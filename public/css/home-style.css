@@ -75,6 +75,7 @@
     font-size: clamp(25px, 3.5rem, 10vw);
     color: var(--color-1);
     margin-bottom: 2rem;
+    max-width: 800px;
 }
 .hero p {
     font-size: 1.25rem;

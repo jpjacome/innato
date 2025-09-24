@@ -46,7 +46,7 @@
         <div class="container container-4">
             <h2 class='fade-in-3'>{{ $setting->banner2_title ?? 'VISÍTANOS Y DESCUBRE NUESTROS PRODUCTOS LOCALES.' }}</h2>
             <p class='fade-in-2'>{{ $setting->banner2_description ?? 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Architecto, exercitationem ex. In veritatis saepe numquam, dolor itaque suscipit fuga tempore?' }}</p>
-            <button class="cta-button fade-in-1">{{ $setting->banner2_button_text ?? 'CONOCE MÁS' }}</button>
+            <a href="{{ route('products') }}" class="cta-button fade-in-1">{{ $setting->banner2_button_text ?? 'CONOCE MÁS' }}</a>
             <div class="icon fade-in-2">
                 <img id="icon-comunidad" src="../assets/imgs/icon-comunidad.svg" alt="Purple vector abstract illustration">
             </div>
@@ -78,9 +78,6 @@
 
     <!-- Footer -->
     <x-footer />
-
-    <div class="drpixel fade-in-1">
-        <x-interactive-icon size="20px" />carefully crafted by <a href="https://drpixel.it.nf/">DR PIXEL</a>    </div>
     <script src="{{ asset('assets/js/home.js') }}"></script>
     
     @stack('scripts')

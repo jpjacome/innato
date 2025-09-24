@@ -33,17 +33,7 @@
             <p class="fade-in-2">{{ $destination->subtitle }}</p>
             
             <div class="destination-bento-grid">
-                <!-- Hero Info Card -->
-                <div class="bento-card hero-info-card">
-                    <div class="destination-coords">
-                        <i class="ph ph-map-pin"></i>
-                        <span>{{ $destination->coordinates }}</span>
-                    </div>
-                    <div class="conservation-status">
-                        <span><i class="ph ph-shield-check"></i> {{ $destination->conservation_status }}</span>
-                    </div>
-                </div>
-<!-- Description Card - Large -->
+                <!-- Description Card - Large -->
                 <div class="bento-card description-card">
                     <h3>
                         <i class="ph ph-info"></i>
@@ -57,6 +47,33 @@
                     </p>
                     <x-reservation-button />
                 </div>
+
+                <!-- Photos Gallery Card -->
+                @if($destination->gallery_images && count($destination->gallery_images) > 0)
+                <div class="bento-card gallery-card">
+                    <h3>
+                        <i class="ph ph-images"></i>
+                        Fotos
+                    </h3>
+                    <div class="gallery-content">
+                        <div class="photo-grid">
+                            @foreach($destination->gallery_images as $index => $image)
+                                @if($index < 8)
+                                <div class="photo-item" onclick="openGalleryModal({{ $index }})">
+                                    <img src="{{ Storage::url($image) }}" alt="Photo {{ $index + 1 }} of {{ $destination->title }}" loading="lazy">
+                                    @if($index === 3 && count($destination->gallery_images) > 4)
+                                        <div class="photo-overlay">
+                                            <span>+{{ count($destination->gallery_images) - 4 }}</span>
+                                        </div>
+                                    @endif
+                                </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                @endif
+
                 <!-- Location Card -->
                 <div class="bento-card location-card">
                     <h3>
@@ -88,17 +105,27 @@
                     <h3>
                         <i class="ph ph-sun-dim"></i>
                         Clima
+                        <button class="temp-toggle-btn" onclick="toggleTemperatureUnit()" title="Cambiar unidad de temperatura">
+                            <span id="temp-unit-display">°C</span>
+                        </button>
                     </h3>
+                    <div class="altitude-info">
+                        <span class="altitude-label">
+                            <i class="ph ph-mountains"></i>
+                            Altitud:
+                        </span>
+                        <span class="altitude-value">{{ $destination->altitude ?? 'Información no disponible' }}</span>
+                    </div>
                     <div class="climate-seasons">
                         <div class="season-item dry-season">
                             <span class="season-name">{{ $destination->climate_dry_season['name'] ?? 'Época Seca' }}</span>
                             <span class="season-time">{{ $destination->climate_dry_season['months'] ?? 'Junio - Noviembre' }}</span>
-                            <span class="season-temp">{{ $destination->climate_dry_season['temperature'] ?? '27°C' }}</span>
+                            <span class="season-temp" data-celsius="{{ $destination->climate_dry_season['temperature'] ?? '27' }}">{{ ($destination->climate_dry_season['temperature'] ?? '27') }}°C</span>
                         </div>
                         <div class="season-item wet-season">
                             <span class="season-name">{{ $destination->climate_wet_season['name'] ?? 'Época Húmeda' }}</span>
                             <span class="season-time">{{ $destination->climate_wet_season['months'] ?? 'Diciembre - Mayo' }}</span>
-                            <span class="season-temp">{{ $destination->climate_wet_season['temperature'] ?? '20°C' }}</span>
+                            <span class="season-temp" data-celsius="{{ $destination->climate_wet_season['temperature'] ?? '20' }}">{{ ($destination->climate_wet_season['temperature'] ?? '20') }}°C</span>
                         </div>
                     </div>
                 </div>
@@ -129,39 +156,54 @@
                     </div>
                 </div>
 
-                <!-- Schedule & Entry Card -->
-                <div class="bento-card schedule-card">
+                <!-- Activities Card -->
+                <div class="bento-card activities-card">
                     <h3>
-                        <i class="ph ph-clock"></i>
-                        Horarios & Entrada
+                        <i class="ph ph-activity"></i>
+                        Actividades
                     </h3>
-                    <div class="schedule-details">
-                        <div class="schedule-item">
-                            <span><i class="ph ph-timer"></i> Horario:</span>
-                            <strong>{{ $destination->schedule_hours ?? '06:00 - 17:00' }}</strong>
-                        </div>
-                        <div class="schedule-item">
-                            <span><i class="ph ph-currency-dollar"></i> Entrada:</span>
-                            <strong class="free-entry">{{ $destination->entry_fee ?? 'GRATIS ($0 USD)' }}</strong>
-                        </div>
-                        <div class="schedule-item">
-                            <span><i class="ph ph-calendar"></i> Temporada:</span>
-                            <strong>{{ $destination->season_availability ?? 'Todo el año' }}</strong>
-                        </div>
-                        <div class="schedule-item">
-                            <span><i class="ph ph-identification-card"></i> Requisitos:</span>
-                            <strong>{{ $destination->requirements ?? 'Ninguno' }}</strong>
-                        </div>
+                    <div class="activities-grid">
+                        @if($destination->activities && count($destination->activities) > 0)
+                            @foreach($destination->getFormattedActivities() as $activity)
+                                <div class="activity-tag">
+                                    <i class="{{ $activity['icon'] }}"></i>
+                                    <span>{{ $activity['name'] }}</span>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="activity-tag">
+                                <i class="ph ph-mountains"></i>
+                                <span>Senderismo</span>
+                            </div>
+                            <div class="activity-tag">
+                                <i class="ph ph-camera"></i>
+                                <span>Fotografía</span>
+                            </div>
+                            <div class="activity-tag">
+                                <i class="ph ph-binoculars"></i>
+                                <span>Observación de Aves</span>
+                            </div>
+                            <div class="activity-tag">
+                                <i class="ph ph-leaf"></i>
+                                <span>Observación de Flora</span>
+                            </div>
+                            <div class="activity-tag">
+                                <i class="ph ph-campfire"></i>
+                                <span>Camping</span>
+                            </div>
+                            <div class="activity-tag">
+                                <i class="ph ph-bicycle"></i>
+                                <span>Ciclismo</span>
+                            </div>
+                        @endif
                     </div>
                 </div>
 
-
-
-                <!-- Services & Facilities Card -->
+                <!-- Services Card -->
                 <div class="bento-card services-card">
                     <h3>
-                        <i class="ph ph-activity"></i>
-                        Servicios & Actividades
+                        <i class="ph ph-handshake"></i>
+                        Servicios
                     </h3>
                     <div class="services-grid">
                         @if($destination->services && count($destination->services) > 0)
@@ -193,10 +235,6 @@
                                 <span>Visitas Guiadas</span>
                             </div>
                             <div class="service-tag available">
-                                <i class="ph ph-wrench"></i>
-                                <span>Talleres</span>
-                            </div>
-                            <div class="service-tag available">
                                 <i class="ph ph-signpost"></i>
                                 <span>Señalización</span>
                             </div>
@@ -208,172 +246,120 @@
                     </div>
                 </div>
 
-                <!-- Pricing & Accommodation Card -->
-                <div class="bento-card pricing-card">
+                <!-- Ten en Cuenta Que Card -->
+                <div class="bento-card considerations-card">
                     <h3>
-                        <i class="ph ph-currency-dollar"></i>
-                        Precios & Capacidad
+                        <i class="ph ph-warning-circle"></i>
+                        Ten en Cuenta Que
                     </h3>
-                    <div class="pricing-details">
-                        <div class="price-item main-price">
-                            <span>Hospedaje promedio:</span>
-                            <strong>${{ $destination->average_price ?? '33' }} USD/persona</strong>
-                        </div>
-                        <div class="price-item">
-                            <span>Capacidad:</span>
-                            <strong>{{ $destination->capacity ?? '40' }} PAX</strong>
-                        </div>
-                        <div class="price-item">
-                            <span>Pago:</span>
-                            <strong>{{ $destination->payment_methods ?? 'Solo efectivo' }}</strong>
-                        </div>
-                        <div class="price-item">
-                            <span>Cobertura móvil:</span>
-                            <strong>{{ $destination->mobile_coverage ?? 'Sí disponible' }}</strong>
-                        </div>
-                    </div>
-                    <x-reservation-button/>
-                </div>
-
-                <!-- Tourism Criteria Card -->
-                <div class="bento-card criteria-card">
-                    <h3>
-                        <i class="ph ph-medal"></i>
-                        Criterios Turísticos
-                    </h3>
-                    <div class="criteria-list">
-                        @if($destination->tourism_criteria)
-                            <div class="criteria-item {{ ($destination->tourism_criteria['access'] ?? 'SI') == 'SI' ? 'positive' : 'neutral' }}">
-                                <i class="ph {{ ($destination->tourism_criteria['access'] ?? 'SI') == 'SI' ? 'ph-check-circle' : 'ph-x-circle' }}"></i>
-                                <span>Acceso a personas de tercera edad y/o con discapacidad: {{ $destination->tourism_criteria['access'] ?? 'SI' }}</span>
-                            </div>
-                            <div class="criteria-item {{ ($destination->tourism_criteria['access_status'] ?? 'SI') == 'SI' ? 'positive' : 'neutral' }}">
-                                <i class="ph {{ ($destination->tourism_criteria['access_status'] ?? 'SI') == 'SI' ? 'ph-check-circle' : 'ph-x-circle' }}"></i>
-                                <span>Estado del acceso para personas de tercera edad y/o con discapacidad: {{ $destination->tourism_criteria['access_status'] ?? 'SI' }}</span>
-                            </div>
-                            <div class="criteria-item {{ ($destination->tourism_criteria['security'] ?? 'SI') == 'SI' ? 'positive' : 'neutral' }}">
-                                <i class="ph {{ ($destination->tourism_criteria['security'] ?? 'SI') == 'SI' ? 'ph-check-circle' : 'ph-x-circle' }}"></i>
-                                <span>Seguridad en los alrededores: {{ $destination->tourism_criteria['security'] ?? 'SI' }}</span>
-                            </div>
-                            <div class="criteria-item positive">
-                                <i class="ph ph-check-circle"></i>
-                                <span>Cordialidad del Personal: {{ $destination->tourism_criteria['personnel'] ?? 'BUENO' }}</span>
-                            </div>
-                            <div class="criteria-item {{ ($destination->tourism_criteria['languages'] ?? 'NO') == 'SI' ? 'positive' : 'neutral' }}">
-                                <i class="ph {{ ($destination->tourism_criteria['languages'] ?? 'NO') == 'SI' ? 'ph-check-circle' : 'ph-x-circle' }}"></i>
-                                <span>Desempeño del personal en otros idiomas: {{ $destination->tourism_criteria['languages'] ?? 'NO' }}</span>
-                            </div>
-                            <div class="criteria-item positive">
-                                <i class="ph ph-palette"></i>
-                                <span>Concepto en la decoración del sitio: {{ $destination->tourism_criteria['decoration'] ?? 'PROPIO DE LA COSTA' }}</span>
-                            </div>
-                            <div class="criteria-item {{ ($destination->tourism_criteria['waste'] ?? 'NO') == 'SI' ? 'positive' : 'neutral' }}">
-                                <i class="ph {{ ($destination->tourism_criteria['waste'] ?? 'NO') == 'SI' ? 'ph-check-circle' : 'ph-x-circle' }}"></i>
-                                <span>Manejo de desechos: {{ $destination->tourism_criteria['waste'] ?? 'NO' }}</span>
-                            </div>
-                        @else
-                            <div class="criteria-item positive">
-                                <i class="ph ph-check-circle"></i>
-                                <span>Acceso a personas de tercera edad y/o con discapacidad: SI</span>
-                            </div>
-                            <div class="criteria-item positive">
-                                <i class="ph ph-check-circle"></i>
-                                <span>Estado del acceso para personas de tercera edad y/o con discapacidad: SI</span>
-                            </div>
-                            <div class="criteria-item positive">
-                                <i class="ph ph-check-circle"></i>
-                                <span>Seguridad en los alrededores: SI</span>
-                            </div>
-                            <div class="criteria-item positive">
-                                <i class="ph ph-check-circle"></i>
-                                <span>Cordialidad del Personal: BUENO</span>
-                            </div>
-                            <div class="criteria-item neutral">
-                                <i class="ph ph-x-circle"></i>
-                                <span>Desempeño del personal en otros idiomas: NO</span>
-                            </div>
-                            <div class="criteria-item positive">
-                                <i class="ph ph-palette"></i>
-                                <span>Concepto en la decoración del sitio: PROPIO DE LA COSTA</span>
-                            </div>
-                            <div class="criteria-item neutral">
-                                <i class="ph ph-x-circle"></i>
-                                <span>Manejo de desechos: NO</span>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-
-                
-
-
-                <!-- Suggestions Card -->
-                <div class="bento-card suggestions-card">
-                    <h3>
-                        <i class="ph ph-lightbulb"></i>
-                        Fortalezas & Beneficios
-                    </h3>
-                    <p>
-                        {{ $destination->strengths_benefits ?? '' }}
-                    </p>
-                </div>
-                
-                <!-- Challenges Card -->
-                <div class="bento-card challenges-card">
-                    <h3>
-                        <i class="ph ph-warning"></i>
-                        Desafíos Ambientales
-                    </h3>
-                    <div class="challenges-content">
-                        @if($destination->environmental_challenges && count($destination->environmental_challenges) > 0)
-                            @php $challenge = $destination->environmental_challenges[0]; @endphp
-                            <div class="challenge-item">
-                                <div>
-                                    <strong>
-                                <i class="{{ $challenge['icon'] ?? 'ph ph-warning' }}"></i>{{ $challenge['title'] ?? 'Contaminación' }}:</strong>
-                                    <span>{{ $challenge['description'] ?? 'Generación de residuos, especialmente plásticos en feriados que contaminan el entorno natural y marino.' }}</span>
+                    <div class="considerations-list">
+                        @if($destination->considerations && count($destination->considerations) > 0)
+                            @foreach($destination->getFormattedConsiderations() as $consideration)
+                                <div class="consideration-item">
+                                    <i class="{{ $consideration['icon'] }}"></i>
+                                    <span>{{ $consideration['text'] }}</span>
                                 </div>
-                            </div>
-                        @else
-                            <div class="challenge-item">
-                                <div>
-                                    <strong>
-                                <i class="ph ph-trash"></i>Contaminación:</strong>
-                                    <span>Generación de residuos, especialmente plásticos en feriados que contaminan el entorno natural y marino.</span>
-                                </div>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-
-                <!-- Photos Gallery Card -->
-                @if($destination->gallery_images && count($destination->gallery_images) > 0)
-                <div class="bento-card gallery-card">
-                    <h3>
-                        <i class="ph ph-images"></i>
-                        Fotos
-                    </h3>
-                    <div class="gallery-content">
-                        <div class="photo-grid">
-                            @foreach($destination->gallery_images as $index => $image)
-                                @if($index < 8)
-                                <div class="photo-item" onclick="openGalleryModal({{ $index }})">
-                                    <img src="{{ Storage::url($image) }}" alt="Photo {{ $index + 1 }} of {{ $destination->title }}" loading="lazy">
-                                    @if($index === 3 && count($destination->gallery_images) > 4)
-                                        <div class="photo-overlay">
-                                            <span>+{{ count($destination->gallery_images) - 4 }}</span>
-                                        </div>
-                                    @endif
-                                </div>
-                                @endif
                             @endforeach
+                        @else
+                            <div class="consideration-item">
+                                <i class="ph ph-clock"></i>
+                                <span>Respetar horarios de visita establecidos</span>
+                            </div>
+                            <div class="consideration-item">
+                                <i class="ph ph-leaf"></i>
+                                <span>No recoger plantas ni alterar el ecosistema</span>
+                            </div>
+                            <div class="consideration-item">
+                                <i class="ph ph-trash"></i>
+                                <span>Llevar de vuelta todos los desechos</span>
+                            </div>
+                            <div class="consideration-item">
+                                <i class="ph ph-users"></i>
+                                <span>Mantener distancia en grupos grandes</span>
+                            </div>
+                            <div class="consideration-item">
+                                <i class="ph ph-volume-x"></i>
+                                <span>Evitar ruidos fuertes que perturben la fauna</span>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                <!-- Qué Llevar Card -->
+                <div class="bento-card what-to-bring-card">
+                    <h3>
+                        <i class="ph ph-backpack"></i>
+                        Qué Llevar
+                    </h3>
+                    <div class="what-to-bring-list">
+                        @if($destination->what_to_bring && count($destination->what_to_bring) > 0)
+                            @foreach($destination->getFormattedWhatToBring() as $item)
+                                <div class="bring-item">
+                                    <i class="{{ $item['icon'] }}"></i>
+                                    <span>{{ $item['text'] }}</span>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="bring-item">
+                                <i class="ph ph-sneaker"></i>
+                                <span>Zapatos cómodos para caminar</span>
+                            </div>
+                            <div class="bring-item">
+                                <i class="ph ph-sun"></i>
+                                <span>Protector solar y sombrero</span>
+                            </div>
+                            <div class="bring-item">
+                                <i class="ph ph-drop"></i>
+                                <span>Botella de agua reutilizable</span>
+                            </div>
+                            <div class="bring-item">
+                                <i class="ph ph-camera"></i>
+                                <span>Cámara o teléfono para fotos</span>
+                            </div>
+                            <div class="bring-item">
+                                <i class="ph ph-first-aid-kit"></i>
+                                <span>Kit básico de primeros auxilios</span>
+                            </div>
+                            <div class="bring-item">
+                                <i class="ph ph-jacket"></i>
+                                <span>Ropa apropiada para el clima</span>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                <!-- Difficulty Level Card -->
+                <div class="bento-card difficulty-card">
+                    <h3>
+                        <i class="ph ph-gauge"></i>
+                        Nivel de Dificultad
+                    </h3>
+                    @php
+                        $difficultyData = $destination->getDifficultyData();
+                    @endphp
+                    <div class="difficulty-content">
+                        <div class="difficulty-bars">
+                            <div class="bar-container">
+                                <div class="difficulty-bar bar-low {{ $difficultyData['level'] >= 1 ? 'active' : '' }}"></div>
+                            </div>
+                            <div class="bar-container">
+                                <div class="difficulty-bar bar-medium {{ $difficultyData['level'] >= 2 ? 'active' : '' }}"></div>
+                            </div>
+                            <div class="bar-container">
+                                <div class="difficulty-bar bar-high {{ $difficultyData['level'] >= 3 ? 'active' : '' }}"></div>
+                            </div>
+                        </div>
+                        <div class="difficulty-info">
+                            <span class="difficulty-label">Nivel:</span>
+                            <span class="difficulty-value difficulty-{{ $difficultyData['color'] }}">
+                                {{ $difficultyData['label'] }}
+                            </span>
                         </div>
                     </div>
                 </div>
-                @endif
-            </div>
-            
-                    <x-reservation-button/>
+
+                
+            </div>                    <x-reservation-button/>
         </div>
 
 
@@ -420,51 +406,8 @@
 
 
     <!-- Reviews Section -->
-    <section id="reviews" class="wrapper reviews-section section-light">
-        <i class="ph ph-arrow-left reviews-icon reviews-icon-left"></i>
-        <div class="reviews-list">
-            <div class="review-card">
-                <div class="stars">
-                    <div class="more">...</div>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED5934" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"></path></svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED5934" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"></path></svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED5934" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"></path></svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED5934" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"></path></svg>
-                </div>
-                <p class="review-text">“Excellent as always! This is a very nice choice if you like good food and a superb environment.”</p>
-                <p class="reviewer-name">- Jhon Doe</p>
-            </div>
-            <div class="review-card">
-                <div class="stars">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED5934" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"></path></svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED5934" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"></path></svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED5934" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"></path></svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED5934" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"></path></svg>
-                </div>
-                <p class="review-text">“A wonderful experience! The staff was friendly and the place was beautiful.”</p>
-                <p class="reviewer-name">- Maria Perez</p>
-            </div>
-            <div class="review-card">
-                <div class="stars">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED5934" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"></path></svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED5934" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"></path></svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED5934" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"></path></svg>
-                </div>
-                <p class="review-text">“Unforgettable trip, highly recommended for families.”</p>
-                <p class="reviewer-name">- Carlos Ruiz</p>
-            </div>
-            <div class="review-card">
-                <div class="stars">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED5934" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"></path></svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED5934" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"></path></svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED5934" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"></path></svg>
-                </div>
-                <p class="review-text">“The best eco-tourism experience in Ecuador.”</p>
-                <p class="reviewer-name">- Luis Torres</p>
-            </div>
-        </div>
-        <i class="ph ph-arrow-right reviews-icon reviews-icon-right"></i>
-    </section>
+    
+    <x-reviews-section :reviews="$reviews ?? []" />
         
         <div class="destinations-values">
             <div class="destinations-track">
@@ -513,6 +456,34 @@
     @endif
     
     <script src="{{ asset('assets/js/home.js') }}"></script>
+    
+    <!-- Temperature Toggle JavaScript -->
+    <script>
+        let isCelsius = true;
+        
+        function toggleTemperatureUnit() {
+            const tempElements = document.querySelectorAll('.season-temp');
+            const toggleBtn = document.getElementById('temp-unit-display');
+            
+            tempElements.forEach(element => {
+                const celsiusValue = element.getAttribute('data-celsius');
+                const numericValue = parseFloat(celsiusValue); // Clean numeric value, no need to remove symbols
+                
+                if (isCelsius) {
+                    // Convert to Fahrenheit
+                    const fahrenheit = Math.round((numericValue * 9/5) + 32);
+                    element.textContent = `${fahrenheit}°F`;
+                } else {
+                    // Convert back to Celsius
+                    element.textContent = `${numericValue}°C`;
+                }
+            });
+            
+            // Update toggle button
+            toggleBtn.textContent = isCelsius ? '°F' : '°C';
+            isCelsius = !isCelsius;
+        }
+    </script>
     
     <!-- Gallery Modal JavaScript -->
     @if($destination->gallery_images && count($destination->gallery_images) > 0)

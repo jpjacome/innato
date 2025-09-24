@@ -91,6 +91,8 @@
                         <th>Fecha</th>
                         <th>Destino</th>
                         <th>Personas</th>
+                        <th>Tipo Viaje</th>
+                        <th>País</th>
                         <th>Teléfono</th>
                     </tr>
                 </thead>
@@ -102,6 +104,8 @@
                             <td>{{ $reservation->date }}</td>
                             <td>{{ $reservation->destination ? $reservation->destination->title : '-' }}</td>
                             <td>{{ $reservation->people_count }}</td>
+                            <td>{{ $reservation->travel_type ?? '-' }}</td>
+                            <td>{{ $reservation->country_of_origin ?? '-' }}</td>
                             <td>{{ $reservation->phone_number }}</td>
                         </tr>
                     @endforeach

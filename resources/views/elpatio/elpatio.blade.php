@@ -1,68 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Best Hostel in Quito - El Patio Hostel</title>
-  <link rel="stylesheet" href="/css/elpatio-test.css">
-  <!-- Swiper.js CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/phosphor-icons@1.4.2/src/css/icons.min.css" />
-</head>
+  @php $elpatioSetting = \App\Models\ElPatioSetting::instance(); @endphp
+  <x-elpatio.header />
 <body>
-  <header class="header fadein-2">
-    <a href="https://elpatiohostels.com/" class="logo fadein-2">
-      <img class="logo-img" src="/assets/elpatio/imgs/logo4.png" alt="">
-    </a>
-    <nav class="nav fadein-2" id="nav">
-      <a href="#about" class="menu-item" id="menu-item-3">ABOUT US</a>
-      <a href="#rooms" class="menu-item" id="menu-item-2">ROOMS</a>
-      <a href="#gallery" class="menu-item" id="menu-item-4">PHOTO GALLERY</a>
-      <a href="#blog" class="menu-item" id="menu-item-5">BLOG</a>
-      <a href="https://innatotravel.com/" class="menu-item" id="menu-item-6">TOURS</a>
-    </nav>  
-    <div class="social-media fadein-3">
-      <a href=""><img class="social-media-icon" src="/assets/elpatio/imgs/icon-instagram.svg" alt=""></a>
-      <a href=""><img class="social-media-icon" src="/assets/elpatio/imgs/icon-tiktok.svg" alt=""></a>
-      <a href=""><img class="social-media-icon" src="/assets/elpatio/imgs/icon-facebook.svg" alt=""></a>
-    </div>
-    <div class="hamburger" id="hamburger">&#9776;</div>
-    <a href="" class="whatsapp-icon fadein-1"><img class="whatsapp" src="/assets/elpatio/imgs/icon-whatsapp.png" alt=""></a>
-    <!-- Hamburger Fullscreen Menu Overlay -->
-    <div class="hamburger-menu" id="hamburger-menu">
-      <nav class="hamburger-nav">
-        <a href="#about" class="hamburger-menu-item">ABOUT US</a>
-        <a href="#rooms" class="hamburger-menu-item">ROOMS</a>
-        <a href="#gallery" class="hamburger-menu-item">PHOTO GALLERY</a>
-        <a href="#blog" class="hamburger-menu-item">BLOG</a>
-        <a href="https://innatotravel.com/" class="hamburger-menu-item">TOURS</a>
-      </nav>
-      <div class="hamburger-social">
-        <a href=""><img class="social-media-icon" src="/assets/elpatio/imgs/icon-instagram.svg" alt=""></a>
-        <a href=""><img class="social-media-icon" src="/assets/elpatio/imgs/icon-tiktok.svg" alt=""></a>
-        <a href=""><img class="social-media-icon" src="/assets/elpatio/imgs/icon-facebook.svg" alt=""></a>
-      </div>
-      <button class="hamburger-close" id="hamburger-close" aria-label="Close menu">&times;</button>
-    </div>
-  </header>
-
-
 
   <div class="loading-screen fade-in-1">
-      <img src="/assets/elpatio/imgs/logo1.png" alt="">
+      <img src="{{ $elpatioSetting->loading_logo ? asset('storage/' . $elpatioSetting->loading_logo) : '/assets/elpatio/imgs/logo1.png' }}" alt="">
     </div>
 
 
     <div class="wrapper hero-section">
       <div class="background fadein-2">
-        <img src="/assets/elpatio/imgs/photo14.webp" alt="">
+        <img src="{{ $elpatioSetting->hero_background ? (str_starts_with($elpatioSetting->hero_background, 'http') ? $elpatioSetting->hero_background : asset('storage/' . $elpatioSetting->hero_background)) : '/assets/elpatio/imgs/photo14.webp' }}" alt="">
       </div>
     </div>
 
     <div class="wrapper about-section fadein-4" id="about">
       <div class="container-1">
-        <h2 class="fadein-4">About our <span class="highlight fadein-1">Casa</span></h2>
-        <p class="fadein-2">El Patio Hostel is located two blocks from the heart of La Mariscal, Quito’s most entertaining and diverse area. Is on Luis Cordero street, the most beautiful (spot the lamps hanging over the street) and SAFE street in the neighborhood (police station at the corner). Our house is a typical nineteenth century style building. Reformed but preserving its historical value, it has private rooms and dorms, TV room, breakfast room and kitchen so you can feel at home. Not only that, but many common places and activities where you can share with other travelers and locals all your experiences.</p>
+        @php
+          $aboutTitle = $elpatioSetting->about_title ?? 'About our';
+          $aboutHighlight = $elpatioSetting->about_title_highlight ?? 'Casa';
+        @endphp
+        <h2 class="fadein-4">{{ $aboutTitle }} <span class="highlight fadein-1">{{ $aboutHighlight }}</span></h2>
+        <p class="fadein-2">{{ $elpatioSetting->about_text ?? 'El Patio Hostel is located two blocks from the heart of La Mariscal, Quito’s most entertaining and diverse area. Is on Luis Cordero street, the most beautiful (spot the lamps hanging over the street) and SAFE street in the neighborhood (police station at the corner). Our house is a typical nineteenth century style building. Reformed but preserving its historical value, it has private rooms and dorms, TV room, breakfast room and kitchen so you can feel at home. Not only that, but many common places and activities where you can share with other travelers and locals all your experiences.' }}</p>
       </div>
       <div class="container-2">
         <svg class="masked-image" id="parallax-svg" width="100%" height="100%" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice">
@@ -91,32 +51,57 @@
         </svg>
       </div>
       <div class="container-2">
-        <h2>Why <span class="highlight">El Patio?</span></h2>
-        <p>The main characteristic of these houses is that they have several courtyards that make the family lifestyle flourish around the house. We are more than a noisy rooftop, We have MANY SPACES to hang out: The terrace with a cool urban garden (Spot the hummingbirds’ family living at the tree), The Pergolita to chill and relax, and the big Pergola where you can enjoy a cool drink and listen to good music. Is the perfect place to stay and explore the city, offering comfortable and affordable accommodation.</p>
+        @php
+          $about2Title = $elpatioSetting->about2_title ?? 'Why ';
+          $about2Highlight = $elpatioSetting->about2_title_highlight ?? 'El Patio?';
+        @endphp
+        <h2>{{ $about2Title }} <span class="highlight">{{ $about2Highlight }}</span></h2>
+        <p>{{ $elpatioSetting->about2_text ?? 'The main characteristic of these houses is that they have several courtyards that make the family lifestyle flourish around the house. We are more than a noisy rooftop, We have MANY SPACES to hang out: The terrace with a cool urban garden (Spot the hummingbirds’ family living at the tree), The Pergolita to chill and relax, and the big Pergola where you can enjoy a cool drink and listen to good music. Is the perfect place to stay and explore the city, offering comfortable and affordable accommodation.' }}</p>
       </div>
     </div>
 
 <div class="wrapper rooms-section fadein-1" id="rooms">
-  <h2>We provide the <span class="highlight">best facilities</span></h2>
+  @php
+    $roomsTitle = $elpatioSetting->rooms_title ?? 'We provide the ';
+    $roomsHighlight = $elpatioSetting->rooms_title_highlight ?? 'best facilities';
+  @endphp
+  <h2>{{ $roomsTitle }} <span class="highlight">{{ $roomsHighlight }}</span></h2>
   <div class="amenities">
     <ul class="amenities-list">
-      <li><i class="ph ph-coffee"></i>BREAKFAST INCLUDED</li>
-      <li><i class="ph ph-cooking-pot"></i>FULLY EQUIPPED KITCHEN</li>
-      <li><i class="ph ph-bed"></i>SOLID WOOD BUNK BEDS (KING SINGLE 105X190CM)</li>
-      <li><i class="ph ph-t-shirt"></i>BEST-QUALITY COTTON LINENS</li>
-      <li><i class="ph ph-sim-card"></i>ECUADORIAN CELL PHONE SIM CARDS, ACTIVATED WITH YOUR INFO.</li>
-      <li><i class="ph ph-credit-card"></i>CREDIT CARD ACCEPTED</li>
-      <li><i class="ph ph-shield"></i>BIG STORAGE LOCKERS</li>
-      <li><i class="ph ph-user"></i>PERSONAL ACCESS</li>
-      <li><i class="ph ph-bathtub"></i>TIDY BATHROOMS</li>
-      <li><i class="ph ph-thermometer-hot"></i>HOT WATER</li>
-      <li><i class="ph ph-airplane"></i>AIRPORT TRANSFER</li>
-      <li><i class="ph ph-clock"></i>LATE CHECK IN</li>
-      <li><i class="ph ph-wifi-high"></i>FREE HIGH-SPEED WI-FI</li>
-      <li><i class="ph ph-television"></i>TV ROOM</li>
-      <li><i class="ph ph-suitcase"></i>LUGGAGE STORE SERVICE</li>
-      <li><i class="ph ph-calendar"></i>DAY-USE SERVICE</li>
-      <li><i class="ph ph-t-shirt"></i>LAUNDRY SERVICE</li>
+    @php
+    // Support both array-cast (new) and legacy JSON string for amenities_list
+    $amenities = [];
+    $rawAmenities = $elpatioSetting->amenities_list ?? [];
+    if (is_string($rawAmenities)) {
+      $amenities = json_decode($rawAmenities, true) ?: [];
+    } else {
+      $amenities = $rawAmenities ?: [];
+    }
+        if (empty($amenities)) {
+            $amenities = [
+                ['icon' => 'ph ph-coffee', 'text' => 'BREAKFAST INCLUDED'],
+                ['icon' => 'ph ph-cooking-pot', 'text' => 'FULLY EQUIPPED KITCHEN'],
+                ['icon' => 'ph ph-bed', 'text' => 'SOLID WOOD BUNK BEDS (KING SINGLE 105X190CM)'],
+                ['icon' => 'ph ph-t-shirt', 'text' => 'BEST-QUALITY COTTON LINENS'],
+                ['icon' => 'ph ph-sim-card', 'text' => 'ECUADORIAN CELL PHONE SIM CARDS, ACTIVATED WITH YOUR INFO.'],
+                ['icon' => 'ph ph-credit-card', 'text' => 'CREDIT CARD ACCEPTED'],
+                ['icon' => 'ph ph-shield', 'text' => 'BIG STORAGE LOCKERS'],
+                ['icon' => 'ph ph-user', 'text' => 'PERSONAL ACCESS'],
+                ['icon' => 'ph ph-bathtub', 'text' => 'TIDY BATHROOMS'],
+                ['icon' => 'ph ph-thermometer-hot', 'text' => 'HOT WATER'],
+                ['icon' => 'ph ph-airplane', 'text' => 'AIRPORT TRANSFER'],
+                ['icon' => 'ph ph-clock', 'text' => 'LATE CHECK IN'],
+                ['icon' => 'ph ph-wifi-high', 'text' => 'FREE HIGH-SPEED WI-FI'],
+                ['icon' => 'ph ph-television', 'text' => 'TV ROOM'],
+                ['icon' => 'ph ph-suitcase', 'text' => 'LUGGAGE STORE SERVICE'],
+                ['icon' => 'ph ph-calendar', 'text' => 'DAY-USE SERVICE'],
+                ['icon' => 'ph ph-t-shirt', 'text' => 'LAUNDRY SERVICE'],
+            ];
+        }
+      @endphp
+      @foreach($amenities as $a)
+        <li><i class="{{ $a['icon'] ?? ($a['class'] ?? 'ph ph-dot') }}"></i>{{ $a['text'] ?? $a['label'] ?? '' }}</li>
+      @endforeach
     </ul>
   </div>
   <svg class="triangle-svg fade-in-2" width="200" height="200" viewBox="0 0 200 200">
@@ -129,18 +114,46 @@
   </svg>
 </div>
 
-<div class="photo-gallery fadein-1" id="gallery">
+  <div class="photo-gallery fadein-1" id="gallery">
   <div class="swiper swiper-main">
-    <div class="swiper-wrapper main">
-      <!-- Slides will be injected by JS -->
-    </div>
+      <div class="swiper-wrapper main">
+        @php
+          // Ensure gallery is an array. Support both array-cast (new) and legacy JSON string.
+          $rawGallery = $elpatioSetting->gallery ?? [];
+          if (is_string($rawGallery)) {
+              $galleryItems = json_decode($rawGallery, true) ?: [];
+          } else {
+              $galleryItems = $rawGallery ?: [];
+          }
+        @endphp
+        @if(is_array($galleryItems) && count($galleryItems))
+          @foreach($galleryItems as $g)
+            @php $img = is_string($g) ? $g : ($g['image'] ?? null); $txt = is_string($g) ? '' : ($g['text'] ?? ''); @endphp
+            @if($img)
+              <div class="swiper-slide">
+                <img src="{{ str_starts_with($img, 'http') ? $img : asset('storage/' . $img) }}" alt="{{ e($txt) }}">
+                @if($txt)
+                  <div class="slide-caption">{{ $txt }}</div>
+                @endif
+              </div>
+            @endif
+          @endforeach
+        @endif
+      </div>
     <!-- Arrows -->
     <div class="swiper-button-next"></div>
     <div class="swiper-button-prev"></div>
   </div>
   <div class="swiper swiper-thumbs">
     <div class="swiper-wrapper thumbs">
-      <!-- Thumbnails will be injected by JS -->
+      @if(is_array($galleryItems) && count($galleryItems))
+        @foreach($galleryItems as $g)
+          @php $img = is_string($g) ? $g : ($g['image'] ?? null); @endphp
+          @if($img)
+            <div class="swiper-slide thumb-slide"><img src="{{ str_starts_with($img, 'http') ? $img : asset('storage/' . $img) }}" alt=""></div>
+          @endif
+        @endforeach
+      @endif
     </div>
   </div>
 </div>
@@ -149,93 +162,58 @@
 <div class="wrapper latest-posts-section fadein-1" id="blog">
   <h2>Latest <span class="highlight">Blog Posts</span></h2>
   <div class="latest-posts">
-    <a href="/elpatio-blog-post" class="blog-card">
-      <div class="blog-card-img-masked">
-        <div class="blog-card-img" style="background-image:url('/assets/elpatio/imgs/photo1.avif');"></div>
-        <svg class="blog-card-mask" width="100%" height="100%" viewBox="0 0 340 180" preserveAspectRatio="xMidYMid slice">
-          <defs>
-            <mask id="blog-circle-mask-1">
-              <rect width="100%" height="100%" fill="white"/>
-              <circle cx="30%" cy="50%" r="100" fill="black"/>
-            </mask>
-          </defs>
-          <rect width="100%" height="100%" fill="var(--color-3)" mask="url(#blog-circle-mask-1)"/>
-        </svg>
-      </div>
-      <div class="blog-card-content">
-        <h3 class="blog-card-title">Exploring Quito: Top 5 Hidden Gems</h3>
-        <p class="blog-card-meta">August 20, 2025 &bull; by Staff</p>
-        <p class="blog-card-excerpt">Discover the lesser-known spots in Quito that will make your stay unforgettable. From secret gardens to cozy cafes, here’s our local guide!</p>
-      </div>
-    </a>
-    <a href="/elpatio-blog-post" class="blog-card">
-      <div class="blog-card-img-masked">
-        <div class="blog-card-img" style="background-image:url('/assets/elpatio/imgs/photo2.avif');"></div>
-        <svg class="blog-card-mask" width="100%" height="100%" viewBox="0 0 340 180" preserveAspectRatio="xMidYMid slice">
-          <defs>
-            <mask id="blog-circle-mask-2">
-              <rect width="100%" height="100%" fill="white"/>
-              <circle cx="50%" cy="50%" r="100" fill="black"/>
-            </mask>
-          </defs>
-          <rect width="100%" height="100%" fill="var(--color-2)" mask="url(#blog-circle-mask-2)"/>
-        </svg>
-      </div>
-      <div class="blog-card-content">
-        <h3 class="blog-card-title">How to Get Around Quito Like a Local</h3>
-        <p class="blog-card-meta">August 10, 2025 &bull; by Staff</p>
-        <p class="blog-card-excerpt">Tips and tricks for navigating the city safely and efficiently, including public transport, taxis, and walking routes from El Patio Hostel.</p>
-      </div>
-    </a>
-    <a href="/elpatio-blog-post" class="blog-card">
-      <div class="blog-card-img-masked">
-        <div class="blog-card-img" style="background-image:url('/assets/elpatio/imgs/photo3.jpg');"></div>
-        <svg class="blog-card-mask" width="100%" height="100%" viewBox="0 0 340 180" preserveAspectRatio="xMidYMid slice">
-          <defs>
-            <mask id="blog-circle-mask-3">
-              <rect width="100%" height="100%" fill="white"/>
-              <circle cx="70%" cy="50%" r="100" fill="black"/>
-            </mask>
-          </defs>
-          <rect width="100%" height="100%" fill="var(--color-5)" mask="url(#blog-circle-mask-3)"/>
-        </svg>
-      </div>
-      <div class="blog-card-content">
-        <h3 class="blog-card-title">A Day in the Life at El Patio Hostel</h3>
-        <p class="blog-card-meta">August 1, 2025 &bull; by Staff</p>
-        <p class="blog-card-excerpt">See what makes our hostel special, from morning coffee in the courtyard to evening events with fellow travelers and locals.</p>
-      </div>
-    </a>
+    @php
+      $latest = \App\Models\ElPatioPost::orderByDesc('published_at')->limit(3)->get();
+    @endphp
+    @foreach($latest as $lp)
+      @php
+        // Cycle three mask variants to mimic the original design
+        $variant = ($loop->index % 3) + 1;
+        $maskId = 'blog-circle-mask-' . $loop->index;
+        // positions: 1 => 30%, 2 => 50%, 3 => 70%
+        $cx = $variant === 1 ? '30%' : ($variant === 2 ? '50%' : '70%');
+        $fillVar = $variant === 1 ? '--color-3' : ($variant === 2 ? '--color-2' : '--color-5');
+      @endphp
+      <a href="/elpatio/blog/{{ $lp->slug }}" class="blog-card">
+        <div class="blog-card-img-masked">
+          <div class="blog-card-img" style="background-image:url('{{ $lp->featured_image ? asset('storage/' . $lp->featured_image) : '/assets/elpatio/imgs/photo1.avif' }}');"></div>
+          <svg class="blog-card-mask" width="100%" height="100%" viewBox="0 0 340 180" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <mask id="{{ $maskId }}">
+                <rect width="100%" height="100%" fill="white"/>
+                <circle cx="{{ $cx }}" cy="50%" r="100" fill="black"/>
+              </mask>
+            </defs>
+            <rect width="100%" height="100%" fill="var({{ $fillVar }})" mask="url(#{{ $maskId }})"/>
+          </svg>
+        </div>
+        <div class="blog-card-content">
+          <h3 class="blog-card-title">{{ $lp->title }}</h3>
+          <p class="blog-card-meta">{{ $lp->published_at ? $lp->published_at->format('F j, Y') : '' }} &bull; by Staff</p>
+          <p class="blog-card-excerpt">{{ Str::limit(strip_tags($lp->excerpt ?? ''), 140) }}</p>
+        </div>
+      </a>
+    @endforeach
   </div>
 </div>
 
 
-    <footer>
-        <div class="footer-wrapper fadein-1">
-          <div class="footer-logo"></div>
-          <div class="footer-column about fadein-2">
-              <p>Luis Corder E5-58 y Reina Victoria</p>
-              <p>Quito - Ecuador, EC170143</p>
-              <p>info@elpatiohostels.com</p>
-          </div>
-          <div class="footer-column contact fadein-2">
-            <p>Telephone: +(593) 2 2526 342</p>
-            <p>WhatsApp: +(593) 992748998</p>
-            <p>WhatsApp: +(593) 991448525</p>
-          </div>
-            <div class="social-media fadein-3">
-                <a href=""><img class="social-media-icon" src="/assets/elpatio/imgs/icon-instagram.svg" alt=""></a>
-                <a href=""><img class="social-media-icon" src="/assets/elpatio/imgs/icon-tiktok.svg" alt=""></a>
-                <a href=""><img class="social-media-icon" src="/assets/elpatio/imgs/icon-facebook.svg" alt=""></a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-          <p>&copy; 2025 El Patio Hostel - Ecuador. All rights reserved.</p>
-          <p class="made-by">Carefully crafted by <a href="http://drpixel.it.nf" target="_blank">Dr. Pixel</a></p>
-        </div>
-    </footer>
+  <x-elpatio.footer />
 
-  <script src="assets/js/elpatio-test.js"></script>
+  @php
+    // Support both array-cast (new) and legacy JSON string for gallery
+    $galleryItems = [];
+    $rawGallery = $elpatioSetting->gallery ?? [];
+    if (is_string($rawGallery)) {
+        $galleryItems = json_decode($rawGallery, true) ?: [];
+    } else {
+        $galleryItems = $rawGallery ?: [];
+    }
+  @endphp
+  <script>
+    window.ElPatioGallery = {!! json_encode($galleryItems) !!};
+  </script>
+  <script src="{{ asset('assets/js/elpatio-test.js') }}?v={{ file_exists(public_path('assets/js/elpatio-test.js')) ? filemtime(public_path('assets/js/elpatio-test.js')) : time() }}"></script>
   <!-- Swiper.js -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 </body>

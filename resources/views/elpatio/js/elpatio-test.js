@@ -97,11 +97,32 @@ document.addEventListener('DOMContentLoaded', function () {
 		fadeEls.forEach(el => observer.observe(el));
 	}
 
-	setupFadeObserver('fadein-1', 'fade-in-1');
-	setupFadeObserver('fadein-2', 'fade-in-2');
-	setupFadeObserver('fadein-3', 'fade-in-3');
-	setupFadeObserver('fadein-4', 'fade-in-4');
-	setupFadeObserver('fadeout-1', 'fade-out-1');
+  // If we're on the single blog post page, don't wait for intersection/scroll
+  // — immediately add the classes so animations run on load.
+  const isSinglePost = document.querySelector('.single-blog-post') !== null;
+  function applyFadeClassesImmediately() {
+    const mapping = {
+      'fadein-1': 'fade-in-1',
+      'fadein-2': 'fade-in-2',
+      'fadein-3': 'fade-in-3',
+      'fadein-4': 'fade-in-4',
+      'fadeout-1': 'fade-out-1'
+    };
+    Object.keys(mapping).forEach(key => {
+      const nodes = document.querySelectorAll('.' + key);
+      nodes.forEach(n => n.classList.add(mapping[key]));
+    });
+  }
+
+  if (isSinglePost) {
+    applyFadeClassesImmediately();
+  } else {
+    setupFadeObserver('fadein-1', 'fade-in-1');
+    setupFadeObserver('fadein-2', 'fade-in-2');
+    setupFadeObserver('fadein-3', 'fade-in-3');
+    setupFadeObserver('fadein-4', 'fade-in-4');
+    setupFadeObserver('fadeout-1', 'fade-out-1');
+  }
 
 
 

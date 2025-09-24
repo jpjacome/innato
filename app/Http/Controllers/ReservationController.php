@@ -25,6 +25,8 @@ class ReservationController extends Controller
                     'people_count' => 'required|integer|min:1',
                     'date' => 'required|date',
                     'phone_number' => 'required|string|max:30',
+                    'travel_type' => 'nullable|string|in:Amigos,Familia,Pareja,Solo',
+                    'country_of_origin' => 'nullable|string|max:255',
                 ]);
                 Reservation::create($validated);
                 return response()->json(['success' => true, 'message' => 'Reservation sent!']);
@@ -42,6 +44,8 @@ class ReservationController extends Controller
             'people_count' => 'required|integer|min:1',
             'date' => 'required|date',
             'phone_number' => 'required|string|max:30',
+            'travel_type' => 'nullable|string|in:Amigos,Familia,Pareja,Solo',
+            'country_of_origin' => 'nullable|string|max:255',
         ]);
         Reservation::create($validated);
         return redirect()->back()->with('success', 'Reservation submitted successfully!');

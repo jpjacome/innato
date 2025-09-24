@@ -57,12 +57,12 @@
         </form>
 
         <!-- Reviews Cards Flex Layout -->
-        <div class="control-panel-grid" style="display: flex; flex-wrap: wrap; gap: 2rem;">
+        <div class="reviews-grid">
             @foreach($reviews as $review)
-                <div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 1rem; width: 100%; max-width: 700px;">
+                <div class="review-item-row">
                     <!-- Review Content Card -->
-                    <div class="control-panel-card" style="flex: 2 1 320px; min-width: 320px; background: #f8f9fa;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <div class="control-panel-card review-content-card">
+                        <div class="review-card-header">
                             <span class="control-panel-badge"><i class="fas fa-user"></i> {{ $review->reviewer }}</span>
                             <span class="control-panel-badge" style="background: #ffe066; color: #262622;">
                                 <i class="fas fa-star"></i> {{ $review->rating }}
@@ -70,12 +70,12 @@
                         </div>
                         <div class="control-panel-form-group">
                             <label class="control-panel-label">Text</label>
-                            <div style="font-family:inherit; font-size:1rem; color:#262622; background:none; border:none; padding:0;">{{ $review->text }}</div>
+                            <div class="review-text-display">{{ $review->text }}</div>
                         </div>
                         @if($review->location)
                         <div class="control-panel-form-group">
                             <label class="control-panel-label">Location</label>
-                            <div style="color:#6b7280;">{{ $review->location }}</div>
+                            <div class="review-location">{{ $review->location }}</div>
                         </div>
                         @endif
                         <div class="control-panel-form-group">
@@ -84,8 +84,8 @@
                         </div>
                     </div>
                     <!-- Actions Card -->
-                    <div class="control-panel-card" style="flex: 1 1 220px; min-width: 220px; background: #fff; align-self: flex-start;">
-                        <form method="POST" action="{{ route('admin.reviews.update', $review) }}" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <div class="control-panel-card review-actions-card">
+                        <form method="POST" action="{{ route('admin.reviews.update', $review) }}" class="review-actions-form">
                             @csrf
                             @method('PUT')
                             <label class="control-panel-label">Reviewer</label>
@@ -104,7 +104,7 @@
                             </select>
                             <button type="submit" class="control-panel-button control-panel-button-secondary">Save</button>
                         </form>
-                        <form method="POST" action="{{ route('admin.reviews.destroy', $review) }}" style="margin-top: 1rem;">
+                        <form method="POST" action="{{ route('admin.reviews.destroy', $review) }}" class="review-delete-form">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="control-panel-button control-panel-button-danger" onclick="return confirm('Delete this review?')">Delete</button>

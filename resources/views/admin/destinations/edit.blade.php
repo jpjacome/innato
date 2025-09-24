@@ -81,6 +81,10 @@
                 <i class="ph ph-activity"></i>
                 Actividades
             </button>
+            <button class="tab-button" data-tab="recommendations">
+                <i class="ph ph-lightbulb"></i>
+                Recomendaciones
+            </button>
             <button class="tab-button" data-tab="audience">
                 <i class="ph ph-users"></i>
                 Público objetivo
@@ -96,10 +100,6 @@
             <button class="tab-button" data-tab="criteria">
                 <i class="ph ph-medal"></i>
                 Criterios
-            </button>
-            <button class="tab-button" data-tab="description">
-                <i class="ph ph-file-text"></i>
-                Descripción
             </button>
             <button class="tab-button" data-tab="challenges">
                 <i class="ph ph-warning"></i>
@@ -158,6 +158,24 @@
                         <label for="conservation_status">Estado de Conservación</label>
                         <input type="text" id="conservation_status" name="conservation_status" value="{{ old('conservation_status', $destination->conservation_status) }}">
                         @error('conservation_status')
+                            <span class="error-text">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    
+                    <div class="form-group span-full">
+                        <label for="main_description">Introducción</label>
+                        <textarea id="main_description" name="main_description" rows="4">{{ old('main_description', $destination->main_description) }}</textarea>
+                        <small class="form-help">Descripción introductoria del destino que aparecerá en la tarjeta principal</small>
+                        @error('main_description')
+                            <span class="error-text">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    
+                    <div class="form-group span-full">
+                        <label for="secondary_description">Descripción General</label>
+                        <textarea id="secondary_description" name="secondary_description" rows="4">{{ old('secondary_description', $destination->secondary_description) }}</textarea>
+                        <small class="form-help">Descripción adicional con detalles complementarios del destino</small>
+                        @error('secondary_description')
                             <span class="error-text">{{ $message }}</span>
                         @enderror
                     </div>
@@ -229,7 +247,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="dry_season_temperature">Temperature</label>
-                                <input type="text" id="dry_season_temperature" name="climate_dry_season[temperature]" value="{{ old('climate_dry_season.temperature', $destination->climate_dry_season['temperature'] ?? '') }}">
+                                <input type="number" id="dry_season_temperature" name="climate_dry_season[temperature]" value="{{ old('climate_dry_season.temperature', $destination->climate_dry_season['temperature'] ?? '') }}" placeholder="27" step="0.1">
+                                <small class="help-text">Ingrese solo el número (ej: 27). Los símbolos °C/°F se agregan automáticamente.</small>
                             </div>
                         </div>
                     </div>
@@ -248,9 +267,22 @@
                             </div>
                             <div class="form-group">
                                 <label for="wet_season_temperature">Temperature</label>
-                                <input type="text" id="wet_season_temperature" name="climate_wet_season[temperature]" value="{{ old('climate_wet_season.temperature', $destination->climate_wet_season['temperature'] ?? '') }}">
+                                <input type="number" id="wet_season_temperature" name="climate_wet_season[temperature]" value="{{ old('climate_wet_season.temperature', $destination->climate_wet_season['temperature'] ?? '') }}" placeholder="20" step="0.1">
+                                <small class="help-text">Ingrese solo el número (ej: 20). Los símbolos °C/°F se agregan automáticamente.</small>
                             </div>
                         </div>
+                    </div>
+                </div>
+                
+                <!-- Altitude Section -->
+                <div class="form-grid">
+                    <div class="form-group span-full">
+                        <label for="altitude">Altitud</label>
+                        <input type="text" id="altitude" name="altitude" value="{{ old('altitude', $destination->altitude) }}" placeholder="Ej: 2,500 m.s.n.m">
+                        <small class="form-help">Elevación del destino sobre el nivel del mar</small>
+                        @error('altitude')
+                            <span class="error-text">{{ $message }}</span>
+                        @enderror
                     </div>
                 </div>
             </div>
@@ -410,6 +442,134 @@
                                             <label>Nombre de la Actividad</label>
                                             <input type="text" name="activities[{{ $index }}][name]" value="{{ $activity['name'] ?? $activity }}" required>
                         <input type="text" name="activities[{{ $index }}][name]" value="{{ $activity['name'] ?? $activity }}">
+                                        </div>
+                                    </div>
+                                    <button type="button" class="remove-item-btn">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            @endforeach
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommendations Tab -->
+            <div class="tab-content" id="recommendations-tab">
+                <h3 class="tab-title">Recomendaciones para turistas</h3>
+                
+                <!-- Difficulty Level -->
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="difficulty_level">Nivel de Dificultad</label>
+                        <select id="difficulty_level" name="difficulty_level" class="control-panel-select">
+                            <option value="">Seleccionar nivel</option>
+                            <option value="1" {{ old('difficulty_level', $destination->difficulty_level) == 1 ? 'selected' : '' }}>
+                                1 - Fácil
+                            </option>
+                            <option value="2" {{ old('difficulty_level', $destination->difficulty_level) == 2 ? 'selected' : '' }}>
+                                2 - Moderado
+                            </option>
+                            <option value="3" {{ old('difficulty_level', $destination->difficulty_level) == 3 ? 'selected' : '' }}>
+                                3 - Difícil
+                            </option>
+                        </select>
+                        <small class="form-help">Nivel de dificultad para acceder al destino</small>
+                        @error('difficulty_level')
+                            <span class="error-text">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+                
+                <!-- Considerations Dynamic List -->
+                <div class="dynamic-list" id="considerations-list">
+                    <div class="list-header">
+                        <h4>Ten en Cuenta Que (Consideraciones)</h4>
+                        <button type="button" class="control-panel-button add-item-btn" data-list="considerations">
+                            <i class="fas fa-plus"></i> Agregar Consideración
+                        </button>
+                        <button type="button" class="control-panel-button" id="open-considerations-icons-list-modal">
+                            <i class="ph ph-list"></i> Ver Iconos
+                        </button>
+                        
+                        <!-- Considerations Icons List Modal -->
+                        <div id="considerationsIconsListModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:9999; align-items:center; justify-content:center;">
+                            <div style="background:#fff; max-width:480px; width:90vw; max-height:80vh; border-radius:12px; box-shadow:0 2px 24px #2225; padding:2rem 1.5rem; overflow:auto; position:relative;">
+                                <h3 style="margin-top:0; margin-bottom:1rem; font-size:1.3rem;">Nombres de Iconos Phosphor</h3>
+                                <button type="button" id="close-considerations-icons-list-modal" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
+                                <input type="text" id="considerationsIconFilterInput" placeholder="Filtrar iconos..." style="width:100%; margin-bottom:0.75rem; padding:0.4rem 0.7rem; font-size:1rem; border:1px solid #ddd; border-radius:6px;">
+                                <div style="max-height:60vh; overflow-y:auto; border:1px solid #eee; border-radius:8px; padding:0.5rem 0.75rem; background:#fafafa;">
+                                    <ul id="considerationsIconsListUl" style="list-style:none; margin:0; padding:0; font-size:1.05rem;">
+                                        @foreach(file(public_path('assets/phosphor-icon-names.txt')) as $iconName)
+                                            <li style="padding:2px 0; border-bottom:1px solid #f0f0f0;">{{ trim($iconName) }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="items-container">
+                        @if($destination->considerations && count($destination->considerations) > 0)
+                            @foreach($destination->considerations as $index => $consideration)
+                                <div class="dynamic-item">
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label>Icono</label>
+                                            <input type="text" name="considerations[{{ $index }}][icon]" value="{{ $consideration['icon'] ?? 'ph ph-warning-circle' }}" placeholder="ph ph-warning-circle">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Texto de Consideración</label>
+                                            <input type="text" name="considerations[{{ $index }}][text]" value="{{ $consideration['text'] ?? '' }}" required>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="remove-item-btn">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            @endforeach
+                        @endif
+                    </div>
+                </div>
+                
+                <!-- What to Bring Dynamic List -->
+                <div class="dynamic-list" id="what-to-bring-list">
+                    <div class="list-header">
+                        <h4>Qué Llevar (Elementos Recomendados)</h4>
+                        <button type="button" class="control-panel-button add-item-btn" data-list="what-to-bring">
+                            <i class="fas fa-plus"></i> Agregar Elemento
+                        </button>
+                        <button type="button" class="control-panel-button" id="open-what-to-bring-icons-list-modal">
+                            <i class="ph ph-list"></i> Ver Iconos
+                        </button>
+                        
+                        <!-- What to Bring Icons List Modal -->
+                        <div id="whatToBringIconsListModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:9999; align-items:center; justify-content:center;">
+                            <div style="background:#fff; max-width:480px; width:90vw; max-height:80vh; border-radius:12px; box-shadow:0 2px 24px #2225; padding:2rem 1.5rem; overflow:auto; position:relative;">
+                                <h3 style="margin-top:0; margin-bottom:1rem; font-size:1.3rem;">Nombres de Iconos Phosphor</h3>
+                                <button type="button" id="close-what-to-bring-icons-list-modal" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
+                                <input type="text" id="whatToBringIconFilterInput" placeholder="Filtrar iconos..." style="width:100%; margin-bottom:0.75rem; padding:0.4rem 0.7rem; font-size:1rem; border:1px solid #ddd; border-radius:6px;">
+                                <div style="max-height:60vh; overflow-y:auto; border:1px solid #eee; border-radius:8px; padding:0.5rem 0.75rem; background:#fafafa;">
+                                    <ul id="whatToBringIconsListUl" style="list-style:none; margin:0; padding:0; font-size:1.05rem;">
+                                        @foreach(file(public_path('assets/phosphor-icon-names.txt')) as $iconName)
+                                            <li style="padding:2px 0; border-bottom:1px solid #f0f0f0;">{{ trim($iconName) }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="items-container">
+                        @if($destination->what_to_bring && count($destination->what_to_bring) > 0)
+                            @foreach($destination->what_to_bring as $index => $item)
+                                <div class="dynamic-item">
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label>Icono</label>
+                                            <input type="text" name="what_to_bring[{{ $index }}][icon]" value="{{ $item['icon'] ?? 'ph ph-backpack' }}" placeholder="ph ph-backpack">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Elemento Recomendado</label>
+                                            <input type="text" name="what_to_bring[{{ $index }}][text]" value="{{ $item['text'] ?? '' }}" required>
                                         </div>
                                     </div>
                                     <button type="button" class="remove-item-btn">
@@ -637,37 +797,16 @@
                             <option value="NO" {{ (old('tourism_criteria.waste', $destination->tourism_criteria['waste'] ?? '') == 'NO') ? 'selected' : '' }}>NO</option>
                         </select>
                     </div>
-                </div>
-                </div>
-            </div>
-
-            <!-- Description Tab -->
-            <div class="tab-content" id="description-tab">
-                <h3 class="tab-title">Descripciones</h3>
-                <div class="form-grid">
-                    <div class="form-group span-full">
-                        <label for="main_description">Descripción Principal</label>
-                        <textarea id="main_description" name="main_description" rows="4">{{ old('main_description', $destination->main_description) }}</textarea>
-                        @error('main_description')
-                            <span class="error-text">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    
-                    <div class="form-group span-full">
-                        <label for="secondary_description">Descripción Secundaria</label>
-                        <textarea id="secondary_description" name="secondary_description" rows="4">{{ old('secondary_description', $destination->secondary_description) }}</textarea>
-                        @error('secondary_description')
-                            <span class="error-text">{{ $message }}</span>
-                        @enderror
-                    </div>
                     
                     <div class="form-group span-full">
                         <label for="strengths_benefits">Fortalezas y Beneficios</label>
                         <textarea id="strengths_benefits" name="strengths_benefits" rows="4">{{ old('strengths_benefits', $destination->strengths_benefits) }}</textarea>
+                        <small class="form-help">Describir las principales fortalezas y beneficios del destino turístico</small>
                         @error('strengths_benefits')
                             <span class="error-text">{{ $message }}</span>
                         @enderror
                     </div>
+                </div>
                 </div>
             </div>
 
@@ -844,6 +983,92 @@
                 activitiesFilterInput.addEventListener('input', function() {
                     const filter = this.value.trim().toLowerCase();
                     Array.from(activitiesIconsListUl.children).forEach(li => {
+                        if (li.textContent.toLowerCase().includes(filter)) {
+                            li.style.display = '';
+                        } else {
+                            li.style.display = 'none';
+                        }
+                    });
+                });
+            }
+
+            // Considerations modal
+            const openConsiderationsModalBtn = document.getElementById('open-considerations-icons-list-modal');
+            const closeConsiderationsModalBtn = document.getElementById('close-considerations-icons-list-modal');
+            const considerationsModal = document.getElementById('considerationsIconsListModal');
+            const considerationsFilterInput = document.getElementById('considerationsIconFilterInput');
+            const considerationsIconsListUl = document.getElementById('considerationsIconsListUl');
+
+            if (openConsiderationsModalBtn && considerationsModal) {
+                openConsiderationsModalBtn.addEventListener('click', function() {
+                    considerationsModal.style.display = 'flex';
+                    if (considerationsFilterInput) considerationsFilterInput.value = '';
+                    if (considerationsIconsListUl) {
+                        Array.from(considerationsIconsListUl.children).forEach(li => li.style.display = '');
+                    }
+                });
+            }
+            if (closeConsiderationsModalBtn && considerationsModal) {
+                closeConsiderationsModalBtn.addEventListener('click', function() {
+                    considerationsModal.style.display = 'none';
+                });
+            }
+            // Close modal when clicking outside
+            if (considerationsModal) {
+                considerationsModal.addEventListener('click', function(e) {
+                    if (e.target === considerationsModal) {
+                        considerationsModal.style.display = 'none';
+                    }
+                });
+            }
+            // Filter logic
+            if (considerationsFilterInput && considerationsIconsListUl) {
+                considerationsFilterInput.addEventListener('input', function() {
+                    const filter = this.value.trim().toLowerCase();
+                    Array.from(considerationsIconsListUl.children).forEach(li => {
+                        if (li.textContent.toLowerCase().includes(filter)) {
+                            li.style.display = '';
+                        } else {
+                            li.style.display = 'none';
+                        }
+                    });
+                });
+            }
+
+            // What to Bring modal
+            const openWhatToBringModalBtn = document.getElementById('open-what-to-bring-icons-list-modal');
+            const closeWhatToBringModalBtn = document.getElementById('close-what-to-bring-icons-list-modal');
+            const whatToBringModal = document.getElementById('whatToBringIconsListModal');
+            const whatToBringFilterInput = document.getElementById('whatToBringIconFilterInput');
+            const whatToBringIconsListUl = document.getElementById('whatToBringIconsListUl');
+
+            if (openWhatToBringModalBtn && whatToBringModal) {
+                openWhatToBringModalBtn.addEventListener('click', function() {
+                    whatToBringModal.style.display = 'flex';
+                    if (whatToBringFilterInput) whatToBringFilterInput.value = '';
+                    if (whatToBringIconsListUl) {
+                        Array.from(whatToBringIconsListUl.children).forEach(li => li.style.display = '');
+                    }
+                });
+            }
+            if (closeWhatToBringModalBtn && whatToBringModal) {
+                closeWhatToBringModalBtn.addEventListener('click', function() {
+                    whatToBringModal.style.display = 'none';
+                });
+            }
+            // Close modal when clicking outside
+            if (whatToBringModal) {
+                whatToBringModal.addEventListener('click', function(e) {
+                    if (e.target === whatToBringModal) {
+                        whatToBringModal.style.display = 'none';
+                    }
+                });
+            }
+            // Filter logic
+            if (whatToBringFilterInput && whatToBringIconsListUl) {
+                whatToBringFilterInput.addEventListener('input', function() {
+                    const filter = this.value.trim().toLowerCase();
+                    Array.from(whatToBringIconsListUl.children).forEach(li => {
                         if (li.textContent.toLowerCase().includes(filter)) {
                             li.style.display = '';
                         } else {
@@ -1030,6 +1255,42 @@
                             <div class="form-group span-full">
                                 <label>Descripción del Reto</label>
                                 <textarea name="environmental_challenges[${itemCount}][description]" rows="3" required></textarea>
+                            </div>
+                        </div>
+                        <button type="button" class="remove-item-btn">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+            } else if (listType === 'considerations') {
+                itemHTML = `
+                    <div class="dynamic-item">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Icono</label>
+                                <input type="text" name="considerations[${itemCount}][icon]" value="ph ph-warning-circle" placeholder="ph ph-warning-circle">
+                            </div>
+                            <div class="form-group">
+                                <label>Texto de Consideración</label>
+                                <input type="text" name="considerations[${itemCount}][text]" required>
+                            </div>
+                        </div>
+                        <button type="button" class="remove-item-btn">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+            } else if (listType === 'what-to-bring') {
+                itemHTML = `
+                    <div class="dynamic-item">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Icono</label>
+                                <input type="text" name="what_to_bring[${itemCount}][icon]" value="ph ph-backpack" placeholder="ph ph-backpack">
+                            </div>
+                            <div class="form-group">
+                                <label>Elemento Recomendado</label>
+                                <input type="text" name="what_to_bring[${itemCount}][text]" required>
                             </div>
                         </div>
                         <button type="button" class="remove-item-btn">

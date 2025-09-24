@@ -38,7 +38,6 @@ body{
     display: flex;
     position: relative;
     width: 100%;
-    background-color: var(--color-5);
     padding: 0;
     z-index: 1;
     justify-content: flex-start;
@@ -71,8 +70,9 @@ body{
   }
   .banner-section .container-2{
     justify-content: flex-start!important;
+    align-items: center!important;
     height: auto;
-    padding-bottom: 6rem;
+    padding: 2rem!important;
   }
   .banner-section .container::after{
     display: none;
@@ -99,9 +99,11 @@ body{
     animation-delay: 1s;
 }
 .banner-section .container-2{
-  background-color: var(--color-1);
-  overflow: hidden;
-  justify-content: flex-end;
+  height: fit-content;
+    background-color: var(--color-1);
+    overflow: hidden;
+    justify-content: flex-end;
+    padding: 8rem 8rem 2rem;
 }
 .banner-section .container-2 img{
   position: absolute;

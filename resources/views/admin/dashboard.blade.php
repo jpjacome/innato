@@ -13,6 +13,8 @@
                     <th>Correo electrónico</th>
                     <th>Fecha</th>
                     <th>Destino</th>
+                    <th>Tipo de Viaje</th>
+                    <th>País</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -23,13 +25,15 @@
                         <td>{{ $reservation->email }}</td>
                         <td>{{ $reservation->date }}</td>
                         <td>{{ $reservation->destination ? $reservation->destination->title : '-' }}</td>
+                        <td>{{ $reservation->travel_type ?? '-' }}</td>
+                        <td>{{ $reservation->country_of_origin ?? '-' }}</td>
                         <td class="control-panel-actions-cell">
                             <button class="control-panel-button control-panel-button-danger reservation-delete-button" data-id="{{ $reservation->id }}">Eliminar</button>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="control-panel-text-muted">No se encontraron reservas.</td>
+                        <td colspan="7" class="control-panel-text-muted">No se encontraron reservas.</td>
                     </tr>
                 @endforelse
             </tbody>

@@ -38,6 +38,10 @@
     @hasSection('single-destination-css')
         @yield('single-destination-css')
     @endif
+    <!-- Products -->
+    @hasSection('products-css')
+        @yield('products-css')
+    @endif
     <!-- JS dependencies -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>

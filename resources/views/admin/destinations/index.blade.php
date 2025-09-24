@@ -267,7 +267,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                             <i class="fas fa-edit"></i> Editar
                                         </a>
                                         <button class="control-panel-button control-panel-button-danger btn-sm delete-destination-btn" data-id="{{ $destination->id }}">
-                                            <i class="fas fa-trash"></i> Eliminar
+                                            <i class="fas fa-trash"></i>
                                         </button>
                                     </div>
                                 </td>

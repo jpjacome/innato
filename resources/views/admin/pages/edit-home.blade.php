@@ -261,10 +261,10 @@
             <i class="fas fa-times"></i> Cancelar
         </a>
         <button type="submit" form="home-edit-form" class="control-panel-button">
-            <i class="fas fa-save"></i> Guardar Cambios
+            <i class="fas fa-save"></i> Guardar
         </button>
         <a href="/home" target="_blank" class="control-panel-button">
-            <i class="fas fa-external-link-alt"></i> Ver Página de Inicio
+            <i class="fas fa-external-link-alt"></i> Ver Página
         </a>
     </div>
 </x-control-panel-layout>

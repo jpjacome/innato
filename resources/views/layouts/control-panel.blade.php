@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Storage;
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/imgs/favicon.png') }}">
 
     <title>{{ isset($settings) && $settings && isset($settings->dashboard_title) ? $settings->dashboard_title : config('app.name', 'Laravel') }} - Control Panel</title>
 
@@ -23,6 +24,7 @@ use Illuminate\Support\Facades\Storage;
     
     <!-- Dynamic Control Panel Styles -->
     <link href="{{ route('control-panel.css') }}" rel="stylesheet">
+    @stack('head')
 </head>
 <body class="control-panel">
     <header class="control-panel-header">
@@ -184,5 +186,6 @@ use Illuminate\Support\Facades\Storage;
             }
         }
     </script>
+    @stack('scripts')
 </body>
 </html> 

@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasSEO;
+use Illuminate\Support\Str;
 
 class Destination extends Model
 {
+    use HasSEO;
     // ...existing code...
     protected $fillable = [
         'slug',
@@ -50,7 +53,11 @@ class Destination extends Model
         'environmental_challenges',
         'hero_image',
         'gallery_images',
-        'status'
+        'status',
+        'altitude',
+        'considerations',
+        'what_to_bring',
+        'difficulty_level'
     ];
 
     protected $casts = [
@@ -60,7 +67,9 @@ class Destination extends Model
         'services' => 'array',
         'tourism_criteria' => 'array',
         'environmental_challenges' => 'array',
-        'gallery_images' => 'array'
+        'gallery_images' => 'array',
+        'considerations' => 'array',
+        'what_to_bring' => 'array'
     ];
 
     // Helper methods for formatted output
@@ -104,11 +113,61 @@ class Destination extends Model
         ];
     }
 
+    public function getFormattedConsiderations()
+    {
+        return $this->considerations ? collect($this->considerations)->map(function ($consideration) {
+            return [
+                'icon' => $consideration['icon'] ?? 'ph ph-warning-circle',
+                'text' => $consideration['text'] ?? $consideration
+            ];
+        }) : collect();
+    }
+
+    public function getFormattedWhatToBring()
+    {
+        return $this->what_to_bring ? collect($this->what_to_bring)->map(function ($item) {
+            return [
+                'icon' => $item['icon'] ?? 'ph ph-backpack',
+                'text' => $item['text'] ?? $item
+            ];
+        }) : collect();
+    }
+
+    public function getDifficultyData()
+    {
+        $level = strtolower($this->difficulty_level ?? 'medio');
+        
+        $difficultyMap = [
+            'bajo' => ['level' => 1, 'percentage' => 33, 'color' => 'success', 'label' => 'Bajo'],
+            'medio' => ['level' => 2, 'percentage' => 66, 'color' => 'warning', 'label' => 'Medio'],
+            'alto' => ['level' => 3, 'percentage' => 100, 'color' => 'danger', 'label' => 'Alto']
+        ];
+        
+        return $difficultyMap[$level] ?? $difficultyMap['medio'];
+    }
+
     /**
      * Get the editor assigned to this destination.
      */
     public function assignedEditor()
     {
         return $this->hasOne(User::class, 'destination_id');
+    }
+    
+    /**
+     * Get default SEO title for this destination.
+     */
+    protected function getDefaultSeoTitle(): string
+    {
+        return $this->title . ' - Turismo Comunitario Ecuador | INNATO';
+    }
+    
+    /**
+     * Get default SEO description for this destination.
+     */
+    protected function getDefaultSeoDescription(): string
+    {
+        $description = $this->main_description ?? $this->secondary_description ?? $this->subtitle ?? '';
+        return Str::limit(strip_tags($description), 155);
     }
 }

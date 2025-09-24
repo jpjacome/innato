@@ -26,7 +26,8 @@
         <div class="container container-2">
             <img class="edge" src="../assets/imgs/edge3.svg" alt="">
             <div class="form-container">
-                <form class="contact-form fade-in-2">
+                <form class="contact-form fade-in-2" action="{{ route('contact.send') }}" method="POST">
+                    @csrf
                     <div class="form-group">
                         <label for="nombre">Nombre y Apellido</label>
                         <input type="text" id="nombre" name="nombre" required>
@@ -46,9 +47,11 @@
                             {{ isset($contactSetting) && !empty($contactSetting->newsletter_label) ? $contactSetting->newsletter_label : 'Agregarme al newsletter' }}
                         </label>
                     </div>
+                    <div style="margin-top:0.5rem;">
+                        <button class="cta-button fade-in-1" type="submit">{{ isset($contactSetting) && !empty($contactSetting->button_text) ? $contactSetting->button_text : 'ENVIAR' }}</button>
+                    </div>
                 </form>
             </div>
-            <button class="cta-button fade-in-1">{{ isset($contactSetting) && !empty($contactSetting->button_text) ? $contactSetting->button_text : 'ENVIAR' }}</button>
         </div>
     </section>
 
@@ -70,8 +73,6 @@
     <!-- Footer -->
     <x-footer />
 
-    <div class="drpixel fade-in-1">
-        <x-interactive-icon size="20px" />carefully crafted by <a href="https://drpixel.it.nf/">DR PIXEL</a>    </div>
     <script src="{{ asset('assets/js/home.js') }}"></script>
     
     @stack('scripts')

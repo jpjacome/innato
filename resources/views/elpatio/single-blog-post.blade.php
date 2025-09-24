@@ -3,9 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Exploring Quito: Top 5 Hidden Gems | El Patio Hostel Blog</title>
+  <title>{{ $post['title'] ?? 'Blog Post' }} | El Patio Hostel Blog</title>
+  <meta name="description" content="{{ Str::limit(strip_tags($post['excerpt'] ?? ''), 160) }}">
+  <link rel="canonical" href="{{ url()->current() }}" />
   <link rel="stylesheet" href="/css/elpatio-test.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/phosphor-icons@1.4.2/src/css/icons.min.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "{{ addslashes($post['title'] ?? '') }}",
+    "datePublished": "{{ $post['published_at'] ?? '' }}",
+    "image": "{{ !empty($post['featured_image']) ? asset('storage/' . $post['featured_image']) : asset('/assets/elpatio/imgs/photo1.avif') }}",
+    "author": {"@type": "Person","name": "El Patio"}
+  }
+  </script>
 </head>
 <body>
   <header class="header fadein-2">
@@ -13,11 +25,11 @@
             <img class="logo-img" src="/assets/elpatio/imgs/logo4.png" alt="">
         </a>
     <nav class="nav fadein-2" id="nav">
-      <a href="index.html#about" class="menu-item" id="menu-item-3">ABOUT US</a>
-      <a href="index.html#rooms" class="menu-item" id="menu-item-2">ROOMS</a>
-      <a href="index.html#gallery" class="menu-item" id="menu-item-4">PHOTO GALLERY</a>
-      <a href="index.html#blog" class="menu-item" id="menu-item-5">BLOG</a>
-      <a href="https://innatotravel.com/" class="menu-item" id="menu-item-6">TOURS</a>
+      <a href="{{ route('elpatio') }}#about" class="menu-item" id="menu-item-1">ABOUT US</a>
+      <a href="{{ route('elpatio') }}#rooms" class="menu-item" id="menu-item-2">ROOMS</a>
+      <a href="{{ route('elpatio') }}#gallery" class="menu-item" id="menu-item-3">PHOTO GALLERY</a>
+      <a href="{{ route('elpatio') }}#blog" class="menu-item" id="menu-item-4">BLOG</a>
+      <a href="https://innatotravel.com/" class="menu-item" id="menu-item-5">TOURS</a>
     </nav>
     <div class="social-media fadein-3">
       <a href=""><img class="social-media-icon" src="/assets/elpatio/imgs/icon-instagram.svg" alt="Instagram"></a>
@@ -32,10 +44,10 @@
     <img src="/assets/elpatio/imgs/logo1.png" alt="Loading...">
   </div>
 
-  <main class="single-post-section fadein-2">
-    <article class="single-blog-post fade-in-2">
+  <main class="single-post-section fadein-1">
+    <article class="single-blog-post fade-in-1">
       <div class="blog-card-img-masked">
-        <div class="blog-card-img" style="background-image:url('/assets/elpatio/imgs/photo1.avif');"></div>
+        <div class="blog-card-img" style="background-image:url('{{ !empty($post['featured_image']) ? asset('storage/' . $post['featured_image']) : asset('/assets/elpatio/imgs/photo1.avif') }}');"></div>
         <svg class="blog-card-mask" width="100%" height="100%" viewBox="0 0 700 320" preserveAspectRatio="xMidYMid slice">
           <defs>
             <mask id="blog-circle-mask-single">
@@ -47,22 +59,13 @@
         </svg>
       </div>
       <div class="blog-card-content">
-        <h1 class="blog-card-title">Exploring Quito: Top 5 Hidden Gems</h1>
-        <p class="blog-card-meta">August 20, 2025 &bull; by Staff</p>
+        <h1 class="blog-card-title">{{ $post['title'] ?? 'Blog Post' }}</h1>
+        <p class="blog-card-meta">{{ isset($post['published_at']) ? \Carbon\Carbon::parse($post['published_at'])->format('F j, Y') : '' }} &bull; by Staff</p>
         <div class="blog-card-excerpt">
-          Discover the lesser-known spots in Quito that will make your stay unforgettable. From secret gardens to cozy cafes, here’s our local guide!
+          {!! nl2br(e($post['excerpt'] ?? '')) !!}
         </div>
         <div class="blog-post-body">
-          <h3>1. El Jardín Secreto</h3>
-          <p>A tranquil garden tucked away in the heart of the city, perfect for a peaceful afternoon or a picnic with friends. Don’t miss the local art installations!</p>
-          <h3>2. Café Escondido</h3>
-          <p>This cozy café is a favorite among locals for its artisan coffee and homemade pastries. The perfect spot to relax after a day of exploring.</p>
-          <h3>3. Mirador de Guápulo</h3>
-          <p>Enjoy breathtaking views of Quito from this hidden lookout. It’s a bit of a climb, but the scenery is worth every step.</p>
-          <h3>4. La Ronda’s Secret Courtyards</h3>
-          <p>Wander off the main street to discover charming courtyards filled with music, art, and local flavors.</p>
-          <h3>5. Casa Museo María Augusta Urrutia</h3>
-          <p>Step back in time at this beautifully preserved house museum, offering a glimpse into Quito’s rich history and culture.</p>
+          {!! $post['body'] ?? '' !!}
         </div>
       </div>
     </article>
@@ -93,6 +96,6 @@
     </div>
   </footer>
 
-  <script src="assets/js/elpatio-test.js"></script>
+  <script src="{{ asset('assets/js/elpatio-test.js') }}"></script>
 </body>
 </html>

@@ -248,6 +248,9 @@ header {
                 background-color: var(--color-2);
                 color: white;
             }
+            header .nav #menu-item-5:hover:after{
+                animation: rotateAnim .5s ease-in-out infinite;
+            } 
             header .nav #menu-item-6:hover{
                 background-color: var(--color-4);
                 color: white;
@@ -260,6 +263,18 @@ header {
                 50% { transform: rotate(35deg); }
                 100% { transform: rotate(25deg); }
             }
+            header .nav #menu-item-5:after{
+                content: 'NEW!';
+                position: absolute;
+                display: inline-block;
+                padding: .1rem .5rem;
+                top: 10px;
+                right: -10px;
+                background-color: var(--color-2);
+                color: white;
+                font-size: .8em;
+                transform: rotate(25deg);
+            }
             header .nav #menu-item-6:after{
                 content: 'NEW!';
                 position: absolute;
@@ -271,6 +286,22 @@ header {
                 color: white;
                 font-size: .8em;
                 transform: rotate(25deg);
+            }
+
+            /* Active state should mirror hover */
+            header .nav .menu-item.active {
+                background-color: var(--color-2);
+                color: white;
+                font-weight: 700;
+            }
+            /* For the special TOURS item keep its own color */
+            header .nav #menu-item-6.active {
+                background-color: var(--color-4);
+                color: white;
+            }
+            /* Mirror the NEW! badge animation when active for item 6 */
+            header .nav #menu-item-6.active:after{
+                animation: rotateAnim .5s ease-in-out infinite;
             }
         header .whatsapp-icon{
             position: fixed;
@@ -997,6 +1028,11 @@ footer{
   .footer-column p {
     margin: 0 0 4px;
     font-size: 14px;
+  }
+
+  .footer-column a {
+    color: white;
+    text-decoration: none;
   }
   
   /* Footer bottom area */

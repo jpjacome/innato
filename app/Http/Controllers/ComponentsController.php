@@ -67,12 +67,12 @@ class ComponentsController extends Controller
         // For now, we'll just update a settings record to store the navigation texts
         // Later we can modify the actual component file programmatically
         $headerSetting = HeaderSetting::firstOrNew();
-        $headerSetting->nav_about_text = $request->nav_about_text;
-        $headerSetting->nav_destinations_text = $request->nav_destinations_text;
-        $headerSetting->nav_experience_text = $request->nav_experience_text;
-        $headerSetting->nav_hostal_text = $request->nav_hostal_text;
-        $headerSetting->nav_contact_text = $request->nav_contact_text;
-        $headerSetting->nav_reviews_text = $request->nav_reviews_text;
+    $headerSetting->nav_about_text = $request->nav_about_text;
+    $headerSetting->nav_destinations_text = $request->nav_destinations_text;
+    $headerSetting->nav_experience_text = $request->nav_experience_text;
+    $headerSetting->nav_hostal_text = $request->nav_hostal_text;
+    $headerSetting->nav_contact_text = $request->nav_contact_text;
+    $headerSetting->nav_reviews_text = $request->nav_reviews_text;
         $headerSetting->search_placeholder = $request->search_placeholder;
         $headerSetting->save();
 

@@ -26,6 +26,15 @@ class StyleController extends Controller
 
         $css = file_get_contents(public_path('css/control-panel.css'));
         
+        // Also include admin.css for SEO and other admin-specific styles
+        $adminCss = '';
+        if (file_exists(public_path('css/admin.css'))) {
+            $adminCss = file_get_contents(public_path('css/admin.css'));
+        }
+        
+        // Combine both CSS files
+        $css = $css . "\n\n" . $adminCss;
+        
         // Remove any existing theme variables
         $css = preg_replace('/:root\s*{[^}]*}/', '', $css);
         $css = preg_replace('/\[data-theme="dark"\]\s*{[^}]*}/', '', $css);
