@@ -31,32 +31,39 @@ class ElPatioBlogController extends Controller
         return view('admin.pages.edit-elpatio-blog', ['posts' => $posts]);
     }
 
+    public function create()
+    {
+        return view('admin.pages.create-elpatio-blog');
+    }
+
     public function store(Request $request)
     {
         $data = $request->validate([
-            'title' => 'required|string|max:255',
-            'excerpt' => 'nullable|string',
-            'body' => 'nullable|string',
-            'featured_image' => 'nullable|file|image|max:2048',
+            'title'           => 'required|string|max:255',
+            'excerpt'         => 'nullable|string',
+            'body'            => 'nullable|string',
+            'featured_image'  => 'nullable|file|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
         ]);
 
-    // Server-side sanitize body: allow a small set of HTML tags (include <img> so Trix uploads are preserved)
-    $allowed = '<p><br><strong><em><ul><ol><li><a><h1><h2><h3><blockquote><img><figure><figcaption>';
+        $allowed = ['p','br','strong','em','b','i','u','ul','ol','li','a','h1','h2','h3','h4','blockquote','img','figure','figcaption','span','div'];
         $body = isset($data['body']) ? strip_tags($data['body'], $allowed) : null;
 
         $payload = [
-            'title' => $data['title'],
-            'excerpt' => $data['excerpt'] ?? null,
-            'body' => $body,
-            'published_at' => now(),
+            'title'        => $data['title'],
+            'excerpt'      => $data['excerpt'] ?? null,
+            'body'         => $body,
+            'published_at' => $request->boolean('is_published') ? now() : null,
         ];
+
         if ($request->hasFile('featured_image')) {
             $path = $request->file('featured_image')->store('elpatio/blog', 'public');
             $payload['featured_image'] = $path;
         }
+
         ElPatioPost::create($payload);
 
-        return redirect()->route('admin.pages.edit-elpatio-blog')->with('success', 'Entrada creada');
+        $label = $request->boolean('is_published') ? 'publicada' : 'guardada como borrador';
+        return redirect()->route('admin.pages.edit-elpatio-blog')->with('success', "Entrada {$label}.");
     }
 
     public function editItem(Request $request, $id)
@@ -71,10 +78,11 @@ class ElPatioBlogController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->validate([
-            'title' => 'required|string|max:255',
-            'excerpt' => 'nullable|string',
-            'body' => 'nullable|string',
-            'featured_image' => 'nullable|file|image|max:2048',
+            'title'          => 'required|string|max:255',
+            'slug'           => 'nullable|string|max:255',
+            'excerpt'        => 'nullable|string',
+            'body'           => 'nullable|string',
+            'featured_image' => 'nullable|file|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
         ]);
 
         $post = ElPatioPost::find($id);
@@ -86,14 +94,28 @@ class ElPatioBlogController extends Controller
             $path = $request->file('featured_image')->store('elpatio/blog', 'public');
             $post->featured_image = $path;
         }
-    $post->title = $data['title'];
-    $post->excerpt = $data['excerpt'] ?? null;
-    // Allow images and figure elements so attachments inserted by Trix are not removed
-    $allowed = '<p><br><strong><em><ul><ol><li><a><h1><h2><h3><blockquote><img><figure><figcaption>';
-    $post->body = isset($data['body']) ? strip_tags($data['body'], $allowed) : null;
+
+        $post->title   = $data['title'];
+        $post->excerpt = $data['excerpt'] ?? null;
+
+        // Update slug only if explicitly provided and not empty
+        if (!empty($data['slug'])) {
+            $post->slug = Str::slug($data['slug']);
+        }
+
+        // Handle publish/unpublish toggle
+        $wantPublished = $request->boolean('is_published');
+        if ($wantPublished && empty($post->published_at)) {
+            $post->published_at = now();
+        } elseif (! $wantPublished) {
+            $post->published_at = null;
+        }
+
+        $allowed = ['p','br','strong','em','b','i','u','ul','ol','li','a','h1','h2','h3','h4','blockquote','img','figure','figcaption','span','div'];
+        $post->body = isset($data['body']) ? strip_tags($data['body'], $allowed) : null;
         $post->save();
 
-        return redirect()->route('admin.pages.edit-elpatio-blog')->with('success', 'Entrada actualizada');
+        return redirect()->route('admin.pages.edit-elpatio-blog')->with('success', 'Entrada actualizada.');
     }
 
     public function destroy(Request $request, $id)

@@ -1,7 +1,5 @@
 <?php
-// Reservation admin delete route for AJAX
 use App\Http\Controllers\ReservationController;
-Route::delete('/admin/reservations/{id}', [ReservationController::class, 'destroy'])->name('admin.reservations.destroy');
 use Illuminate\Http\Request;
 use App\Models\Destination;
 use App\Models\User;
@@ -11,77 +9,6 @@ Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])
     ->name('newsletter.subscribe')
     ->middleware('throttle:5,1'); // 5 requests per minute per IP
 
-Route::post('/admin/destinations/create', function(Request $request) {
-    // Support JSON payloads for AJAX
-    $validated = validator($request->json()->all(), [
-        'destinationName' => 'required|string|max:255',
-        'editorSelect' => 'required|exists:users,id',
-        'destinationSlug' => 'required|string|max:255|unique:destinations,slug',
-        'destinationRegion' => 'nullable|string|max:255',
-    ])->validate();
-
-    $destination = new Destination();
-    $destination->title = $validated['destinationName'];
-    $destination->slug = $validated['destinationSlug'];
-    $destination->region = $validated['destinationRegion'] ?? 'unknown';
-    $destination->status = 'active';
-    // Set default values for required fields not provided by modal
-    $destination->subtitle = 'unknown';
-    $destination->coordinates = 'unknown';
-    $destination->conservation_status = 'unknown';
-    $destination->province = 'unknown';
-    $destination->canton = 'unknown';
-    $destination->parish = 'unknown';
-    $destination->sector = 'unknown';
-    $destination->reference_distance = '49.9 KM del GAD de Santa Elena';
-    $destination->climate_dry_season = [];
-    $destination->climate_wet_season = [];
-    $destination->access_from = 'unknown';
-    $destination->access_route = 'unknown';
-    $destination->access_transport = 'unknown';
-    $destination->access_time = 'unknown';
-    $destination->schedule_hours = 'unknown';
-    $destination->entry_fee = 'unknown';
-    $destination->season_availability = 'unknown';
-    $destination->requirements = 'unknown';
-    $destination->contact_person = 'unknown';
-    $destination->contact_role = 'unknown';
-    $destination->contact_phone = 'unknown';
-    $destination->contact_email = 'unknown';
-    $destination->activities = [];
-    $destination->target_audience_type = 'unknown';
-    $destination->target_audience_origin = 'unknown';
-    $destination->target_audience_age = 'unknown';
-    $destination->target_audience_transport = 'unknown';
-    $destination->target_audience_stay = 'unknown';
-    $destination->services = [];
-    $destination->average_price = 'unknown';
-    $destination->capacity = 'unknown';
-    $destination->payment_methods = 'unknown';
-    $destination->mobile_coverage = 'unknown';
-    $destination->tourism_criteria = [];
-    $destination->main_description = '';
-    $destination->secondary_description = '';
-    $destination->strengths_benefits = '';
-    $destination->environmental_challenges = [];
-    $destination->save();
-
-    // Assign the editor by updating the user's destination_id
-    $editor = User::find($validated['editorSelect']);
-    if ($editor) {
-        $editor->destination_id = $destination->id;
-        $editor->save();
-    }
-
-    // Optionally, return JSON for AJAX
-    return response()->json(['success' => true, 'destination' => $destination]);
-});
-
-Route::get('/admin/editors-list', function() {
-    // Adjust role check as needed (e.g., 'editor')
-    $editors = User::where('role', 'editor')->get(['id', 'name', 'email']);
-    return response()->json($editors);
-});
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HeroSettingsController;
 use App\Http\Controllers\UserManagementController;
@@ -90,36 +17,6 @@ use App\Http\Controllers\StyleController;
 use App\Http\Controllers\PagesController;
 
 use Illuminate\Support\Facades\Storage;
-
-Route::get('/admin/regions-list', function() {
-    $regions = [];
-    $path = storage_path('app/regions.json');
-    if (file_exists($path)) {
-        $regions = json_decode(file_get_contents($path), true) ?? [];
-    }
-    return response()->json($regions);
-});
-
-Route::post('/admin/regions-add', function(Request $request) {
-    $region = trim($request->json('region'));
-    if (!$region) return response()->json(['error' => 'Empty region'], 400);
-    $path = storage_path('app/regions.json');
-    $regions = file_exists($path) ? json_decode(file_get_contents($path), true) ?? [] : [];
-    if (!in_array($region, $regions)) {
-        $regions[] = $region;
-        file_put_contents($path, json_encode($regions, JSON_PRETTY_PRINT));
-    }
-    return response()->json(['success' => true, 'regions' => $regions]);
-});
-
-Route::post('/admin/regions-delete', function(Request $request) {
-    $region = trim($request->json('region'));
-    $path = storage_path('app/regions.json');
-    $regions = file_exists($path) ? json_decode(file_get_contents($path), true) ?? [] : [];
-    $regions = array_values(array_filter($regions, fn($r) => $r !== $region));
-    file_put_contents($path, json_encode($regions, JSON_PRETTY_PRINT));
-    return response()->json(['success' => true, 'regions' => $regions]);
-});
 use App\Http\Controllers\DestinationViewController;
 use App\Http\Controllers\Admin\AdminDestinationController;
 use App\Http\Middleware\AdminMiddleware;
@@ -131,24 +28,23 @@ use App\Models\ReviewsSetting;
 use App\Models\Review;
 // Domain-specific El Patio landing (both apex and www)
 Route::domain('elpatiohostels.com')->group(function () {
-    Route::get('/', function () { return view('elpatio'); })->name('elpatio.domain');
+    Route::get('/', function () { return view('elpatio.elpatio'); })->name('elpatio.domain');
 });
+
 Route::domain('www.elpatiohostels.com')->group(function () {
-    Route::get('/', function () { return view('elpatio'); }); // no extra name to avoid duplicate naming
+    Route::get('/', function () { return view('elpatio.elpatio'); }); // no extra name to avoid duplicate naming
 });
 
 // Primary site root
-Route::match(['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'OPTIONS'], '/', function () {
+Route::get('/', function () {
     $homeSetting = \App\Models\HomeSetting::instance();
     $reviews = Review::published()->orderByDesc('created_at')->get();
     return view('home', compact('homeSetting', 'reviews'));
 })->name('welcome');
 
-// Public route for home page (Blade view)
+// Redirect /home to root for canonical URL
 Route::get('/home', function () {
-    $homeSetting = \App\Models\HomeSetting::instance();
-    $reviews = Review::published()->orderByDesc('created_at')->get();
-    return view('home', compact('homeSetting', 'reviews'));
+    return redirect('/', 301);
 });
 
 // Public route for about page (Blade view, dynamic content)
@@ -157,8 +53,6 @@ Route::get('/about', [\App\Http\Controllers\PagesController::class, 'showAbout']
 // Public route for destinations page (dynamic content)
 Route::get('/destinations', [\App\Http\Controllers\DestinationsController::class, 'show'])->name('destinations');
 Route::get('/destinations/{region}', [\App\Http\Controllers\DestinationsController::class, 'showRegion'])->name('destinations.region');
-    Route::get('/admin/pages/edit-destinations', [\App\Http\Controllers\DestinationsController::class, 'edit'])->name('admin.pages.edit-destinations');
-    Route::put('/admin/pages/edit-destinations', [\App\Http\Controllers\DestinationsController::class, 'update'])->name('admin.pages.update-destinations');
 
 // Public route for single destination page (dynamic)
 Route::get('/destination/{slug}', [App\Http\Controllers\DestinationViewController::class, 'show'])->name('destination.show');
@@ -189,15 +83,24 @@ Route::get('/elpatio', function () {
     return view('elpatio.elpatio');
 })->name('elpatio');
 
+// Hostal route for El Patio landing page
+Route::get('/hostal', function () {
+    return view('elpatio.elpatio');
+})->name('hostal');
+
 // Test route for elpatio-test.blade.php
 Route::get('/elpatio-test', function () {
-    return view('elpatio.elpatio-test');
-})->name('elpatio.test');
+    return view('elpatio.elpatio');
+})->name('elpatio');
 
 
-// Test route for single-blog-post.blade.php
+// Test route for single-blog-post.blade.php (uses latest published post as preview)
 Route::get('/elpatio-blog-post', function () {
-    return view('elpatio.single-blog-post');
+    $post = \App\Models\ElPatioPost::whereNotNull('published_at')->latest('published_at')->first();
+    if (! $post) {
+        return redirect('/elpatio/blog');
+    }
+    return view('elpatio.single-blog-post', ['post' => $post->toArray()]);
 })->name('elpatio.blog.single');
 
 // Preview route for the full El Patio landing blade (resource: resources/views/elpatio/elpatio.blade.php)
@@ -206,6 +109,14 @@ Route::get('/elpatio-live', function () {
 })->name('elpatio.live');
 
 // (Removed standalone /elpatio route; domain now serves page. Re-add if you want it accessible on main domain.)
+
+// Force-logout route (no auth required) — clears stale sessions that block login
+Route::get('/force-logout', function () {
+    \Illuminate\Support\Facades\Auth::guard('web')->logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+    return redirect()->route('login')->with('status', 'Session cleared. Please log in again.');
+});
 
 // Control Panel Routes (accessible to all authenticated users)
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -222,8 +133,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
             return redirect()->route('admin.dashboard');
         }
 
-        // Fallback for other users - show admin dashboard
-        return redirect()->route('admin.dashboard');
+        // Fallback for users without admin/editor role — send to homepage
+        \Illuminate\Support\Facades\Auth::guard('web')->logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+        return redirect('/')->with('error', 'Your account does not have panel access. Contact an administrator.');
     })->name('dashboard');
 
     // Profile Settings
@@ -328,19 +242,121 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::get('/users/create', [UserManagementController::class, 'create'])->name('users.create');
     Route::post('/users', [UserManagementController::class, 'store'])->name('users.store');
     Route::delete('/users/{user}', [UserManagementController::class, 'destroy'])->name('users.destroy');
+
+    // Admin AJAX routes (moved here from unprotected top-level)
+    Route::delete('/admin/reservations/{id}', [ReservationController::class, 'destroy'])->name('admin.reservations.destroy');
+
+    Route::post('/admin/destinations/create', function(Request $request) {
+        $validated = validator($request->json()->all(), [
+            'destinationName' => 'required|string|max:255',
+            'editorSelect' => 'required|exists:users,id',
+            'destinationSlug' => 'required|string|max:255|unique:destinations,slug',
+            'destinationRegion' => 'nullable|string|max:255',
+        ])->validate();
+
+        $destination = new Destination();
+        $destination->title = $validated['destinationName'];
+        $destination->slug = $validated['destinationSlug'];
+        $destination->region = $validated['destinationRegion'] ?? 'unknown';
+        $destination->status = 'active';
+        $destination->subtitle = 'unknown';
+        $destination->coordinates = 'unknown';
+        $destination->conservation_status = 'unknown';
+        $destination->province = 'unknown';
+        $destination->canton = 'unknown';
+        $destination->parish = 'unknown';
+        $destination->sector = 'unknown';
+        $destination->reference_distance = '49.9 KM del GAD de Santa Elena';
+        $destination->climate_dry_season = [];
+        $destination->climate_wet_season = [];
+        $destination->access_from = 'unknown';
+        $destination->access_route = 'unknown';
+        $destination->access_transport = 'unknown';
+        $destination->access_time = 'unknown';
+        $destination->schedule_hours = 'unknown';
+        $destination->entry_fee = 'unknown';
+        $destination->season_availability = 'unknown';
+        $destination->requirements = 'unknown';
+        $destination->contact_person = 'unknown';
+        $destination->contact_role = 'unknown';
+        $destination->contact_phone = 'unknown';
+        $destination->contact_email = 'unknown';
+        $destination->activities = [];
+        $destination->target_audience_type = 'unknown';
+        $destination->target_audience_origin = 'unknown';
+        $destination->target_audience_age = 'unknown';
+        $destination->target_audience_transport = 'unknown';
+        $destination->target_audience_stay = 'unknown';
+        $destination->services = [];
+        $destination->average_price = 'unknown';
+        $destination->capacity = 'unknown';
+        $destination->payment_methods = 'unknown';
+        $destination->mobile_coverage = 'unknown';
+        $destination->tourism_criteria = [];
+        $destination->main_description = '';
+        $destination->secondary_description = '';
+        $destination->strengths_benefits = '';
+        $destination->environmental_challenges = [];
+        $destination->save();
+
+        $editor = User::find($validated['editorSelect']);
+        if ($editor) {
+            $editor->destination_id = $destination->id;
+            $editor->save();
+        }
+
+        return response()->json(['success' => true, 'destination' => $destination]);
+    });
+
+    Route::get('/admin/editors-list', function() {
+        $editors = User::where('role', 'editor')->get(['id', 'name', 'email']);
+        return response()->json($editors);
+    });
+
+    Route::get('/admin/regions-list', function() {
+        $regions = [];
+        $path = storage_path('app/regions.json');
+        if (file_exists($path)) {
+            $regions = json_decode(file_get_contents($path), true) ?? [];
+        }
+        return response()->json($regions);
+    });
+
+    Route::post('/admin/regions-add', function(Request $request) {
+        $region = trim($request->json('region'));
+        if (!$region) return response()->json(['error' => 'Empty region'], 400);
+        $path = storage_path('app/regions.json');
+        $regions = file_exists($path) ? json_decode(file_get_contents($path), true) ?? [] : [];
+        if (!in_array($region, $regions)) {
+            $regions[] = $region;
+            file_put_contents($path, json_encode($regions, JSON_PRETTY_PRINT));
+        }
+        return response()->json(['success' => true, 'regions' => $regions]);
+    });
+
+    Route::post('/admin/regions-delete', function(Request $request) {
+        $region = trim($request->json('region'));
+        $path = storage_path('app/regions.json');
+        $regions = file_exists($path) ? json_decode(file_get_contents($path), true) ?? [] : [];
+        $regions = array_values(array_filter($regions, fn($r) => $r !== $region));
+        file_put_contents($path, json_encode($regions, JSON_PRETTY_PRINT));
+        return response()->json(['success' => true, 'regions' => $regions]);
+    });
 });
 
 // User Management - accessible to admins and editors
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', EditorMiddleware::class])->group(function () {
     Route::get('/users', [UserManagementController::class, 'index'])->name('users.index');
-    // Editors and admins can edit their own user; admins can edit anyone
     Route::get('/users/{user}/edit', [UserManagementController::class, 'edit'])->name('users.edit');
     Route::put('/users/{user}', [UserManagementController::class, 'update'])->name('users.update');
 });
 
 // Admin and Editor Routes
-// Admin and Editor Routes
 Route::middleware(['auth', EditorMiddleware::class])->group(function () {
+    // Destinations page editor (moved from unprotected top-level)
+    Route::get('/admin/pages/edit-destinations', [\App\Http\Controllers\DestinationsController::class, 'edit'])->name('admin.pages.edit-destinations');
+    Route::put('/admin/pages/edit-destinations', [\App\Http\Controllers\DestinationsController::class, 'update'])->name('admin.pages.update-destinations');
+
     // Pages
     Route::get('/admin/pages', [PagesController::class, 'index'])->name('admin.pages');
     Route::get('/admin/pages/edit-home', [PagesController::class, 'editHome'])->name('admin.pages.edit-home');
@@ -358,6 +374,7 @@ Route::middleware(['auth', EditorMiddleware::class])->group(function () {
     Route::put('/admin/pages/edit-elpatio-footer', [\App\Http\Controllers\Admin\ElPatioController::class, 'updateFooter'])->name('admin.pages.update-elpatio-footer');
     // El Patio blog admin editor
     Route::get('/admin/pages/edit-elpatio-blog', [\App\Http\Controllers\Admin\ElPatioBlogController::class, 'edit'])->name('admin.pages.edit-elpatio-blog');
+    Route::get('/admin/pages/create-elpatio-blog', [\App\Http\Controllers\Admin\ElPatioBlogController::class, 'create'])->name('admin.pages.create-elpatio-blog');
     Route::post('/admin/pages/edit-elpatio-blog', [\App\Http\Controllers\Admin\ElPatioBlogController::class, 'store'])->name('admin.pages.store-elpatio-blog');
     // Single post actions (edit/update/delete)
     Route::get('/admin/pages/edit-elpatio-blog/{id}/edit', [\App\Http\Controllers\Admin\ElPatioBlogController::class, 'editItem'])->name('admin.pages.edit-elpatio-blog.edit');
@@ -440,8 +457,10 @@ Route::middleware(['auth', EditorMiddleware::class])->prefix('editor')->name('ed
     Route::put('/users/{user}', [\App\Http\Controllers\Editor\UserController::class, 'update'])->name('users.update');
 });
 
-// Reservation routes
-Route::get('/reservation', [App\Http\Controllers\ReservationController::class, 'showForm'])->name('reservation.form');
+// Reservation routes (GET redirects to homepage — reservations are submitted via destination page AJAX)
+Route::get('/reservation', function () {
+    return redirect('/');
+})->name('reservation.form');
 Route::post('/reservation', [App\Http\Controllers\ReservationController::class, 'store'])->name('reservation.store');
 
 // Dynamic CSS

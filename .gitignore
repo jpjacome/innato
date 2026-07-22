@@ -15,9 +15,15 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+/database/*.sqlite
+/database/*.sqlite.bak
+*.bak
+error_log
+laravel.log
 /auth.json
 /.fleet
 /.idea
 /.nova
 /.vscode
 /.zed
+1.env

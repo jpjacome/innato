@@ -2,11 +2,11 @@
     <div class="control-panel-card control-panel-with-fixed-actions">
         <div class="control-panel-header-flex">
             <a href="{{ route('admin.pages') }}" class="control-panel-button control-panel-button-secondary">
-                <i class="fas fa-arrow-left"></i> Back to Pages
+                <i class="fas fa-arrow-left"></i> Volver a Páginas
             </a>
-            <h2 class="control-panel-title control-panel-title-no-margin">Edit Experience Center Page</h2>
+            <h2 class="control-panel-title control-panel-title-no-margin">Editar Centro de Experiencias</h2>
         </div>
-        <p class="control-panel-text-muted">Edit the content and settings for your Experience Center page.</p>
+        <p class="control-panel-text-muted">Edita el contenido y la configuración de tu página Centro de Experiencias.</p>
 
         @if(session('success'))
             <div class="alert alert-success control-panel-alert-success-custom">
@@ -91,13 +91,13 @@
             </div>
             <div class="control-panel-fixed-actions">
                 <a href="{{ route('admin.pages') }}" class="control-panel-button">
-                    <i class="fas fa-times"></i> Cancel
+                    <i class="fas fa-times"></i> Cancelar
                 </a>
                 <button type="submit" class="control-panel-button">
-                    <i class="fas fa-save"></i> Save Changes
+                    <i class="fas fa-save"></i> Guardar Cambios
                 </button>
                 <a href="/experience-center" target="_blank" class="control-panel-button">
-                    <i class="fas fa-external-link-alt"></i> View Experience Center Page
+                    <i class="fas fa-external-link-alt"></i> Ver Página
                 </a>
             </div>
         </form>

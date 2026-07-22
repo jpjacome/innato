@@ -10,7 +10,7 @@
     <x-header />
 
     <div class="icon fade-in-3">
-        <img class="icon-destinations icon-products" id="icon-productos" src="{{ asset('assets/imgs/icon-cacao.svg') }}" alt="Products icon">
+        <img class="icon-destinations icon-products" id="icon-productos" src="{{ asset('assets/imgs/icon-coral.svg') }}" alt="Products icon">
     </div>
 
     <!-- Banner Section -->
@@ -26,25 +26,24 @@
         <div class="headline-cards fade-in-1">
             @forelse($products as $product)
                 <!-- Product Card {{ $loop->iteration }} -->
-                <a href="#producto-{{ $product->id }}">
-                    <div class="headline-card">
-                        <div class="img-container">
-                            @if($product->image)
-                                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->title }}" class="headline-card-img">
-                            @else
-                                <img src="https://via.placeholder.com/300x200/666666/FFFFFF?text={{ urlencode($product->title) }}" alt="{{ $product->title }}" class="headline-card-img">
+                <div class="headline-card">
+                    <div class="img-container">
+                        @if($product->image)
+                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->title }}" class="headline-card-img">
+                        @else
+                            <img src="https://via.placeholder.com/300x200/666666/FFFFFF?text={{ urlencode($product->title) }}" alt="{{ $product->title }}" class="headline-card-img">
+                        @endif
+                    </div>
+                    <div class="info">
+                        <div class="title-container">
+                            <h3 class="headline-card-title">{{ $product->title }}</h3>
+                            @if($product->price)
+                                <span class="product-price">${{ number_format($product->price, 2) }}</span>
                             @endif
                         </div>
-                        <div class="info">
-                            <div class="title-container">
-                                <h3 class="headline-card-title">{{ $product->title }}</h3>
-                                <i class="ph ph-arrow-right"></i>
-                            </div>
-                            <p>{{ $product->description }}</p>
-                        </div>
-                        <button class="cta-button">CONOCE MÁS</button>
+                        <p>{{ $product->description }}</p>
                     </div>
-                </a>
+                </div>
             @empty
                 <!-- No products message -->
                 <div class="no-products-message" style="text-align: center; padding: 2rem; color: #666; grid-column: 1 / -1;">

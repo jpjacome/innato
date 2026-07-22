@@ -9,17 +9,17 @@
                 <div class="header-info">
                     <h2 class="control-panel-title">
                         <i class="fas fa-edit"></i>
-                        Edit Destination: {{ $destination->title }}
+                        Editar Destino: {{ $destination->title }}
                     </h2>
-                    <p class="control-panel-subtitle">Admin editing mode - All fields available</p>
+                    <p class="control-panel-subtitle">Modo edición editor - Todos los campos disponibles</p>
                 </div>
                 <div class="header-actions">
-                    <a href="{{ route('destination.show', $destination->slug) }}" 
+                    <a href="{{ route('destination.show', $destination->slug) }}"
                        class="control-panel-button control-panel-button-secondary" target="_blank">
-                        <i class="fas fa-eye"></i> View Public Page
+                        <i class="fas fa-eye"></i> Ver Página Pública
                     </a>
-                    <a href="{{ route('admin.destinations.index') }}" class="control-panel-button control-panel-button-secondary">
-                        <i class="fas fa-arrow-left"></i> Back to Destinations
+                    <a href="{{ route('editor.destinations.index') }}" class="control-panel-button control-panel-button-secondary">
+                        <i class="fas fa-arrow-left"></i> Volver a Destinos
                     </a>
                 </div>
             </div>
@@ -27,7 +27,7 @@
 
         @if($destination->assignedEditor)
             <div class="editor-info-card">
-                <h3><i class="fas fa-user"></i> Assigned Editor</h3>
+                <h3><i class="fas fa-user"></i> Editor asignado</h3>
                 <p><strong>{{ $destination->assignedEditor->name }}</strong> ({{ $destination->assignedEditor->email }})</p>
             </div>
         @endif
@@ -42,7 +42,7 @@
         @if($errors->any())
             <div class="alert alert-error">
                 <i class="fas fa-exclamation-triangle"></i>
-                Please fix the following errors:
+                Por favor corrige los siguientes errores:
                 <ul>
                     @foreach($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -55,59 +55,59 @@
         <div class="tab-navigation">
             <button class="tab-button active" data-tab="basic">
                 <i class="ph ph-info"></i>
-                Basic Info
-            </button>
-            <button class="tab-button" data-tab="location">
-                <i class="ph ph-map-pin"></i>
-                Location
-            </button>
-            <button class="tab-button" data-tab="climate">
-                <i class="ph ph-sun"></i>
-                Climate
-            </button>
-            <button class="tab-button" data-tab="access">
-                <i class="ph ph-road-horizon"></i>
-                Access
-            </button>
-            <button class="tab-button" data-tab="schedule">
-                <i class="ph ph-clock"></i>
-                Schedule
-            </button>
-            <button class="tab-button" data-tab="contact">
-                <i class="ph ph-phone"></i>
-                Contact
-            </button>
-            <button class="tab-button" data-tab="activities">
-                <i class="ph ph-activity"></i>
-                Activities
-            </button>
-            <button class="tab-button" data-tab="audience">
-                <i class="ph ph-users"></i>
-                Audience
-            </button>
-            <button class="tab-button" data-tab="services">
-                <i class="ph ph-gear"></i>
-                Services
-            </button>
-            <button class="tab-button" data-tab="pricing">
-                <i class="ph ph-currency-dollar"></i>
-                Pricing
-            </button>
-            <button class="tab-button" data-tab="criteria">
-                <i class="ph ph-medal"></i>
-                Criteria
-            </button>
-            <button class="tab-button" data-tab="description">
-                <i class="ph ph-file-text"></i>
-                Description
-            </button>
-            <button class="tab-button" data-tab="challenges">
-                <i class="ph ph-warning"></i>
-                Challenges
+                Información básica
             </button>
             <button class="tab-button" data-tab="gallery">
                 <i class="ph ph-images"></i>
                 Fotos
+            </button>
+            <button class="tab-button" data-tab="location">
+                <i class="ph ph-map-pin"></i>
+                Ubicación
+            </button>
+            <button class="tab-button" data-tab="climate">
+                <i class="ph ph-sun"></i>
+                Clima
+            </button>
+            <button class="tab-button" data-tab="access">
+                <i class="ph ph-road-horizon"></i>
+                Acceso
+            </button>
+            <button class="tab-button" data-tab="activities">
+                <i class="ph ph-activity"></i>
+                Actividades
+            </button>
+            <button class="tab-button" data-tab="services">
+                <i class="ph ph-gear"></i>
+                Servicios
+            </button>
+            <button class="tab-button" data-tab="recommendations">
+                <i class="ph ph-lightbulb"></i>
+                Recomendaciones
+            </button>
+            <button class="tab-button" data-tab="schedule">
+                <i class="ph ph-clock"></i>
+                Horario
+            </button>
+            <button class="tab-button" data-tab="contact">
+                <i class="ph ph-phone"></i>
+                Contacto
+            </button>
+            <button class="tab-button" data-tab="audience">
+                <i class="ph ph-users"></i>
+                Público objetivo
+            </button>
+            <button class="tab-button" data-tab="pricing">
+                <i class="ph ph-currency-dollar"></i>
+                Precios
+            </button>
+            <button class="tab-button" data-tab="criteria">
+                <i class="ph ph-medal"></i>
+                Criterios
+            </button>
+            <button class="tab-button" data-tab="challenges">
+                <i class="ph ph-warning"></i>
+                Retos
             </button>
         </div>
 
@@ -118,18 +118,18 @@
 
             <!-- Basic Info Tab -->
             <div class="tab-content active" id="basic-tab">
-                <h3 class="tab-title">Basic Information</h3>
+                <h3 class="tab-title">Información básica</h3>
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="title">Destination Title *</label>
+                        <label for="title">Título del Destino *</label>
                         <input type="text" id="title" name="title" value="{{ old('title', $destination->title) }}" required>
                         @error('title')
                             <span class="error-text">{{ $message }}</span>
                         @enderror
                     </div>
-                    
+
                     <div class="form-group">
-                        <label for="subtitle">Subtitle/Category</label>
+                        <label for="subtitle">Subtítulo / Categoría</label>
                         <input type="text" id="subtitle" name="subtitle" value="{{ old('subtitle', $destination->subtitle) }}">
                         @error('subtitle')
                             <span class="error-text">{{ $message }}</span>
@@ -139,59 +139,132 @@
                     <div class="form-group">
                         <label for="slug">Slug *</label>
                         <input type="text" id="slug" name="slug" value="{{ old('slug', $destination->slug) }}" required>
-                        <small class="form-help">Unique identifier for the URL (e.g. playa-mariscal)</small>
+                        <small class="form-help">Identificador único para la URL (ej: playa-mariscal)</small>
                         @error('slug')
                             <span class="error-text">{{ $message }}</span>
                         @enderror
                     </div>
-                    
+
                     <div class="form-group">
-                        <label for="coordinates">GPS Coordinates</label>
+                        <label for="coordinates">Coordenadas GPS</label>
                         <input type="text" id="coordinates" name="coordinates" value="{{ old('coordinates', $destination->coordinates) }}">
-                        <small class="form-help">Format: S 1°52'56" W 80°44'03" - 0 M.S.N.M</small>
+                        <small class="form-help">Formato: S 1°52'56" W 80°44'03" - 0 M.S.N.M</small>
                         @error('coordinates')
                             <span class="error-text">{{ $message }}</span>
                         @enderror
                     </div>
-                    
+
                     <div class="form-group">
-                        <label for="conservation_status">Conservation Status</label>
+                        <label for="conservation_status">Estado de Conservación</label>
                         <input type="text" id="conservation_status" name="conservation_status" value="{{ old('conservation_status', $destination->conservation_status) }}">
                         @error('conservation_status')
+                            <span class="error-text">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group span-full">
+                        <label for="main_description">Introducción</label>
+                        <textarea id="main_description" name="main_description" rows="4">{{ old('main_description', $destination->main_description) }}</textarea>
+                        <small class="form-help">Descripción introductoria del destino que aparecerá en la tarjeta principal</small>
+                        @error('main_description')
+                            <span class="error-text">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group span-full">
+                        <label for="secondary_description">Descripción General</label>
+                        <textarea id="secondary_description" name="secondary_description" rows="4">{{ old('secondary_description', $destination->secondary_description) }}</textarea>
+                        <small class="form-help">Descripción adicional con detalles complementarios del destino</small>
+                        @error('secondary_description')
                             <span class="error-text">{{ $message }}</span>
                         @enderror
                     </div>
                 </div>
             </div>
 
+            <!-- Gallery Tab -->
+            <div class="tab-content" id="gallery-tab">
+                <h3 class="tab-title">Galería de fotos</h3>
+                <div class="form-group">
+                    <label for="gallery_images">Subir fotos (máx. 8 fotos, 5MB cada una)</label>
+                    <div class="file-upload-area">
+                        <input type="file" id="gallery_images" name="gallery_images[]" multiple accept="image/*" class="file-input">
+                        <div class="upload-placeholder">
+                            <i class="ph ph-upload"></i>
+                            <p>Arrastra y suelta fotos aquí o haz clic para buscar</p>
+                            <small>JPEG, PNG, JPG, GIF hasta 5MB cada una</small>
+                        </div>
+                    </div>
+                    @error('gallery_images.*')
+                        <span class="error-text">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <!-- Preview Area for New Images -->
+                <div id="imagePreviewContainer" class="image-preview-container" style="display: none;">
+                        <h4>Nuevas imágenes para subir</h4>
+                    <div id="imagePreviewGrid" class="gallery-grid"></div>
+                </div>
+
+                @if($destination->gallery_images && count($destination->gallery_images) > 0)
+                    <div class="existing-gallery">
+                        <h4>Fotos actuales</h4>
+                    <div style="margin-bottom: 0.5rem; color: #444; font-size: 0.98rem;">
+                        <strong>Nota:</strong> El tamaño máximo de imagen es 5MB. La <strong>primera foto</strong> de esta galería se mostrará como imagen principal en la sección hero de la página del destino.
+                    </div>
+                        <div class="gallery-grid" id="galleryGrid">
+                            @foreach($destination->gallery_images as $index => $image)
+                                <div class="gallery-item" data-index="{{ $index }}">
+                                    <div class="gallery-position-badge" style="position:absolute;top:8px;left:8px;background:#222;color:#fff;padding:2px 8px;border-radius:12px;font-size:0.9rem;z-index:2;">{{ $index + 1 }}</div>
+                                    <img src="{{ Storage::url($image) }}" alt="Gallery image {{ $index + 1 }}">
+                                    <div class="gallery-item-actions">
+                                        <button type="button" class="move-left" data-index="{{ $index }}" @if($index == 0) disabled @endif>
+                                            <i class="ph ph-arrow-left"></i>
+                                        </button>
+                                        <button type="button" class="move-right" data-index="{{ $index }}" @if($index == count($destination->gallery_images) - 1) disabled @endif>
+                                            <i class="ph ph-arrow-right"></i>
+                                        </button>
+                                        <button type="button" class="remove-gallery-image" data-index="{{ $index }}">
+                                            <i class="ph ph-trash"></i>
+                                        </button>
+                                    </div>
+                                    <input type="hidden" name="existing_gallery_images[]" value="{{ $image }}">
+                                </div>
+                            @endforeach
+                            <input type="hidden" id="galleryOrderInput" name="gallery_order" value="{{ implode(',', $destination->gallery_images) }}">
+                        </div>
+                    </div>
+                @endif
+            </div>
+
             <!-- Location Tab -->
             <div class="tab-content" id="location-tab">
-                <h3 class="tab-title">Location Details</h3>
+                <h3 class="tab-title">Detalles de ubicación</h3>
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="province">Province</label>
+                        <label for="province">Provincia</label>
                         <input type="text" id="province" name="province" value="{{ old('province', $destination->province) }}">
                         @error('province')
                             <span class="error-text">{{ $message }}</span>
                         @enderror
                     </div>
-                    
+
                     <div class="form-group">
-                        <label for="canton">Canton</label>
+                        <label for="canton">Cantón</label>
                         <input type="text" id="canton" name="canton" value="{{ old('canton', $destination->canton) }}">
                         @error('canton')
                             <span class="error-text">{{ $message }}</span>
                         @enderror
                     </div>
-                    
+
                     <div class="form-group">
-                        <label for="parish">Parish</label>
+                        <label for="parish">Parroquia</label>
                         <input type="text" id="parish" name="parish" value="{{ old('parish', $destination->parish) }}">
                         @error('parish')
                             <span class="error-text">{{ $message }}</span>
                         @enderror
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="sector">Sector</label>
                         <input type="text" id="sector" name="sector" value="{{ old('sector', $destination->sector) }}">
@@ -199,11 +272,11 @@
                             <span class="error-text">{{ $message }}</span>
                         @enderror
                     </div>
-                    
+
                     <div class="form-group span-full">
-                        <label for="reference_distance">Reference Distance</label>
+                        <label for="reference_distance">Distancia de Referencia</label>
                         <input type="text" id="reference_distance" name="reference_distance" value="{{ old('reference_distance', $destination->reference_distance) }}">
-                        <small class="form-help">Example: 49.9 KM del GAD de Santa Elena</small>
+                        <small class="form-help">Ejemplo: 49.9 KM del GAD de Santa Elena</small>
                         @error('reference_distance')
                             <span class="error-text">{{ $message }}</span>
                         @enderror
@@ -213,78 +286,92 @@
 
             <!-- Climate Tab -->
             <div class="tab-content" id="climate-tab">
-                <h3 class="tab-title">Climate Information</h3>
+                <h3 class="tab-title">Información climática</h3>
                 <div class="climate-seasons">
                     <!-- Dry Season -->
                     <div class="season-group">
-                        <h4><i class="fas fa-sun"></i> Dry Season</h4>
+                        <h4><i class="fas fa-sun"></i> Época Seca</h4>
                         <div class="form-grid">
                             <div class="form-group">
-                                <label for="dry_season_name">Season Name</label>
+                                <label for="dry_season_name">Nombre de la Temporada</label>
                                 <input type="text" id="dry_season_name" name="climate_dry_season[name]" value="{{ old('climate_dry_season.name', $destination->climate_dry_season['name'] ?? 'Época Seca') }}">
                             </div>
                             <div class="form-group">
-                                <label for="dry_season_months">Months</label>
+                                <label for="dry_season_months">Meses</label>
                                 <input type="text" id="dry_season_months" name="climate_dry_season[months]" value="{{ old('climate_dry_season.months', $destination->climate_dry_season['months'] ?? '') }}">
                             </div>
                             <div class="form-group">
-                                <label for="dry_season_temperature">Temperature</label>
-                                <input type="text" id="dry_season_temperature" name="climate_dry_season[temperature]" value="{{ old('climate_dry_season.temperature', $destination->climate_dry_season['temperature'] ?? '') }}">
+                                <label for="dry_season_temperature">Temperatura</label>
+                                <input type="number" id="dry_season_temperature" name="climate_dry_season[temperature]" value="{{ old('climate_dry_season.temperature', $destination->climate_dry_season['temperature'] ?? '') }}" placeholder="27" step="0.1">
+                                <small class="help-text">Ingrese solo el número (ej: 27). Los símbolos °C/°F se agregan automáticamente.</small>
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Wet Season -->
                     <div class="season-group">
-                        <h4><i class="fas fa-cloud-rain"></i> Wet Season</h4>
+                        <h4><i class="fas fa-cloud-rain"></i> Época Húmeda</h4>
                         <div class="form-grid">
                             <div class="form-group">
-                                <label for="wet_season_name">Season Name</label>
+                                <label for="wet_season_name">Nombre de la Temporada</label>
                                 <input type="text" id="wet_season_name" name="climate_wet_season[name]" value="{{ old('climate_wet_season.name', $destination->climate_wet_season['name'] ?? 'Época Húmeda') }}">
                             </div>
                             <div class="form-group">
-                                <label for="wet_season_months">Months</label>
+                                <label for="wet_season_months">Meses</label>
                                 <input type="text" id="wet_season_months" name="climate_wet_season[months]" value="{{ old('climate_wet_season.months', $destination->climate_wet_season['months'] ?? '') }}">
                             </div>
                             <div class="form-group">
-                                <label for="wet_season_temperature">Temperature</label>
-                                <input type="text" id="wet_season_temperature" name="climate_wet_season[temperature]" value="{{ old('climate_wet_season.temperature', $destination->climate_wet_season['temperature'] ?? '') }}">
+                                <label for="wet_season_temperature">Temperatura</label>
+                                <input type="number" id="wet_season_temperature" name="climate_wet_season[temperature]" value="{{ old('climate_wet_season.temperature', $destination->climate_wet_season['temperature'] ?? '') }}" placeholder="20" step="0.1">
+                                <small class="help-text">Ingrese solo el número (ej: 20). Los símbolos °C/°F se agregan automáticamente.</small>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Altitude Section -->
+                <div class="form-grid">
+                    <div class="form-group span-full">
+                        <label for="altitude">Altitud</label>
+                        <input type="text" id="altitude" name="altitude" value="{{ old('altitude', $destination->altitude) }}" placeholder="Ej: 2,500 m.s.n.m">
+                        <small class="form-help">Elevación del destino sobre el nivel del mar</small>
+                        @error('altitude')
+                            <span class="error-text">{{ $message }}</span>
+                        @enderror
                     </div>
                 </div>
             </div>
 
             <!-- Access Tab -->
             <div class="tab-content" id="access-tab">
-                <h3 class="tab-title">Access & Transportation</h3>
+                <h3 class="tab-title">Acceso y transporte</h3>
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="access_from">Access From</label>
+                        <label for="access_from">Acceso Desde</label>
                         <input type="text" id="access_from" name="access_from" value="{{ old('access_from', $destination->access_from) }}">
                         @error('access_from')
                             <span class="error-text">{{ $message }}</span>
                         @enderror
                     </div>
-                    
+
                     <div class="form-group">
-                        <label for="access_route">Route Description</label>
+                        <label for="access_route">Descripción de la Ruta</label>
                         <input type="text" id="access_route" name="access_route" value="{{ old('access_route', $destination->access_route) }}">
                         @error('access_route')
                             <span class="error-text">{{ $message }}</span>
                         @enderror
                     </div>
-                    
+
                     <div class="form-group">
-                        <label for="access_transport">Transport Options</label>
+                        <label for="access_transport">Opciones de Transporte</label>
                         <input type="text" id="access_transport" name="access_transport" value="{{ old('access_transport', $destination->access_transport) }}">
                         @error('access_transport')
                             <span class="error-text">{{ $message }}</span>
                         @enderror
                     </div>
-                    
+
                     <div class="form-group">
-                        <label for="access_time">Travel Time</label>
+                        <label for="access_time">Tiempo de Viaje</label>
                         <input type="text" id="access_time" name="access_time" value="{{ old('access_time', $destination->access_time) }}">
                         @error('access_time')
                             <span class="error-text">{{ $message }}</span>
@@ -293,100 +380,25 @@
                 </div>
             </div>
 
-            <!-- Schedule Tab -->
-            <div class="tab-content" id="schedule-tab">
-                <h3 class="tab-title">Schedule & Entry</h3>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="schedule_hours">Operating Hours</label>
-                        <input type="text" id="schedule_hours" name="schedule_hours" value="{{ old('schedule_hours', $destination->schedule_hours) }}">
-                        @error('schedule_hours')
-                            <span class="error-text">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="entry_fee">Entry Fee</label>
-                        <input type="text" id="entry_fee" name="entry_fee" value="{{ old('entry_fee', $destination->entry_fee) }}">
-                        @error('entry_fee')
-                            <span class="error-text">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="season_availability">Season Availability</label>
-                        <input type="text" id="season_availability" name="season_availability" value="{{ old('season_availability', $destination->season_availability) }}">
-                        @error('season_availability')
-                            <span class="error-text">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="requirements">Entry Requirements</label>
-                        <input type="text" id="requirements" name="requirements" value="{{ old('requirements', $destination->requirements) }}">
-                        @error('requirements')
-                            <span class="error-text">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
-            </div>
-
-            <!-- Contact Tab -->
-            <div class="tab-content" id="contact-tab">
-                <h3 class="tab-title">Contact Information</h3>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="contact_person">Contact Person</label>
-                        <input type="text" id="contact_person" name="contact_person" value="{{ old('contact_person', $destination->contact_person) }}">
-                        @error('contact_person')
-                            <span class="error-text">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="contact_role">Role/Position</label>
-                        <input type="text" id="contact_role" name="contact_role" value="{{ old('contact_role', $destination->contact_role) }}">
-                        @error('contact_role')
-                            <span class="error-text">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="contact_phone">Phone Number</label>
-                        <input type="text" id="contact_phone" name="contact_phone" value="{{ old('contact_phone', $destination->contact_phone) }}">
-                        @error('contact_phone')
-                            <span class="error-text">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="contact_email">Email Address</label>
-                        <input type="email" id="contact_email" name="contact_email" value="{{ old('contact_email', $destination->contact_email) === 'unknown' ? '' : old('contact_email', $destination->contact_email) }}">
-                        @error('contact_email')
-                            <span class="error-text">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
-            </div>
-
             <!-- Activities Tab -->
             <div class="tab-content" id="activities-tab">
-                <h3 class="tab-title">Tourist Activities</h3>
+                <h3 class="tab-title">Actividades turísticas</h3>
                 <div class="dynamic-list" id="activities-list">
                     <div class="list-header">
-                        <h4>Activities List</h4>
+                        <h4>Lista de Actividades</h4>
                         <button type="button" class="control-panel-button add-item-btn" data-list="activities">
-                            <i class="fas fa-plus"></i> Add Activity
+                            <i class="fas fa-plus"></i> Agregar Actividad
                         </button>
                         <button type="button" class="control-panel-button" id="open-activities-icons-list-modal">
-                            <i class="ph ph-list"></i> Icons List
+                            <i class="ph ph-list"></i> Lista de Iconos
                         </button>
+                        <small style="color:#666;">Busca y copia el nombre del ícono desde la lista o visita <a href="https://phosphoricons.com" target="_blank" rel="noopener">phosphoricons.com</a></small>
         <!-- Activities Icons List Modal -->
         <div id="activitiesIconsListModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:9999; align-items:center; justify-content:center;">
             <div style="background:#fff; max-width:480px; width:90vw; max-height:80vh; border-radius:12px; box-shadow:0 2px 24px #2225; padding:2rem 1.5rem; overflow:auto; position:relative;">
-                <h3 style="margin-top:0; margin-bottom:1rem; font-size:1.3rem;">Phosphor Icon Names</h3>
+                <h3 style="margin-top:0; margin-bottom:1rem; font-size:1.3rem;">Nombres de Iconos Phosphor</h3>
                 <button type="button" id="close-activities-icons-list-modal" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
-                <input type="text" id="activitiesIconFilterInput" placeholder="Filter icons..." style="width:100%; margin-bottom:0.75rem; padding:0.4rem 0.7rem; font-size:1rem; border:1px solid #ddd; border-radius:6px;">
+                <input type="text" id="activitiesIconFilterInput" placeholder="Filtrar iconos..." style="width:100%; margin-bottom:0.75rem; padding:0.4rem 0.7rem; font-size:1rem; border:1px solid #ddd; border-radius:6px;">
                 <div style="max-height:60vh; overflow-y:auto; border:1px solid #eee; border-radius:8px; padding:0.5rem 0.75rem; background:#fafafa;">
                     <ul id="activitiesIconsListUl" style="list-style:none; margin:0; padding:0; font-size:1.05rem;">
                         @foreach(file(public_path('assets/phosphor-icon-names.txt')) as $iconName)
@@ -403,13 +415,12 @@
                                 <div class="dynamic-item">
                                     <div class="form-grid">
                                         <div class="form-group">
-                                            <label>Activity Icon</label>
+                                            <label>Ícono de Actividad</label>
                                             <input type="text" name="activities[{{ $index }}][icon]" value="{{ $activity['icon'] ?? 'ph ph-activity' }}" placeholder="ph ph-activity">
                                         </div>
                                         <div class="form-group">
-                                            <label>Activity Name</label>
+                                            <label>Nombre de la Actividad</label>
                                             <input type="text" name="activities[{{ $index }}][name]" value="{{ $activity['name'] ?? $activity }}" required>
-                        <input type="text" name="activities[{{ $index }}][name]" value="{{ $activity['name'] ?? $activity }}">
                                         </div>
                                     </div>
                                     <button type="button" class="remove-item-btn">
@@ -422,70 +433,25 @@
                 </div>
             </div>
 
-            <!-- Audience Tab -->
-            <div class="tab-content" id="audience-tab">
-                <h3 class="tab-title">Target Audience</h3>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="target_audience_type">Audience Type</label>
-                        <input type="text" id="target_audience_type" name="target_audience_type" value="{{ old('target_audience_type', $destination->target_audience_type) }}">
-                        @error('target_audience_type')
-                            <span class="error-text">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="target_audience_origin">Origin</label>
-                        <input type="text" id="target_audience_origin" name="target_audience_origin" value="{{ old('target_audience_origin', $destination->target_audience_origin) }}">
-                        @error('target_audience_origin')
-                            <span class="error-text">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="target_audience_age">Age Range</label>
-                        <input type="text" id="target_audience_age" name="target_audience_age" value="{{ old('target_audience_age', $destination->target_audience_age) }}">
-                        @error('target_audience_age')
-                            <span class="error-text">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="target_audience_transport">Preferred Transport</label>
-                        <input type="text" id="target_audience_transport" name="target_audience_transport" value="{{ old('target_audience_transport', $destination->target_audience_transport) }}">
-                        @error('target_audience_transport')
-                            <span class="error-text">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="target_audience_stay">Typical Stay Duration</label>
-                        <input type="text" id="target_audience_stay" name="target_audience_stay" value="{{ old('target_audience_stay', $destination->target_audience_stay) }}">
-                        @error('target_audience_stay')
-                            <span class="error-text">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
-            </div>
-
             <!-- Services Tab -->
             <div class="tab-content" id="services-tab">
-                <h3 class="tab-title">Services & Facilities</h3>
+                <h3 class="tab-title">Servicios e instalaciones</h3>
                 <div class="dynamic-list" id="services-list">
                     <div class="list-header">
-                        <h4>Available Services</h4>
+                        <h4>Servicios Disponibles</h4>
                         <button type="button" class="control-panel-button add-item-btn" data-list="services">
-                            <i class="fas fa-plus"></i> Add Service
+                            <i class="fas fa-plus"></i> Agregar Servicio
                         </button>
                         <button type="button" class="control-panel-button" id="open-icons-list-modal">
-                            <i class="ph ph-list"></i> Icons List
+                            <i class="ph ph-list"></i> Lista de Iconos
                         </button>
+                        <small style="color:#666;">Busca y copia el nombre del ícono desde la lista o visita <a href="https://phosphoricons.com" target="_blank" rel="noopener">phosphoricons.com</a></small>
         <!-- Icons List Modal -->
         <div id="iconsListModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:9999; align-items:center; justify-content:center;">
             <div style="background:#fff; max-width:480px; width:90vw; max-height:80vh; border-radius:12px; box-shadow:0 2px 24px #2225; padding:2rem 1.5rem; overflow:auto; position:relative;">
-                <h3 style="margin-top:0; margin-bottom:1rem; font-size:1.3rem;">Phosphor Icon Names</h3>
+                <h3 style="margin-top:0; margin-bottom:1rem; font-size:1.3rem;">Nombres de Iconos Phosphor</h3>
                 <button type="button" id="close-icons-list-modal" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
-                <input type="text" id="iconFilterInput" placeholder="Filter icons..." style="width:100%; margin-bottom:0.75rem; padding:0.4rem 0.7rem; font-size:1rem; border:1px solid #ddd; border-radius:6px;">
+                <input type="text" id="iconFilterInput" placeholder="Filtrar iconos..." style="width:100%; margin-bottom:0.75rem; padding:0.4rem 0.7rem; font-size:1rem; border:1px solid #ddd; border-radius:6px;">
                 <div style="max-height:60vh; overflow-y:auto; border:1px solid #eee; border-radius:8px; padding:0.5rem 0.75rem; background:#fafafa;">
                     <ul id="iconsListUl" style="list-style:none; margin:0; padding:0; font-size:1.05rem;">
                         @foreach(file(public_path('assets/phosphor-icon-names.txt')) as $iconName)
@@ -502,17 +468,17 @@
                                 <div class="dynamic-item">
                                     <div class="form-grid">
                                         <div class="form-group">
-                                            <label>Service Icon</label>
+                                            <label>Ícono del Servicio</label>
                                             <input type="text" name="services[{{ $index }}][icon]" value="{{ $service['icon'] ?? 'ph ph-gear' }}" placeholder="ph ph-gear">
                                         </div>
                                         <div class="form-group">
-                                            <label>Service Name</label>
+                                            <label>Nombre del Servicio</label>
                                             <input type="text" name="services[{{ $index }}][name]" value="{{ $service['name'] ?? $service }}" required>
                                         </div>
                                         <div class="form-group">
-                                            <label>Available</label>
+                                            <label>Disponible</label>
                                             <select name="services[{{ $index }}][available]">
-                                                <option value="1" {{ (isset($service['available']) && $service['available']) ? 'selected' : '' }}>Yes</option>
+                                                <option value="1" {{ (isset($service['available']) && $service['available']) ? 'selected' : '' }}>Sí</option>
                                                 <option value="0" {{ (isset($service['available']) && !$service['available']) ? 'selected' : '' }}>No</option>
                                             </select>
                                         </div>
@@ -526,17 +492,17 @@
                             <div class="dynamic-item">
                                 <div class="form-grid">
                                     <div class="form-group">
-                                        <label>Service Icon</label>
+                                        <label>Ícono del Servicio</label>
                                         <input type="text" name="services[0][icon]" value="ph ph-gear" placeholder="ph ph-gear">
                                     </div>
                                     <div class="form-group">
-                                        <label>Service Name</label>
+                                        <label>Nombre del Servicio</label>
                                         <input type="text" name="services[0][name]">
                                     </div>
                                     <div class="form-group">
-                                        <label>Available</label>
+                                        <label>Disponible</label>
                                         <select name="services[0][available]">
-                                            <option value="1">Yes</option>
+                                            <option value="1">Sí</option>
                                             <option value="0">No</option>
                                         </select>
                                     </div>
@@ -550,38 +516,290 @@
                 </div>
             </div>
 
-            <!-- Pricing Tab -->
-            <div class="tab-content" id="pricing-tab">
-                <h3 class="tab-title">Pricing & Capacity</h3>
+            <!-- Recommendations Tab -->
+            <div class="tab-content" id="recommendations-tab">
+                <h3 class="tab-title">Recomendaciones para turistas</h3>
+
+                <!-- Difficulty Level -->
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="average_price">Average Price</label>
+                        <label for="difficulty_level">Nivel de Dificultad</label>
+                        <select id="difficulty_level" name="difficulty_level" class="control-panel-select">
+                            <option value="">Seleccionar nivel</option>
+                            <option value="1" {{ old('difficulty_level', $destination->difficulty_level) == 1 ? 'selected' : '' }}>
+                                1 - Fácil
+                            </option>
+                            <option value="2" {{ old('difficulty_level', $destination->difficulty_level) == 2 ? 'selected' : '' }}>
+                                2 - Moderado
+                            </option>
+                            <option value="3" {{ old('difficulty_level', $destination->difficulty_level) == 3 ? 'selected' : '' }}>
+                                3 - Difícil
+                            </option>
+                        </select>
+                        <small class="form-help">Nivel de dificultad para acceder al destino</small>
+                        @error('difficulty_level')
+                            <span class="error-text">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+
+                <!-- Considerations Dynamic List -->
+                <div class="dynamic-list" id="considerations-list">
+                    <div class="list-header">
+                        <h4>Ten en Cuenta Que (Consideraciones)</h4>
+                        <button type="button" class="control-panel-button add-item-btn" data-list="considerations">
+                            <i class="fas fa-plus"></i> Agregar Consideración
+                        </button>
+                        <button type="button" class="control-panel-button" id="open-considerations-icons-list-modal">
+                            <i class="ph ph-list"></i> Ver Iconos
+                        </button>
+                        <small style="color:#666;">Busca y copia el nombre del ícono desde la lista o visita <a href="https://phosphoricons.com" target="_blank" rel="noopener">phosphoricons.com</a></small>
+
+                        <!-- Considerations Icons List Modal -->
+                        <div id="considerationsIconsListModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:9999; align-items:center; justify-content:center;">
+                            <div style="background:#fff; max-width:480px; width:90vw; max-height:80vh; border-radius:12px; box-shadow:0 2px 24px #2225; padding:2rem 1.5rem; overflow:auto; position:relative;">
+                                <h3 style="margin-top:0; margin-bottom:1rem; font-size:1.3rem;">Nombres de Iconos Phosphor</h3>
+                                <button type="button" id="close-considerations-icons-list-modal" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
+                                <input type="text" id="considerationsIconFilterInput" placeholder="Filtrar iconos..." style="width:100%; margin-bottom:0.75rem; padding:0.4rem 0.7rem; font-size:1rem; border:1px solid #ddd; border-radius:6px;">
+                                <div style="max-height:60vh; overflow-y:auto; border:1px solid #eee; border-radius:8px; padding:0.5rem 0.75rem; background:#fafafa;">
+                                    <ul id="considerationsIconsListUl" style="list-style:none; margin:0; padding:0; font-size:1.05rem;">
+                                        @foreach(file(public_path('assets/phosphor-icon-names.txt')) as $iconName)
+                                            <li style="padding:2px 0; border-bottom:1px solid #f0f0f0;">{{ trim($iconName) }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="items-container">
+                        @if($destination->considerations && count($destination->considerations) > 0)
+                            @foreach($destination->considerations as $index => $consideration)
+                                <div class="dynamic-item">
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label>Icono</label>
+                                            <input type="text" name="considerations[{{ $index }}][icon]" value="{{ $consideration['icon'] ?? 'ph ph-warning-circle' }}" placeholder="ph ph-warning-circle">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Texto de Consideración</label>
+                                            <input type="text" name="considerations[{{ $index }}][text]" value="{{ $consideration['text'] ?? '' }}" required>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="remove-item-btn">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            @endforeach
+                        @endif
+                    </div>
+                </div>
+
+                <!-- What to Bring Dynamic List -->
+                <div class="dynamic-list" id="what-to-bring-list">
+                    <div class="list-header">
+                        <h4>Qué Llevar (Elementos Recomendados)</h4>
+                        <button type="button" class="control-panel-button add-item-btn" data-list="what-to-bring">
+                            <i class="fas fa-plus"></i> Agregar Elemento
+                        </button>
+                        <button type="button" class="control-panel-button" id="open-what-to-bring-icons-list-modal">
+                            <i class="ph ph-list"></i> Ver Iconos
+                        </button>
+                        <small style="color:#666;">Busca y copia el nombre del ícono desde la lista o visita <a href="https://phosphoricons.com" target="_blank" rel="noopener">phosphoricons.com</a></small>
+
+                        <!-- What to Bring Icons List Modal -->
+                        <div id="whatToBringIconsListModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:9999; align-items:center; justify-content:center;">
+                            <div style="background:#fff; max-width:480px; width:90vw; max-height:80vh; border-radius:12px; box-shadow:0 2px 24px #2225; padding:2rem 1.5rem; overflow:auto; position:relative;">
+                                <h3 style="margin-top:0; margin-bottom:1rem; font-size:1.3rem;">Nombres de Iconos Phosphor</h3>
+                                <button type="button" id="close-what-to-bring-icons-list-modal" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
+                                <input type="text" id="whatToBringIconFilterInput" placeholder="Filtrar iconos..." style="width:100%; margin-bottom:0.75rem; padding:0.4rem 0.7rem; font-size:1rem; border:1px solid #ddd; border-radius:6px;">
+                                <div style="max-height:60vh; overflow-y:auto; border:1px solid #eee; border-radius:8px; padding:0.5rem 0.75rem; background:#fafafa;">
+                                    <ul id="whatToBringIconsListUl" style="list-style:none; margin:0; padding:0; font-size:1.05rem;">
+                                        @foreach(file(public_path('assets/phosphor-icon-names.txt')) as $iconName)
+                                            <li style="padding:2px 0; border-bottom:1px solid #f0f0f0;">{{ trim($iconName) }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="items-container">
+                        @if($destination->what_to_bring && count($destination->what_to_bring) > 0)
+                            @foreach($destination->what_to_bring as $index => $item)
+                                <div class="dynamic-item">
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label>Icono</label>
+                                            <input type="text" name="what_to_bring[{{ $index }}][icon]" value="{{ $item['icon'] ?? 'ph ph-backpack' }}" placeholder="ph ph-backpack">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Elemento Recomendado</label>
+                                            <input type="text" name="what_to_bring[{{ $index }}][text]" value="{{ $item['text'] ?? '' }}" required>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="remove-item-btn">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            @endforeach
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+            <!-- Schedule Tab -->
+            <div class="tab-content" id="schedule-tab">
+                <h3 class="tab-title">Horario y entrada</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="schedule_hours">Horario de Atención</label>
+                        <input type="text" id="schedule_hours" name="schedule_hours" value="{{ old('schedule_hours', $destination->schedule_hours) }}">
+                        @error('schedule_hours')
+                            <span class="error-text">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="entry_fee">Tarifa de Entrada</label>
+                        <input type="text" id="entry_fee" name="entry_fee" value="{{ old('entry_fee', $destination->entry_fee) }}">
+                        @error('entry_fee')
+                            <span class="error-text">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="season_availability">Disponibilidad por Temporada</label>
+                        <input type="text" id="season_availability" name="season_availability" value="{{ old('season_availability', $destination->season_availability) }}">
+                        @error('season_availability')
+                            <span class="error-text">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="requirements">Requisitos de Ingreso</label>
+                        <input type="text" id="requirements" name="requirements" value="{{ old('requirements', $destination->requirements) }}">
+                        @error('requirements')
+                            <span class="error-text">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Tab -->
+            <div class="tab-content" id="contact-tab">
+                <h3 class="tab-title">Información de contacto</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="contact_person">Persona de Contacto</label>
+                        <input type="text" id="contact_person" name="contact_person" value="{{ old('contact_person', $destination->contact_person) }}">
+                        @error('contact_person')
+                            <span class="error-text">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact_role">Cargo / Rol</label>
+                        <input type="text" id="contact_role" name="contact_role" value="{{ old('contact_role', $destination->contact_role) }}">
+                        @error('contact_role')
+                            <span class="error-text">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact_phone">Número de Teléfono</label>
+                        <input type="text" id="contact_phone" name="contact_phone" value="{{ old('contact_phone', $destination->contact_phone) }}">
+                        @error('contact_phone')
+                            <span class="error-text">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact_email">Correo Electrónico</label>
+                        <input type="email" id="contact_email" name="contact_email" value="{{ old('contact_email', $destination->contact_email) === 'unknown' ? '' : old('contact_email', $destination->contact_email) }}">
+                        @error('contact_email')
+                            <span class="error-text">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+
+            <!-- Audience Tab -->
+            <div class="tab-content" id="audience-tab">
+                <h3 class="tab-title">Público objetivo</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="target_audience_type">Tipo de Público</label>
+                        <input type="text" id="target_audience_type" name="target_audience_type" value="{{ old('target_audience_type', $destination->target_audience_type) }}">
+                        @error('target_audience_type')
+                            <span class="error-text">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="target_audience_origin">Origen</label>
+                        <input type="text" id="target_audience_origin" name="target_audience_origin" value="{{ old('target_audience_origin', $destination->target_audience_origin) }}">
+                        @error('target_audience_origin')
+                            <span class="error-text">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="target_audience_age">Rango de Edad</label>
+                        <input type="text" id="target_audience_age" name="target_audience_age" value="{{ old('target_audience_age', $destination->target_audience_age) }}">
+                        @error('target_audience_age')
+                            <span class="error-text">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="target_audience_transport">Transporte Preferido</label>
+                        <input type="text" id="target_audience_transport" name="target_audience_transport" value="{{ old('target_audience_transport', $destination->target_audience_transport) }}">
+                        @error('target_audience_transport')
+                            <span class="error-text">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="target_audience_stay">Duración Típica de Estancia</label>
+                        <input type="text" id="target_audience_stay" name="target_audience_stay" value="{{ old('target_audience_stay', $destination->target_audience_stay) }}">
+                        @error('target_audience_stay')
+                            <span class="error-text">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pricing Tab -->
+            <div class="tab-content" id="pricing-tab">
+                <h3 class="tab-title">Precios y capacidad</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="average_price">Precio Promedio</label>
                         <input type="text" id="average_price" name="average_price" value="{{ old('average_price', $destination->average_price) }}">
-                        <small class="form-help">Example: $33 USD/persona</small>
+                        <small class="form-help">Ejemplo: $33 USD/persona</small>
                         @error('average_price')
                             <span class="error-text">{{ $message }}</span>
                         @enderror
                     </div>
-                    
+
                     <div class="form-group">
-                        <label for="capacity">Maximum Capacity</label>
+                        <label for="capacity">Capacidad Máxima</label>
                         <input type="text" id="capacity" name="capacity" value="{{ old('capacity', $destination->capacity) }}">
-                        <small class="form-help">Example: 40 PAX</small>
+                        <small class="form-help">Ejemplo: 40 PAX</small>
                         @error('capacity')
                             <span class="error-text">{{ $message }}</span>
                         @enderror
                     </div>
-                    
+
                     <div class="form-group">
-                        <label for="payment_methods">Payment Methods</label>
+                        <label for="payment_methods">Métodos de Pago</label>
                         <input type="text" id="payment_methods" name="payment_methods" value="{{ old('payment_methods', $destination->payment_methods) }}">
                         @error('payment_methods')
                             <span class="error-text">{{ $message }}</span>
                         @enderror
                     </div>
-                    
+
                     <div class="form-group">
-                        <label for="mobile_coverage">Mobile Coverage</label>
+                        <label for="mobile_coverage">Cobertura Móvil</label>
                         <input type="text" id="mobile_coverage" name="mobile_coverage" value="{{ old('mobile_coverage', $destination->mobile_coverage) }}">
                         @error('mobile_coverage')
                             <span class="error-text">{{ $message }}</span>
@@ -592,7 +810,7 @@
 
             <!-- Criteria Tab -->
             <div class="tab-content" id="criteria-tab">
-                <h3 class="tab-title">Tourism Criteria</h3>
+                <h3 class="tab-title">Criterios turísticos</h3>
                 <div class="form-grid">
                     <div class="form-group span-full">
                         <label for="tourism_criteria_access">Acceso a personas de tercera edad y/o con discapacidad</label>
@@ -637,33 +855,11 @@
                             <option value="NO" {{ (old('tourism_criteria.waste', $destination->tourism_criteria['waste'] ?? '') == 'NO') ? 'selected' : '' }}>NO</option>
                         </select>
                     </div>
-                </div>
-                </div>
-            </div>
 
-            <!-- Description Tab -->
-            <div class="tab-content" id="description-tab">
-                <h3 class="tab-title">Descriptions</h3>
-                <div class="form-grid">
                     <div class="form-group span-full">
-                        <label for="main_description">Main Description</label>
-                        <textarea id="main_description" name="main_description" rows="4">{{ old('main_description', $destination->main_description) }}</textarea>
-                        @error('main_description')
-                            <span class="error-text">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    
-                    <div class="form-group span-full">
-                        <label for="secondary_description">Secondary Description</label>
-                        <textarea id="secondary_description" name="secondary_description" rows="4">{{ old('secondary_description', $destination->secondary_description) }}</textarea>
-                        @error('secondary_description')
-                            <span class="error-text">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    
-                    <div class="form-group span-full">
-                        <label for="strengths_benefits">Strengths & Benefits</label>
+                        <label for="strengths_benefits">Fortalezas y Beneficios</label>
                         <textarea id="strengths_benefits" name="strengths_benefits" rows="4">{{ old('strengths_benefits', $destination->strengths_benefits) }}</textarea>
+                        <small class="form-help">Describir las principales fortalezas y beneficios del destino turístico</small>
                         @error('strengths_benefits')
                             <span class="error-text">{{ $message }}</span>
                         @enderror
@@ -673,88 +869,33 @@
 
             <!-- Challenges Tab -->
             <div class="tab-content" id="challenges-tab">
-                <h3 class="tab-title">Environmental Challenge</h3>
+                <h3 class="tab-title">Reto ambiental</h3>
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="environmental_challenges_icon">Challenge Icon</label>
+                        <label for="environmental_challenges_icon">Ícono del Reto</label>
                         <input type="text" id="environmental_challenges_icon" name="environmental_challenges[0][icon]" value="{{ old('environmental_challenges.0.icon', $destination->environmental_challenges[0]['icon'] ?? 'ph ph-trash') }}" placeholder="ph ph-trash">
                     </div>
                     <div class="form-group">
-                        <label for="environmental_challenges_title">Challenge Title</label>
+                        <label for="environmental_challenges_title">Título del Reto</label>
                         <input type="text" id="environmental_challenges_title" name="environmental_challenges[0][title]" value="{{ old('environmental_challenges.0.title', $destination->environmental_challenges[0]['title'] ?? 'Contaminación') }}" required>
                     </div>
                     <div class="form-group span-full">
-                        <label for="environmental_challenges_description">Challenge Description</label>
+                        <label for="environmental_challenges_description">Descripción del Reto</label>
                         <textarea id="environmental_challenges_description" name="environmental_challenges[0][description]" rows="3" required>{{ old('environmental_challenges.0.description', $destination->environmental_challenges[0]['description'] ?? 'Generación de residuos, especialmente plásticos en feriados que contaminan el entorno natural y marino.') }}</textarea>
                     </div>
                 </div>
             </div>
 
-            <!-- Gallery Tab -->
-            <div class="tab-content" id="gallery-tab">
-                <h3 class="tab-title">Photo Gallery</h3>
-                <div class="form-group">
-                    <label for="gallery_images">Upload Photos (Max 8 photos, 5MB each)</label>
-                    <div class="file-upload-area">
-                        <input type="file" id="gallery_images" name="gallery_images[]" multiple accept="image/*" class="file-input">
-                        <div class="upload-placeholder">
-                            <i class="ph ph-upload"></i>
-                            <p>Drag & drop photos here or click to browse</p>
-                            <small>JPEG, PNG, JPG, GIF up to 5MB each</small>
-                        </div>
-                    </div>
-                    @error('gallery_images.*')
-                        <span class="error-text">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <!-- Preview Area for New Images -->
-                <div id="imagePreviewContainer" class="image-preview-container" style="display: none;">
-                    <h4>New Images to Upload</h4>
-                    <div id="imagePreviewGrid" class="gallery-grid"></div>
-                </div>
-
-                @if($destination->gallery_images && count($destination->gallery_images) > 0)
-                    <div class="existing-gallery">
-                        <h4>Current Photos</h4>
-                    <div style="margin-bottom: 0.5rem; color: #444; font-size: 0.98rem;">
-                        <strong>Note:</strong> Maximum image size is 5MB. The <strong>first photo</strong> in this gallery will be displayed as the main image in the destination page hero section.
-                    </div>
-                        <div class="gallery-grid" id="galleryGrid">
-                            @foreach($destination->gallery_images as $index => $image)
-                                <div class="gallery-item" data-index="{{ $index }}">
-                                    <div class="gallery-position-badge" style="position:absolute;top:8px;left:8px;background:#222;color:#fff;padding:2px 8px;border-radius:12px;font-size:0.9rem;z-index:2;">{{ $index + 1 }}</div>
-                                    <img src="{{ Storage::url($image) }}" alt="Gallery image {{ $index + 1 }}">
-                                    <div class="gallery-item-actions">
-                                        <button type="button" class="move-left" data-index="{{ $index }}" @if($index == 0) disabled @endif>
-                                            <i class="ph ph-arrow-left"></i>
-                                        </button>
-                                        <button type="button" class="move-right" data-index="{{ $index }}" @if($index == count($destination->gallery_images) - 1) disabled @endif>
-                                            <i class="ph ph-arrow-right"></i>
-                                        </button>
-                                        <button type="button" class="remove-gallery-image" data-index="{{ $index }}">
-                                            <i class="ph ph-trash"></i>
-                                        </button>
-                                    </div>
-                                    <input type="hidden" name="existing_gallery_images[]" value="{{ $image }}">
-                                </div>
-                            @endforeach
-                            <input type="hidden" id="galleryOrderInput" name="gallery_order" value="{{ implode(',', $destination->gallery_images) }}">
-                        </div>
-                    </div>
-                @endif
-            </div>
-
             <!-- Form Actions -->
             <div class="form-actions">
                 <button type="submit" class="control-panel-button control-panel-button-primary">
-                    <i class="fas fa-save"></i> Save Changes
+                    <i class="fas fa-save"></i> Guardar cambios
                 </button>
                 <button type="button" class="control-panel-button control-panel-button-secondary" onclick="resetForm()">
-                    <i class="fas fa-undo"></i> Reset
+                    <i class="fas fa-undo"></i> Restablecer
                 </button>
                 <a href="{{ route('editor.destinations.index') }}" class="control-panel-button control-panel-button-secondary">
-                    <i class="fas fa-times"></i> Cancel
+                    <i class="fas fa-times"></i> Cancelar
                 </a>
             </div>
         </form>
@@ -844,6 +985,92 @@
                 activitiesFilterInput.addEventListener('input', function() {
                     const filter = this.value.trim().toLowerCase();
                     Array.from(activitiesIconsListUl.children).forEach(li => {
+                        if (li.textContent.toLowerCase().includes(filter)) {
+                            li.style.display = '';
+                        } else {
+                            li.style.display = 'none';
+                        }
+                    });
+                });
+            }
+
+            // Considerations modal
+            const openConsiderationsModalBtn = document.getElementById('open-considerations-icons-list-modal');
+            const closeConsiderationsModalBtn = document.getElementById('close-considerations-icons-list-modal');
+            const considerationsModal = document.getElementById('considerationsIconsListModal');
+            const considerationsFilterInput = document.getElementById('considerationsIconFilterInput');
+            const considerationsIconsListUl = document.getElementById('considerationsIconsListUl');
+
+            if (openConsiderationsModalBtn && considerationsModal) {
+                openConsiderationsModalBtn.addEventListener('click', function() {
+                    considerationsModal.style.display = 'flex';
+                    if (considerationsFilterInput) considerationsFilterInput.value = '';
+                    if (considerationsIconsListUl) {
+                        Array.from(considerationsIconsListUl.children).forEach(li => li.style.display = '');
+                    }
+                });
+            }
+            if (closeConsiderationsModalBtn && considerationsModal) {
+                closeConsiderationsModalBtn.addEventListener('click', function() {
+                    considerationsModal.style.display = 'none';
+                });
+            }
+            // Close modal when clicking outside
+            if (considerationsModal) {
+                considerationsModal.addEventListener('click', function(e) {
+                    if (e.target === considerationsModal) {
+                        considerationsModal.style.display = 'none';
+                    }
+                });
+            }
+            // Filter logic
+            if (considerationsFilterInput && considerationsIconsListUl) {
+                considerationsFilterInput.addEventListener('input', function() {
+                    const filter = this.value.trim().toLowerCase();
+                    Array.from(considerationsIconsListUl.children).forEach(li => {
+                        if (li.textContent.toLowerCase().includes(filter)) {
+                            li.style.display = '';
+                        } else {
+                            li.style.display = 'none';
+                        }
+                    });
+                });
+            }
+
+            // What to Bring modal
+            const openWhatToBringModalBtn = document.getElementById('open-what-to-bring-icons-list-modal');
+            const closeWhatToBringModalBtn = document.getElementById('close-what-to-bring-icons-list-modal');
+            const whatToBringModal = document.getElementById('whatToBringIconsListModal');
+            const whatToBringFilterInput = document.getElementById('whatToBringIconFilterInput');
+            const whatToBringIconsListUl = document.getElementById('whatToBringIconsListUl');
+
+            if (openWhatToBringModalBtn && whatToBringModal) {
+                openWhatToBringModalBtn.addEventListener('click', function() {
+                    whatToBringModal.style.display = 'flex';
+                    if (whatToBringFilterInput) whatToBringFilterInput.value = '';
+                    if (whatToBringIconsListUl) {
+                        Array.from(whatToBringIconsListUl.children).forEach(li => li.style.display = '');
+                    }
+                });
+            }
+            if (closeWhatToBringModalBtn && whatToBringModal) {
+                closeWhatToBringModalBtn.addEventListener('click', function() {
+                    whatToBringModal.style.display = 'none';
+                });
+            }
+            // Close modal when clicking outside
+            if (whatToBringModal) {
+                whatToBringModal.addEventListener('click', function(e) {
+                    if (e.target === whatToBringModal) {
+                        whatToBringModal.style.display = 'none';
+                    }
+                });
+            }
+            // Filter logic
+            if (whatToBringFilterInput && whatToBringIconsListUl) {
+                whatToBringFilterInput.addEventListener('input', function() {
+                    const filter = this.value.trim().toLowerCase();
+                    Array.from(whatToBringIconsListUl.children).forEach(li => {
                         if (li.textContent.toLowerCase().includes(filter)) {
                             li.style.display = '';
                         } else {
@@ -947,19 +1174,19 @@
         function addListItem(listType) {
             const container = document.querySelector(`#${listType}-list .items-container`);
             const itemCount = container.children.length;
-            
+
             let itemHTML = '';
-            
+
             if (listType === 'activities') {
                 itemHTML = `
                     <div class="dynamic-item">
                         <div class="form-grid">
                             <div class="form-group">
-                                <label>Activity Icon</label>
+                                <label>Ícono de Actividad</label>
                                 <input type="text" name="activities[${itemCount}][icon]" value="ph ph-activity" placeholder="ph ph-activity">
                             </div>
                             <div class="form-group">
-                                <label>Activity Name</label>
+                                <label>Nombre de la Actividad</label>
                                 <input type="text" name="activities[${itemCount}][name]" required>
                             </div>
                         </div>
@@ -973,17 +1200,17 @@
                     <div class="dynamic-item">
                         <div class="form-grid">
                             <div class="form-group">
-                                <label>Service Icon</label>
+                                <label>Ícono del Servicio</label>
                                 <input type="text" name="services[${itemCount}][icon]" value="ph ph-gear" placeholder="ph ph-gear">
                             </div>
                             <div class="form-group">
-                                <label>Service Name</label>
+                                <label>Nombre del Servicio</label>
                                 <input type="text" name="services[${itemCount}][name]" required>
                             </div>
                             <div class="form-group">
-                                <label>Available</label>
+                                <label>Disponible</label>
                                 <select name="services[${itemCount}][available]">
-                                    <option value="1">Yes</option>
+                                    <option value="1">Sí</option>
                                     <option value="0">No</option>
                                 </select>
                             </div>
@@ -998,15 +1225,15 @@
                     <div class="dynamic-item">
                         <div class="form-grid">
                             <div class="form-group">
-                                <label>Criteria Name</label>
+                                <label>Nombre del Criterio</label>
                                 <input type="text" name="tourism_criteria[${itemCount}][name]" required>
                             </div>
                             <div class="form-group">
-                                <label>Status</label>
+                                <label>Estado</label>
                                 <select name="tourism_criteria[${itemCount}][status]" required>
-                                    <option value="positive">Positive</option>
+                                    <option value="positive">Positivo</option>
                                     <option value="neutral">Neutral</option>
-                                    <option value="negative">Negative</option>
+                                    <option value="negative">Negativo</option>
                                 </select>
                             </div>
                         </div>
@@ -1020,15 +1247,15 @@
                     <div class="dynamic-item">
                         <div class="form-grid">
                             <div class="form-group">
-                                <label>Challenge Icon</label>
+                                <label>Ícono del Reto</label>
                                 <input type="text" name="environmental_challenges[${itemCount}][icon]" value="ph ph-warning" placeholder="ph ph-warning">
                             </div>
                             <div class="form-group">
-                                <label>Challenge Title</label>
+                                <label>Título del Reto</label>
                                 <input type="text" name="environmental_challenges[${itemCount}][title]" required>
                             </div>
                             <div class="form-group span-full">
-                                <label>Challenge Description</label>
+                                <label>Descripción del Reto</label>
                                 <textarea name="environmental_challenges[${itemCount}][description]" rows="3" required></textarea>
                             </div>
                         </div>
@@ -1037,13 +1264,49 @@
                         </button>
                     </div>
                 `;
+            } else if (listType === 'considerations') {
+                itemHTML = `
+                    <div class="dynamic-item">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Icono</label>
+                                <input type="text" name="considerations[${itemCount}][icon]" value="ph ph-warning-circle" placeholder="ph ph-warning-circle">
+                            </div>
+                            <div class="form-group">
+                                <label>Texto de Consideración</label>
+                                <input type="text" name="considerations[${itemCount}][text]" required>
+                            </div>
+                        </div>
+                        <button type="button" class="remove-item-btn">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+            } else if (listType === 'what-to-bring') {
+                itemHTML = `
+                    <div class="dynamic-item">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Icono</label>
+                                <input type="text" name="what_to_bring[${itemCount}][icon]" value="ph ph-backpack" placeholder="ph ph-backpack">
+                            </div>
+                            <div class="form-group">
+                                <label>Elemento Recomendado</label>
+                                <input type="text" name="what_to_bring[${itemCount}][text]" required>
+                            </div>
+                        </div>
+                        <button type="button" class="remove-item-btn">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
             }
-            
+
             container.insertAdjacentHTML('beforeend', itemHTML);
         }
 
         function resetForm() {
-            if (confirm('Are you sure you want to reset all changes? This action cannot be undone.')) {
+            if (confirm('¿Seguro que deseas restablecer todos los cambios? Esta acción no se puede deshacer.')) {
                 document.getElementById('destination-form').reset();
             }
         }
@@ -1052,7 +1315,7 @@
         function initGallery() {
             const fileInput = document.getElementById('gallery_images');
             const uploadArea = document.querySelector('.file-upload-area');
-            
+
             if (!fileInput || !uploadArea) return;
 
             // Drag and drop functionality
@@ -1069,7 +1332,7 @@
             uploadArea.addEventListener('drop', function(e) {
                 e.preventDefault();
                 this.classList.remove('dragover');
-                
+
                 const files = e.dataTransfer.files;
                 if (files.length > 0) {
                     if (validateGalleryFiles(files)) {
@@ -1096,10 +1359,10 @@
                     const button = e.target.closest('.remove-gallery-image');
                     const galleryItem = button.closest('.gallery-item');
                     const index = button.dataset.index;
-                    
-                    if (confirm('Are you sure you want to remove this image?')) {
+
+                    if (confirm('¿Seguro que deseas eliminar esta imagen?')) {
                         galleryItem.remove();
-                        
+
                         // Add hidden input to mark image for removal
                         const hiddenInput = document.createElement('input');
                         hiddenInput.type = 'hidden';
@@ -1115,28 +1378,28 @@
             const maxFiles = 8;
             const maxSize = 5 * 1024 * 1024; // 5MB
             const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
-            
+
             // Count existing images
             const existingImages = document.querySelectorAll('.gallery-item').length;
             const totalImages = existingImages + files.length;
-            
+
             if (totalImages > maxFiles) {
-                alert(`You can only have a maximum of ${maxFiles} images total. You currently have ${existingImages} images.`);
+                alert(`Sólo puedes tener un máximo de ${maxFiles} imágenes en total. Actualmente tienes ${existingImages} imágenes.`);
                 return false;
             }
-            
+
             for (let file of files) {
                 if (!allowedTypes.includes(file.type)) {
-                    alert(`File "${file.name}" is not a valid image type. Please use JPEG, PNG, JPG, or GIF.`);
+                    alert(`El archivo "${file.name}" no es un tipo de imagen válido. Usa JPEG, PNG, JPG o GIF.`);
                     return false;
                 }
-                
+
                 if (file.size > maxSize) {
-                    alert(`File "${file.name}" is too large. Maximum size is 5MB.`);
+                    alert(`El archivo "${file.name}" es demasiado grande. El tamaño máximo es 5MB.`);
                     return false;
                 }
             }
-            
+
             return true;
         }
 
@@ -1144,31 +1407,31 @@
         function showImagePreviews(files) {
             const previewContainer = document.getElementById('imagePreviewContainer');
             const previewGrid = document.getElementById('imagePreviewGrid');
-            
+
             // Clear existing previews
             previewGrid.innerHTML = '';
-            
+
             if (files.length === 0) {
                 previewContainer.style.display = 'none';
                 return;
             }
-            
+
             previewContainer.style.display = 'block';
-            
+
             Array.from(files).forEach((file, index) => {
                 const previewItem = document.createElement('div');
                 previewItem.className = 'preview-item';
                 previewItem.innerHTML = `
-                    <div class="preview-loading">Loading...</div>
+                    <div class="preview-loading">Cargando...</div>
                     <div class="preview-item-actions">
                         <button type="button" class="remove-preview-image" onclick="removePreviewImage(${index})">
                             <i class="ph ph-trash"></i>
                         </button>
                     </div>
                 `;
-                
+
                 previewGrid.appendChild(previewItem);
-                
+
                 // Create image preview
                 const reader = new FileReader();
                 reader.onload = function(e) {
@@ -1184,22 +1447,22 @@
                 reader.readAsDataURL(file);
             });
         }
-        
+
         function removePreviewImage(index) {
             const fileInput = document.getElementById('gallery_images');
             const dt = new DataTransfer();
-            
+
             // Add all files except the one to remove
             Array.from(fileInput.files).forEach((file, i) => {
                 if (i !== index) {
                     dt.items.add(file);
                 }
             });
-            
+
             fileInput.files = dt.files;
             showImagePreviews(fileInput.files);
         }
-        
+
         function clearPreviews() {
             const previewContainer = document.getElementById('imagePreviewContainer');
             const previewGrid = document.getElementById('imagePreviewGrid');

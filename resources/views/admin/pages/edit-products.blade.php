@@ -2,11 +2,11 @@
     <div class="control-panel-card control-panel-with-fixed-actions">
         <div class="control-panel-header-flex">
             <a href="{{ route('admin.pages') }}" class="control-panel-button control-panel-button-secondary">
-                <i class="fas fa-arrow-left"></i> Back to Pages
+                <i class="fas fa-arrow-left"></i> Volver a Páginas
             </a>
-            <h2 class="control-panel-title control-panel-title-no-margin">Edit Products Page</h2>
+            <h2 class="control-panel-title control-panel-title-no-margin">Editar Página de Productos</h2>
         </div>
-        <p class="control-panel-text-muted">Edit the content and settings for your Products page.</p>
+        <p class="control-panel-text-muted">Edita el contenido y la configuración de tu página de Productos.</p>
 
         @if(session('success'))
             <div class="alert alert-success control-panel-alert-success-custom">
@@ -29,7 +29,7 @@
             @method('PUT')
             
             <div class="control-panel-card pages-card control-panel-form-section">
-                <h3 class="control-panel-subtitle"><i class="fas fa-box"></i> Banner Section</h3>
+                <h3 class="control-panel-subtitle"><i class="fas fa-box"></i> Sección del Banner</h3>
                 <div class="control-panel-form-grid">
                     <div>
                         <label for="banner_title" class="control-panel-label">Título del Banner</label>
@@ -58,7 +58,7 @@
             </div>
 
             <div class="control-panel-card pages-card control-panel-form-section">
-                <h3 class="control-panel-subtitle"><i class="fas fa-th-large"></i> Product Cards Section</h3>
+                <h3 class="control-panel-subtitle"><i class="fas fa-th-large"></i> Sección de Tarjetas de Productos</h3>
                 <div class="control-panel-form-grid">
                     <div>
                         <label for="section_title" class="control-panel-label">Título de la Sección</label>
@@ -72,122 +72,43 @@
             </div>
 
             <div class="control-panel-card pages-card control-panel-form-section">
-                <h3 class="control-panel-subtitle"><i class="fas fa-seedling"></i> Product 1 - Cacao Orgánico</h3>
-                <div class="control-panel-form-grid">
-                    <div>
-                        <label for="product1_title" class="control-panel-label">Título</label>
-                        <input type="text" id="product1_title" name="product1_title" class="control-panel-input" value="{{ old('product1_title', $productsSetting->product1_title ?? 'CACAO ORGÁNICO') }}">
-                    </div>
-                    <div>
-                        <label for="product1_description" class="control-panel-label">Descripción</label>
-                        <textarea id="product1_description" name="product1_description" class="control-panel-input" rows="3">{{ old('product1_description', $productsSetting->product1_description ?? 'Cacao de origen ecuatoriano, cultivado de manera orgánica en las mejores tierras del país.') }}</textarea>
-                    </div>
-                    <div>
-                        <label for="product1_image" class="control-panel-label">Imagen</label>
-                        <div style="margin-bottom:8px">
-                            @php
-                                $product1ImgPath = asset('assets/imgs/cacao.jpg');
-                                if (!empty($productsSetting->product1_image ?? null)) {
-                                    $product1ImgPath = asset('storage/' . ltrim($productsSetting->product1_image, '/\\'));
-                                }
-                            @endphp
-                            <img src="{{ $product1ImgPath }}" alt="Cacao Orgánico" style="max-width:150px;">
+                <h3 class="control-panel-subtitle"><i class="fas fa-info-circle"></i> Gestión de Productos</h3>
+                <div class="control-panel-form-grid-full">
+                    <div class="control-panel-info-box">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <i class="fas fa-lightbulb" style="color: #3B82F6; font-size: 1.5rem;"></i>
+                            <div>
+                                <h4 style="margin: 0; color: #1F2937;">Gestión Individual de Productos</h4>
+                                <p style="margin: 0; color: #6B7280; font-size: 0.9rem;">Los productos ahora se gestionan individualmente a través del sistema de catálogo dinámico.</p>
+                            </div>
                         </div>
-                        <input type="file" id="product1_image" name="product1_image" class="control-panel-input" accept="image/*">
-                    </div>
-                </div>
-            </div>
-
-            <div class="control-panel-card pages-card control-panel-form-section">
-                <h3 class="control-panel-subtitle"><i class="fas fa-coffee"></i> Product 2 - Café de Altura</h3>
-                <div class="control-panel-form-grid">
-                    <div>
-                        <label for="product2_title" class="control-panel-label">Título</label>
-                        <input type="text" id="product2_title" name="product2_title" class="control-panel-input" value="{{ old('product2_title', $productsSetting->product2_title ?? 'CAFÉ DE ALTURA') }}">
-                    </div>
-                    <div>
-                        <label for="product2_description" class="control-panel-label">Descripción</label>
-                        <textarea id="product2_description" name="product2_description" class="control-panel-input" rows="3">{{ old('product2_description', $productsSetting->product2_description ?? 'Café cultivado en las montañas andinas, con notas únicas que reflejan la riqueza de nuestros suelos.') }}</textarea>
-                    </div>
-                    <div>
-                        <label for="product2_image" class="control-panel-label">Imagen</label>
-                        <div style="margin-bottom:8px">
-                            @php
-                                $product2ImgPath = asset('assets/imgs/cafe.jpg');
-                                if (!empty($productsSetting->product2_image ?? null)) {
-                                    $product2ImgPath = asset('storage/' . ltrim($productsSetting->product2_image, '/\\'));
-                                }
-                            @endphp
-                            <img src="{{ $product2ImgPath }}" alt="Café de Altura" style="max-width:150px;">
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <a href="{{ route('admin.products.index') }}" class="control-panel-button">
+                                <i class="fas fa-cogs"></i> Gestionar Catálogo de Productos
+                            </a>
+                            <a href="{{ route('admin.products.create') }}" class="control-panel-button control-panel-button-secondary">
+                                <i class="fas fa-plus"></i> Agregar Nuevo Producto
+                            </a>
                         </div>
-                        <input type="file" id="product2_image" name="product2_image" class="control-panel-input" accept="image/*">
-                    </div>
-                </div>
-            </div>
-
-            <div class="control-panel-card pages-card control-panel-form-section">
-                <h3 class="control-panel-subtitle"><i class="fas fa-cut"></i> Product 3 - Textiles Artesanales</h3>
-                <div class="control-panel-form-grid">
-                    <div>
-                        <label for="product3_title" class="control-panel-label">Título</label>
-                        <input type="text" id="product3_title" name="product3_title" class="control-panel-input" value="{{ old('product3_title', $productsSetting->product3_title ?? 'TEXTILES ARTESANALES') }}">
-                    </div>
-                    <div>
-                        <label for="product3_description" class="control-panel-label">Descripción</label>
-                        <textarea id="product3_description" name="product3_description" class="control-panel-input" rows="3">{{ old('product3_description', $productsSetting->product3_description ?? 'Textiles tradicionales tejidos a mano, preservando técnicas ancestrales de nuestras comunidades.') }}</textarea>
-                    </div>
-                    <div>
-                        <label for="product3_image" class="control-panel-label">Imagen</label>
-                        <div style="margin-bottom:8px">
-                            @php
-                                $product3ImgPath = asset('assets/imgs/textiles.jpg');
-                                if (!empty($productsSetting->product3_image ?? null)) {
-                                    $product3ImgPath = asset('storage/' . ltrim($productsSetting->product3_image, '/\\'));
-                                }
-                            @endphp
-                            <img src="{{ $product3ImgPath }}" alt="Textiles Artesanales" style="max-width:150px;">
+                        <div style="margin-top: 1rem; padding: 1rem; background: #F3F4F6; border-radius: 6px;">
+                            <p style="margin: 0; font-size: 0.85rem; color: #4B5563;">
+                                <strong>Nota:</strong> Este formulario ahora solo gestiona el banner de la página y los títulos de sección. 
+                                Los productos individuales (títulos, descripciones, imágenes) se gestionan a través del Catálogo de Productos de arriba.
+                            </p>
                         </div>
-                        <input type="file" id="product3_image" name="product3_image" class="control-panel-input" accept="image/*">
-                    </div>
-                </div>
-            </div>
-
-            <div class="control-panel-card pages-card control-panel-form-section">
-                <h3 class="control-panel-subtitle"><i class="fas fa-tint"></i> Product 4 - Miel de Abeja</h3>
-                <div class="control-panel-form-grid">
-                    <div>
-                        <label for="product4_title" class="control-panel-label">Título</label>
-                        <input type="text" id="product4_title" name="product4_title" class="control-panel-input" value="{{ old('product4_title', $productsSetting->product4_title ?? 'MIEL DE ABEJA') }}">
-                    </div>
-                    <div>
-                        <label for="product4_description" class="control-panel-label">Descripción</label>
-                        <textarea id="product4_description" name="product4_description" class="control-panel-input" rows="3">{{ old('product4_description', $productsSetting->product4_description ?? 'Miel pura y natural, recolectada de colmenas ubicadas en ecosistemas diversos y pristinos.') }}</textarea>
-                    </div>
-                    <div>
-                        <label for="product4_image" class="control-panel-label">Imagen</label>
-                        <div style="margin-bottom:8px">
-                            @php
-                                $product4ImgPath = asset('assets/imgs/miel.jpg');
-                                if (!empty($productsSetting->product4_image ?? null)) {
-                                    $product4ImgPath = asset('storage/' . ltrim($productsSetting->product4_image, '/\\'));
-                                }
-                            @endphp
-                            <img src="{{ $product4ImgPath }}" alt="Miel de Abeja" style="max-width:150px;">
-                        </div>
-                        <input type="file" id="product4_image" name="product4_image" class="control-panel-input" accept="image/*">
                     </div>
                 </div>
             </div>
 
             <div class="control-panel-fixed-actions">
                 <a href="{{ route('admin.pages') }}" class="control-panel-button">
-                    <i class="fas fa-times"></i> Cancel
+                    <i class="fas fa-times"></i> Cancelar
                 </a>
                 <button type="submit" class="control-panel-button">
-                    <i class="fas fa-save"></i> Save Changes
+                    <i class="fas fa-save"></i> Guardar Cambios
                 </button>
                 <a href="/products" target="_blank" class="control-panel-button">
-                    <i class="fas fa-external-link-alt"></i> View Products Page
+                    <i class="fas fa-external-link-alt"></i> Ver Página
                 </a>
             </div>
         </form>

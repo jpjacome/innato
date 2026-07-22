@@ -34,6 +34,7 @@ class ProductController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
+            'price' => 'nullable|numeric|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'order' => 'nullable|integer|min:0',
             'is_active' => 'boolean'
@@ -42,6 +43,7 @@ class ProductController extends Controller
         $product = new Product();
         $product->title = $request->title;
         $product->description = $request->description;
+        $product->price = $request->price;
         $product->order = $request->order ?? 0;
         $product->is_active = $request->has('is_active');
 
@@ -82,6 +84,7 @@ class ProductController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
+            'price' => 'nullable|numeric|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'order' => 'nullable|integer|min:0',
             'is_active' => 'boolean'
@@ -89,6 +92,7 @@ class ProductController extends Controller
 
         $product->title = $request->title;
         $product->description = $request->description;
+        $product->price = $request->price;
         $product->order = $request->order ?? 0;
         $product->is_active = $request->has('is_active');
 

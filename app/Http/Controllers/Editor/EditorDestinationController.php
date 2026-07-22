@@ -106,6 +106,7 @@ class EditorDestinationController extends Controller
             'climate_wet_season.name' => 'nullable|string|max:255',
             'climate_wet_season.months' => 'nullable|string|max:255',
             'climate_wet_season.temperature' => 'nullable|string|max:255',
+            'altitude' => 'nullable|string|max:255',
 
             // Access
             'access_from' => 'nullable|string|max:255',
@@ -136,6 +137,15 @@ class EditorDestinationController extends Controller
             'target_audience_age' => 'nullable|string|max:255',
             'target_audience_transport' => 'nullable|string|max:255',
             'target_audience_stay' => 'nullable|string|max:255',
+
+            // Recommendations
+            'difficulty_level' => 'nullable|integer|in:1,2,3',
+            'considerations' => 'nullable|array',
+            'considerations.*.icon' => 'nullable|string|max:255',
+            'considerations.*.text' => 'nullable|string|max:255',
+            'what_to_bring' => 'nullable|array',
+            'what_to_bring.*.icon' => 'nullable|string|max:255',
+            'what_to_bring.*.text' => 'nullable|string|max:255',
 
             // Services
             'services' => 'nullable|array',
@@ -208,6 +218,20 @@ class EditorDestinationController extends Controller
                 return !empty($challenge['title']);
             });
             $validated['environmental_challenges'] = array_values($validated['environmental_challenges']); // Reindex
+        }
+
+        if (isset($validated['considerations'])) {
+            $validated['considerations'] = array_filter($validated['considerations'], function($item) {
+                return !empty($item['text']);
+            });
+            $validated['considerations'] = array_values($validated['considerations']);
+        }
+
+        if (isset($validated['what_to_bring'])) {
+            $validated['what_to_bring'] = array_filter($validated['what_to_bring'], function($item) {
+                return !empty($item['text']);
+            });
+            $validated['what_to_bring'] = array_values($validated['what_to_bring']);
         }
 
         // Handle gallery image uploads

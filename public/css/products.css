@@ -199,7 +199,7 @@ body{
   transform: scale(1.05);
 }
 .headline-card-img {
-  height: 250px;
+  height: 100%;
   width: 100%;
   object-fit: cover;
   display: block;
@@ -212,7 +212,6 @@ body{
     height: auto;
     padding: 1.5rem 1.5rem 0;
     background-color: var(--color-1);
-    margin-top: auto;
     z-index: 2;
 }
 
@@ -233,12 +232,32 @@ body{
   padding: 5px;
   outline: 2px solid var(--color-black);
 }
+
+.headline-card .title-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.headline-card .product-price {
+    font-family: 'Franie Bold', sans-serif;
+    font-size: 1.2rem;
+    color: var(--color-4);
+    background-color: var(--color-1);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    border: 2px solid var(--color-4);
+    font-weight: bold;
+}
+
 .headline-card h3 {
     display: flex;
     font-family: 'Franie Bold', sans-serif;
     font-size: 1.5rem;
     margin-bottom: 0rem;
     align-items: center;
+    flex: 1;
 }
 .headline-card h3 span {
   font-size: .8rem;

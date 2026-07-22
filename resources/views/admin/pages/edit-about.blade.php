@@ -2,11 +2,11 @@
     <div class="control-panel-card control-panel-with-fixed-actions">
         <div class="control-panel-header-flex">
             <a href="{{ route('admin.pages') }}" class="control-panel-button control-panel-button-secondary">
-                <i class="fas fa-arrow-left"></i> Back to Pages
+                <i class="fas fa-arrow-left"></i> Volver a Páginas
             </a>
-            <h2 class="control-panel-title control-panel-title-no-margin">Edit About Page</h2>
+            <h2 class="control-panel-title control-panel-title-no-margin">Editar Página Acerca de</h2>
         </div>
-        <p class="control-panel-text-muted">Edit the content and settings for your About page.</p>
+        <p class="control-panel-text-muted">Edita el contenido y la configuración de tu página Acerca de.</p>
 
         @if(session('success'))
             <div class="alert alert-success control-panel-alert-success-custom">
@@ -30,11 +30,11 @@
 
             <div class="control-panel-card pages-card control-panel-form-section">
                 <h3 class="control-panel-subtitle">
-                    <i class="fas fa-info-circle"></i> Hero Section
+                    <i class="fas fa-info-circle"></i> Sección Hero
                 </h3>
                 <div class="control-panel-form-grid">
                     <div>
-                        <label for="hero_title" class="control-panel-label">Hero Title</label>
+                        <label for="hero_title" class="control-panel-label">Título Hero</label>
                         <input 
                             type="text" 
                             id="hero_title" 
@@ -105,11 +105,11 @@
                 <h3 class="control-panel-subtitle"><i class="fas fa-image"></i> Banner</h3>
                 <div class="control-panel-form-grid">
                     <div>
-                        <label for="banner_text" class="control-panel-label">Banner Text</label>
+                        <label for="banner_text" class="control-panel-label">Texto del Banner</label>
                         <input type="text" id="banner_text" name="banner_text" class="control-panel-input" value="{{ old('banner_text', (isset($aboutSetting) && !empty($aboutSetting->banner_text)) ? $aboutSetting->banner_text : '"TRAVEL WITH RESPECT FOR NATURE AND CULTURES”') }}">
                     </div>
                     <div>
-                        <label for="banner_image" class="control-panel-label">Banner Image</label>
+                        <label for="banner_image" class="control-panel-label">Imagen del Banner</label>
                         @if(isset($aboutSetting) && !empty($aboutSetting->banner_image))
                             <div><img src="{{ asset('storage/' . $aboutSetting->banner_image) }}" alt="Banner" style="max-width:120px;"></div>
                         @endif
@@ -123,7 +123,7 @@
                 <h3 class="control-panel-subtitle"><i class="fas fa-users"></i> Headline (Equipo)</h3>
                 <div class="control-panel-form-grid">
                     <div>
-                        <label for="headline_title" class="control-panel-label">Headline Title</label>
+                        <label for="headline_title" class="control-panel-label">Título del Encabezado</label>
                         <input type="text" id="headline_title" name="headline_title" class="control-panel-input" value="{{ old('headline_title', (isset($aboutSetting) && !empty($aboutSetting->headline_title)) ? $aboutSetting->headline_title : '¿QUIÉN ESTÁ DETRÁS DE INNATO?') }}">
                     </div>
                 </div>
@@ -191,11 +191,11 @@
                 <h3 class="control-panel-subtitle"><i class="fas fa-map-marker-alt"></i> Destinos</h3>
                 <div class="control-panel-form-grid">
                     <div>
-                        <label for="destinations_title" class="control-panel-label">Destinations Title</label>
+                        <label for="destinations_title" class="control-panel-label">Título de Destinos</label>
                         <input type="text" id="destinations_title" name="destinations_title" class="control-panel-input" value="{{ old('destinations_title', (isset($aboutSetting) && !empty($aboutSetting->destinations_title)) ? $aboutSetting->destinations_title : 'VISITA EL CENTRO DE EXPERIENCIAS TURÍSTICAS') }}">
                     </div>
                     <div>
-                        <label for="destinations_button_text" class="control-panel-label">Button Text</label>
+                        <label for="destinations_button_text" class="control-panel-label">Texto del Botón</label>
                         <input type="text" id="destinations_button_text" name="destinations_button_text" class="control-panel-input" value="{{ old('destinations_button_text', (isset($aboutSetting) && !empty($aboutSetting->destinations_button_text)) ? $aboutSetting->destinations_button_text : 'UBICACIÓN') }}">
                     </div>
                 </div>
@@ -207,13 +207,13 @@
     <!-- Fixed Action Buttons -->
     <div class="control-panel-fixed-actions">
         <a href="{{ route('admin.pages') }}" class="control-panel-button">
-            <i class="fas fa-times"></i> Cancel
+            <i class="fas fa-times"></i> Cancelar
         </a>
         <button type="submit" form="about-edit-form" class="control-panel-button">
-            <i class="fas fa-save"></i> Save Changes
+            <i class="fas fa-save"></i> Guardar Cambios
         </button>
         <a href="/about" target="_blank" class="control-panel-button">
-            <i class="fas fa-external-link-alt"></i> View About Page
+            <i class="fas fa-external-link-alt"></i> Ver Página
         </a>
     </div>
 
@@ -234,19 +234,4 @@
             }
         }
     </script>
-        </form>
-    </div>
-
-    <!-- Fixed Action Buttons -->
-    <div class="control-panel-fixed-actions">
-        <a href="{{ route('admin.pages') }}" class="control-panel-button">
-            <i class="fas fa-times"></i> Cancel
-        </a>
-        <button type="submit" form="about-edit-form" class="control-panel-button">
-            <i class="fas fa-save"></i> Save Changes
-        </button>
-        <a href="/about" target="_blank" class="control-panel-button">
-            <i class="fas fa-external-link-alt"></i> View About Page
-        </a>
-    </div>
 </x-control-panel-layout>

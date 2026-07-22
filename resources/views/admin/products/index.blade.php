@@ -25,6 +25,7 @@
                             <th>Image</th>
                             <th>Title</th>
                             <th>Description</th>
+                            <th>Price</th>
                             <th>Order</th>
                             <th>Status</th>
                             <th>Actions</th>
@@ -49,6 +50,13 @@
                                     <span class="control-panel-text-muted">
                                         {{ Str::limit($product->description, 60) }}
                                     </span>
+                                </td>
+                                <td>
+                                    @if($product->price)
+                                        <span class="control-panel-badge control-panel-badge-primary">${{ number_format($product->price, 2) }}</span>
+                                    @else
+                                        <span class="control-panel-badge control-panel-badge-secondary">No price</span>
+                                    @endif
                                 </td>
                                 <td>
                                     <span class="control-panel-badge">{{ $product->order }}</span>

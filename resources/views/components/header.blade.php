@@ -53,7 +53,7 @@
                     </ul>
                 </li>
                 <li><a href="{{ $headerSetting->nav_experience_url ?? '/experience-center' }}" class="{{ navActive('experience-center') }}"><span class="nav-icon ph ph-buildings"></span><span class="nav-text">{{ $headerSetting->nav_experience_text }}</span></a></li>
-                <li><a href="{{ $headerSetting->nav_hostal_url ?? '/hostal' }}" class="{{ navActive('hostal') }}" target="_blank" rel="noopener noreferrer"><span class="nav-icon ph ph-house-simple"></span><span class="nav-text">{{ $headerSetting->nav_hostal_text }}</span></a></li>
+                <li><a href="{{ $headerSetting->nav_hostal_url ?? 'https://elpatiohostels.com' }}" class="{{ navActive('hostal') }}" target="_blank" rel="noopener noreferrer"><span class="nav-icon ph ph-house-simple"></span><span class="nav-text">{{ $headerSetting->nav_hostal_text }}</span></a></li>
                 <li><a href="{{ $headerSetting->nav_contact_url ?? '/contact' }}" class="{{ navActive('contact') }}"><span class="nav-icon ph ph-envelope-simple"></span><span class="nav-text">{{ $headerSetting->nav_contact_text }}</span></a></li>
             </ul>
             <a href="#" id="whatsapp-link" class="header-whatsapp-link" title="WhatsApp">

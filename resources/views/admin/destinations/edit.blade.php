@@ -57,6 +57,10 @@
                 <i class="ph ph-info"></i>
                 Información básica
             </button>
+            <button class="tab-button" data-tab="gallery">
+                <i class="ph ph-images"></i>
+                Fotos
+            </button>
             <button class="tab-button" data-tab="location">
                 <i class="ph ph-map-pin"></i>
                 Ubicación
@@ -69,6 +73,18 @@
                 <i class="ph ph-road-horizon"></i>
                 Acceso
             </button>
+            <button class="tab-button" data-tab="activities">
+                <i class="ph ph-activity"></i>
+                Actividades
+            </button>
+            <button class="tab-button" data-tab="services">
+                <i class="ph ph-gear"></i>
+                Servicios
+            </button>
+            <button class="tab-button" data-tab="recommendations">
+                <i class="ph ph-lightbulb"></i>
+                Recomendaciones
+            </button>
             <button class="tab-button" data-tab="schedule">
                 <i class="ph ph-clock"></i>
                 Horario
@@ -77,21 +93,9 @@
                 <i class="ph ph-phone"></i>
                 Contacto
             </button>
-            <button class="tab-button" data-tab="activities">
-                <i class="ph ph-activity"></i>
-                Actividades
-            </button>
-            <button class="tab-button" data-tab="recommendations">
-                <i class="ph ph-lightbulb"></i>
-                Recomendaciones
-            </button>
             <button class="tab-button" data-tab="audience">
                 <i class="ph ph-users"></i>
                 Público objetivo
-            </button>
-            <button class="tab-button" data-tab="services">
-                <i class="ph ph-gear"></i>
-                Servicios
             </button>
             <button class="tab-button" data-tab="pricing">
                 <i class="ph ph-currency-dollar"></i>
@@ -104,10 +108,6 @@
             <button class="tab-button" data-tab="challenges">
                 <i class="ph ph-warning"></i>
                 Retos
-            </button>
-            <button class="tab-button" data-tab="gallery">
-                <i class="ph ph-images"></i>
-                Fotos
             </button>
         </div>
 
@@ -182,6 +182,61 @@
                 </div>
             </div>
 
+            <!-- Gallery Tab -->
+            <div class="tab-content" id="gallery-tab">
+                <h3 class="tab-title">Galería de fotos</h3>
+                <div class="form-group">
+                    <label for="gallery_images">Subir fotos (máx. 8 fotos, 5MB cada una)</label>
+                    <div class="file-upload-area">
+                        <input type="file" id="gallery_images" name="gallery_images[]" multiple accept="image/*" class="file-input">
+                        <div class="upload-placeholder">
+                            <i class="ph ph-upload"></i>
+                            <p>Arrastra y suelta fotos aquí o haz clic para buscar</p>
+                            <small>JPEG, PNG, JPG, GIF hasta 5MB cada una</small>
+                        </div>
+                    </div>
+                    @error('gallery_images.*')
+                        <span class="error-text">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <!-- Preview Area for New Images -->
+                <div id="imagePreviewContainer" class="image-preview-container" style="display: none;">
+                        <h4>Nuevas imágenes para subir</h4>
+                    <div id="imagePreviewGrid" class="gallery-grid"></div>
+                </div>
+
+                @if($destination->gallery_images && count($destination->gallery_images) > 0)
+                    <div class="existing-gallery">
+                        <h4>Fotos actuales</h4>
+                    <div style="margin-bottom: 0.5rem; color: #444; font-size: 0.98rem;">
+                        <strong>Nota:</strong> El tamaño máximo de imagen es 5MB. La <strong>primera foto</strong> de esta galería se mostrará como imagen principal en la sección hero de la página del destino.
+                    </div>
+                        <div class="gallery-grid" id="galleryGrid">
+                            @foreach($destination->gallery_images as $index => $image)
+                                <div class="gallery-item" data-index="{{ $index }}">
+                                    <div class="gallery-position-badge" style="position:absolute;top:8px;left:8px;background:#222;color:#fff;padding:2px 8px;border-radius:12px;font-size:0.9rem;z-index:2;">{{ $index + 1 }}</div>
+                                    <img src="{{ Storage::url($image) }}" alt="Gallery image {{ $index + 1 }}">
+                                    <div class="gallery-item-actions">
+                                        <button type="button" class="move-left" data-index="{{ $index }}" @if($index == 0) disabled @endif>
+                                            <i class="ph ph-arrow-left"></i>
+                                        </button>
+                                        <button type="button" class="move-right" data-index="{{ $index }}" @if($index == count($destination->gallery_images) - 1) disabled @endif>
+                                            <i class="ph ph-arrow-right"></i>
+                                        </button>
+                                        <button type="button" class="remove-gallery-image" data-index="{{ $index }}">
+                                            <i class="ph ph-trash"></i>
+                                        </button>
+                                    </div>
+                                    <input type="hidden" name="existing_gallery_images[]" value="{{ $image }}">
+                                </div>
+                            @endforeach
+                            <input type="hidden" id="galleryOrderInput" name="gallery_order" value="{{ implode(',', $destination->gallery_images) }}">
+                        </div>
+                    </div>
+                @endif
+            </div>
+
             <!-- Location Tab -->
             <div class="tab-content" id="location-tab">
                 <h3 class="tab-title">Detalles de ubicación</h3>
@@ -235,18 +290,18 @@
                 <div class="climate-seasons">
                     <!-- Dry Season -->
                     <div class="season-group">
-                        <h4><i class="fas fa-sun"></i> Dry Season</h4>
+                        <h4><i class="fas fa-sun"></i> Época Seca</h4>
                         <div class="form-grid">
                             <div class="form-group">
-                                <label for="dry_season_name">Season Name</label>
+                                <label for="dry_season_name">Nombre de la Temporada</label>
                                 <input type="text" id="dry_season_name" name="climate_dry_season[name]" value="{{ old('climate_dry_season.name', $destination->climate_dry_season['name'] ?? 'Época Seca') }}">
                             </div>
                             <div class="form-group">
-                                <label for="dry_season_months">Months</label>
+                                <label for="dry_season_months">Meses</label>
                                 <input type="text" id="dry_season_months" name="climate_dry_season[months]" value="{{ old('climate_dry_season.months', $destination->climate_dry_season['months'] ?? '') }}">
                             </div>
                             <div class="form-group">
-                                <label for="dry_season_temperature">Temperature</label>
+                                <label for="dry_season_temperature">Temperatura</label>
                                 <input type="number" id="dry_season_temperature" name="climate_dry_season[temperature]" value="{{ old('climate_dry_season.temperature', $destination->climate_dry_season['temperature'] ?? '') }}" placeholder="27" step="0.1">
                                 <small class="help-text">Ingrese solo el número (ej: 27). Los símbolos °C/°F se agregan automáticamente.</small>
                             </div>
@@ -255,18 +310,18 @@
                     
                     <!-- Wet Season -->
                     <div class="season-group">
-                        <h4><i class="fas fa-cloud-rain"></i> Wet Season</h4>
+                        <h4><i class="fas fa-cloud-rain"></i> Época Húmeda</h4>
                         <div class="form-grid">
                             <div class="form-group">
-                                <label for="wet_season_name">Season Name</label>
+                                <label for="wet_season_name">Nombre de la Temporada</label>
                                 <input type="text" id="wet_season_name" name="climate_wet_season[name]" value="{{ old('climate_wet_season.name', $destination->climate_wet_season['name'] ?? 'Época Húmeda') }}">
                             </div>
                             <div class="form-group">
-                                <label for="wet_season_months">Months</label>
+                                <label for="wet_season_months">Meses</label>
                                 <input type="text" id="wet_season_months" name="climate_wet_season[months]" value="{{ old('climate_wet_season.months', $destination->climate_wet_season['months'] ?? '') }}">
                             </div>
                             <div class="form-group">
-                                <label for="wet_season_temperature">Temperature</label>
+                                <label for="wet_season_temperature">Temperatura</label>
                                 <input type="number" id="wet_season_temperature" name="climate_wet_season[temperature]" value="{{ old('climate_wet_season.temperature', $destination->climate_wet_season['temperature'] ?? '') }}" placeholder="20" step="0.1">
                                 <small class="help-text">Ingrese solo el número (ej: 20). Los símbolos °C/°F se agregan automáticamente.</small>
                             </div>
@@ -321,6 +376,273 @@
                         @error('access_time')
                             <span class="error-text">{{ $message }}</span>
                         @enderror
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activities Tab -->
+            <div class="tab-content" id="activities-tab">
+                <h3 class="tab-title">Actividades turísticas</h3>
+                <div class="dynamic-list" id="activities-list">
+                    <div class="list-header">
+                        <h4>Lista de Actividades</h4>
+                        <button type="button" class="control-panel-button add-item-btn" data-list="activities">
+                            <i class="fas fa-plus"></i> Agregar Actividad
+                        </button>
+                        <button type="button" class="control-panel-button" id="open-activities-icons-list-modal">
+                            <i class="ph ph-list"></i> Lista de Iconos
+                        </button>
+                        <small style="color:#666;">Busca y copia el nombre del ícono desde la lista o visita <a href="https://phosphoricons.com" target="_blank" rel="noopener">phosphoricons.com</a></small>
+        <!-- Activities Icons List Modal -->
+        <div id="activitiesIconsListModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:9999; align-items:center; justify-content:center;">
+            <div style="background:#fff; max-width:480px; width:90vw; max-height:80vh; border-radius:12px; box-shadow:0 2px 24px #2225; padding:2rem 1.5rem; overflow:auto; position:relative;">
+                <h3 style="margin-top:0; margin-bottom:1rem; font-size:1.3rem;">Nombres de Iconos Phosphor</h3>
+                <button type="button" id="close-activities-icons-list-modal" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
+                <input type="text" id="activitiesIconFilterInput" placeholder="Filtrar iconos..." style="width:100%; margin-bottom:0.75rem; padding:0.4rem 0.7rem; font-size:1rem; border:1px solid #ddd; border-radius:6px;">
+                <div style="max-height:60vh; overflow-y:auto; border:1px solid #eee; border-radius:8px; padding:0.5rem 0.75rem; background:#fafafa;">
+                    <ul id="activitiesIconsListUl" style="list-style:none; margin:0; padding:0; font-size:1.05rem;">
+                        @foreach(file(public_path('assets/phosphor-icon-names.txt')) as $iconName)
+                            <li style="padding:2px 0; border-bottom:1px solid #f0f0f0;">{{ trim($iconName) }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </div>
+                    </div>
+                    <div class="items-container">
+                        @if($destination->activities)
+                            @foreach($destination->activities as $index => $activity)
+                                <div class="dynamic-item">
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label>Ícono de Actividad</label>
+                                            <input type="text" name="activities[{{ $index }}][icon]" value="{{ $activity['icon'] ?? 'ph ph-activity' }}" placeholder="ph ph-activity">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Nombre de la Actividad</label>
+                                            <input type="text" name="activities[{{ $index }}][name]" value="{{ $activity['name'] ?? $activity }}" required>
+                        <input type="text" name="activities[{{ $index }}][name]" value="{{ $activity['name'] ?? $activity }}">
+                                        </div>
+                                    </div>
+                                    <button type="button" class="remove-item-btn">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            @endforeach
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+            <!-- Services Tab -->
+            <div class="tab-content" id="services-tab">
+                <h3 class="tab-title">Servicios e instalaciones</h3>
+                <div class="dynamic-list" id="services-list">
+                    <div class="list-header">
+                        <h4>Servicios Disponibles</h4>
+                        <button type="button" class="control-panel-button add-item-btn" data-list="services">
+                            <i class="fas fa-plus"></i> Agregar Servicio
+                        </button>
+                        <button type="button" class="control-panel-button" id="open-icons-list-modal">
+                            <i class="ph ph-list"></i> Lista de Iconos
+                        </button>
+                        <small style="color:#666;">Busca y copia el nombre del ícono desde la lista o visita <a href="https://phosphoricons.com" target="_blank" rel="noopener">phosphoricons.com</a></small>
+        <!-- Icons List Modal -->
+        <div id="iconsListModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:9999; align-items:center; justify-content:center;">
+            <div style="background:#fff; max-width:480px; width:90vw; max-height:80vh; border-radius:12px; box-shadow:0 2px 24px #2225; padding:2rem 1.5rem; overflow:auto; position:relative;">
+                <h3 style="margin-top:0; margin-bottom:1rem; font-size:1.3rem;">Nombres de Iconos Phosphor</h3>
+                <button type="button" id="close-icons-list-modal" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
+                <input type="text" id="iconFilterInput" placeholder="Filtrar iconos..." style="width:100%; margin-bottom:0.75rem; padding:0.4rem 0.7rem; font-size:1rem; border:1px solid #ddd; border-radius:6px;">
+                <div style="max-height:60vh; overflow-y:auto; border:1px solid #eee; border-radius:8px; padding:0.5rem 0.75rem; background:#fafafa;">
+                    <ul id="iconsListUl" style="list-style:none; margin:0; padding:0; font-size:1.05rem;">
+                        @foreach(file(public_path('assets/phosphor-icon-names.txt')) as $iconName)
+                            <li style="padding:2px 0; border-bottom:1px solid #f0f0f0;">{{ trim($iconName) }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </div>
+                    </div>
+                    <div class="items-container">
+                        @if($destination->services && count($destination->services) > 0)
+                            @foreach($destination->services as $index => $service)
+                                <div class="dynamic-item">
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label>Ícono del Servicio</label>
+                                            <input type="text" name="services[{{ $index }}][icon]" value="{{ $service['icon'] ?? 'ph ph-gear' }}" placeholder="ph ph-gear">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Nombre del Servicio</label>
+                                            <input type="text" name="services[{{ $index }}][name]" value="{{ $service['name'] ?? $service }}" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Disponible</label>
+                                            <select name="services[{{ $index }}][available]">
+                                                <option value="1" {{ (isset($service['available']) && $service['available']) ? 'selected' : '' }}>Sí</option>
+                                                <option value="0" {{ (isset($service['available']) && !$service['available']) ? 'selected' : '' }}>No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="remove-item-btn">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="dynamic-item">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label>Ícono del Servicio</label>
+                                        <input type="text" name="services[0][icon]" value="ph ph-gear" placeholder="ph ph-gear">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Nombre del Servicio</label>
+                                        <input type="text" name="services[0][name]">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Disponible</label>
+                                        <select name="services[0][available]">
+                                            <option value="1">Sí</option>
+                                            <option value="0">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button type="button" class="remove-item-btn">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommendations Tab -->
+            <div class="tab-content" id="recommendations-tab">
+                <h3 class="tab-title">Recomendaciones para turistas</h3>
+                
+                <!-- Difficulty Level -->
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="difficulty_level">Nivel de Dificultad</label>
+                        <select id="difficulty_level" name="difficulty_level" class="control-panel-select">
+                            <option value="">Seleccionar nivel</option>
+                            <option value="1" {{ old('difficulty_level', $destination->difficulty_level) == 1 ? 'selected' : '' }}>
+                                1 - Fácil
+                            </option>
+                            <option value="2" {{ old('difficulty_level', $destination->difficulty_level) == 2 ? 'selected' : '' }}>
+                                2 - Moderado
+                            </option>
+                            <option value="3" {{ old('difficulty_level', $destination->difficulty_level) == 3 ? 'selected' : '' }}>
+                                3 - Difícil
+                            </option>
+                        </select>
+                        <small class="form-help">Nivel de dificultad para acceder al destino</small>
+                        @error('difficulty_level')
+                            <span class="error-text">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+                
+                <!-- Considerations Dynamic List -->
+                <div class="dynamic-list" id="considerations-list">
+                    <div class="list-header">
+                        <h4>Ten en Cuenta Que (Consideraciones)</h4>
+                        <button type="button" class="control-panel-button add-item-btn" data-list="considerations">
+                            <i class="fas fa-plus"></i> Agregar Consideración
+                        </button>
+                        <button type="button" class="control-panel-button" id="open-considerations-icons-list-modal">
+                            <i class="ph ph-list"></i> Ver Iconos
+                        </button>
+                        <small style="color:#666;">Busca y copia el nombre del ícono desde la lista o visita <a href="https://phosphoricons.com" target="_blank" rel="noopener">phosphoricons.com</a></small>
+                        
+                        <!-- Considerations Icons List Modal -->
+                        <div id="considerationsIconsListModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:9999; align-items:center; justify-content:center;">
+                            <div style="background:#fff; max-width:480px; width:90vw; max-height:80vh; border-radius:12px; box-shadow:0 2px 24px #2225; padding:2rem 1.5rem; overflow:auto; position:relative;">
+                                <h3 style="margin-top:0; margin-bottom:1rem; font-size:1.3rem;">Nombres de Iconos Phosphor</h3>
+                                <button type="button" id="close-considerations-icons-list-modal" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
+                                <input type="text" id="considerationsIconFilterInput" placeholder="Filtrar iconos..." style="width:100%; margin-bottom:0.75rem; padding:0.4rem 0.7rem; font-size:1rem; border:1px solid #ddd; border-radius:6px;">
+                                <div style="max-height:60vh; overflow-y:auto; border:1px solid #eee; border-radius:8px; padding:0.5rem 0.75rem; background:#fafafa;">
+                                    <ul id="considerationsIconsListUl" style="list-style:none; margin:0; padding:0; font-size:1.05rem;">
+                                        @foreach(file(public_path('assets/phosphor-icon-names.txt')) as $iconName)
+                                            <li style="padding:2px 0; border-bottom:1px solid #f0f0f0;">{{ trim($iconName) }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="items-container">
+                        @if($destination->considerations && count($destination->considerations) > 0)
+                            @foreach($destination->considerations as $index => $consideration)
+                                <div class="dynamic-item">
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label>Icono</label>
+                                            <input type="text" name="considerations[{{ $index }}][icon]" value="{{ $consideration['icon'] ?? 'ph ph-warning-circle' }}" placeholder="ph ph-warning-circle">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Texto de Consideración</label>
+                                            <input type="text" name="considerations[{{ $index }}][text]" value="{{ $consideration['text'] ?? '' }}" required>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="remove-item-btn">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            @endforeach
+                        @endif
+                    </div>
+                </div>
+                
+                <!-- What to Bring Dynamic List -->
+                <div class="dynamic-list" id="what-to-bring-list">
+                    <div class="list-header">
+                        <h4>Qué Llevar (Elementos Recomendados)</h4>
+                        <button type="button" class="control-panel-button add-item-btn" data-list="what-to-bring">
+                            <i class="fas fa-plus"></i> Agregar Elemento
+                        </button>
+                        <button type="button" class="control-panel-button" id="open-what-to-bring-icons-list-modal">
+                            <i class="ph ph-list"></i> Ver Iconos
+                        </button>
+                        <small style="color:#666;">Busca y copia el nombre del ícono desde la lista o visita <a href="https://phosphoricons.com" target="_blank" rel="noopener">phosphoricons.com</a></small>
+                        
+                        <!-- What to Bring Icons List Modal -->
+                        <div id="whatToBringIconsListModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:9999; align-items:center; justify-content:center;">
+                            <div style="background:#fff; max-width:480px; width:90vw; max-height:80vh; border-radius:12px; box-shadow:0 2px 24px #2225; padding:2rem 1.5rem; overflow:auto; position:relative;">
+                                <h3 style="margin-top:0; margin-bottom:1rem; font-size:1.3rem;">Nombres de Iconos Phosphor</h3>
+                                <button type="button" id="close-what-to-bring-icons-list-modal" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
+                                <input type="text" id="whatToBringIconFilterInput" placeholder="Filtrar iconos..." style="width:100%; margin-bottom:0.75rem; padding:0.4rem 0.7rem; font-size:1rem; border:1px solid #ddd; border-radius:6px;">
+                                <div style="max-height:60vh; overflow-y:auto; border:1px solid #eee; border-radius:8px; padding:0.5rem 0.75rem; background:#fafafa;">
+                                    <ul id="whatToBringIconsListUl" style="list-style:none; margin:0; padding:0; font-size:1.05rem;">
+                                        @foreach(file(public_path('assets/phosphor-icon-names.txt')) as $iconName)
+                                            <li style="padding:2px 0; border-bottom:1px solid #f0f0f0;">{{ trim($iconName) }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="items-container">
+                        @if($destination->what_to_bring && count($destination->what_to_bring) > 0)
+                            @foreach($destination->what_to_bring as $index => $item)
+                                <div class="dynamic-item">
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label>Icono</label>
+                                            <input type="text" name="what_to_bring[{{ $index }}][icon]" value="{{ $item['icon'] ?? 'ph ph-backpack' }}" placeholder="ph ph-backpack">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Elemento Recomendado</label>
+                                            <input type="text" name="what_to_bring[{{ $index }}][text]" value="{{ $item['text'] ?? '' }}" required>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="remove-item-btn">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
                 </div>
             </div>
@@ -401,187 +723,6 @@
                 </div>
             </div>
 
-            <!-- Activities Tab -->
-            <div class="tab-content" id="activities-tab">
-                <h3 class="tab-title">Actividades turísticas</h3>
-                <div class="dynamic-list" id="activities-list">
-                    <div class="list-header">
-                        <h4>Lista de Actividades</h4>
-                        <button type="button" class="control-panel-button add-item-btn" data-list="activities">
-                            <i class="fas fa-plus"></i> Agregar Actividad
-                        </button>
-                        <button type="button" class="control-panel-button" id="open-activities-icons-list-modal">
-                            <i class="ph ph-list"></i> Lista de Iconos
-                        </button>
-        <!-- Activities Icons List Modal -->
-        <div id="activitiesIconsListModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:9999; align-items:center; justify-content:center;">
-            <div style="background:#fff; max-width:480px; width:90vw; max-height:80vh; border-radius:12px; box-shadow:0 2px 24px #2225; padding:2rem 1.5rem; overflow:auto; position:relative;">
-                <h3 style="margin-top:0; margin-bottom:1rem; font-size:1.3rem;">Nombres de Iconos Phosphor</h3>
-                <button type="button" id="close-activities-icons-list-modal" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
-                <input type="text" id="activitiesIconFilterInput" placeholder="Filtrar iconos..." style="width:100%; margin-bottom:0.75rem; padding:0.4rem 0.7rem; font-size:1rem; border:1px solid #ddd; border-radius:6px;">
-                <div style="max-height:60vh; overflow-y:auto; border:1px solid #eee; border-radius:8px; padding:0.5rem 0.75rem; background:#fafafa;">
-                    <ul id="activitiesIconsListUl" style="list-style:none; margin:0; padding:0; font-size:1.05rem;">
-                        @foreach(file(public_path('assets/phosphor-icon-names.txt')) as $iconName)
-                            <li style="padding:2px 0; border-bottom:1px solid #f0f0f0;">{{ trim($iconName) }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-        </div>
-                    </div>
-                    <div class="items-container">
-                        @if($destination->activities)
-                            @foreach($destination->activities as $index => $activity)
-                                <div class="dynamic-item">
-                                    <div class="form-grid">
-                                        <div class="form-group">
-                                            <label>Ícono de Actividad</label>
-                                            <input type="text" name="activities[{{ $index }}][icon]" value="{{ $activity['icon'] ?? 'ph ph-activity' }}" placeholder="ph ph-activity">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Nombre de la Actividad</label>
-                                            <input type="text" name="activities[{{ $index }}][name]" value="{{ $activity['name'] ?? $activity }}" required>
-                        <input type="text" name="activities[{{ $index }}][name]" value="{{ $activity['name'] ?? $activity }}">
-                                        </div>
-                                    </div>
-                                    <button type="button" class="remove-item-btn">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            @endforeach
-                        @endif
-                    </div>
-                </div>
-            </div>
-
-            <!-- Recommendations Tab -->
-            <div class="tab-content" id="recommendations-tab">
-                <h3 class="tab-title">Recomendaciones para turistas</h3>
-                
-                <!-- Difficulty Level -->
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="difficulty_level">Nivel de Dificultad</label>
-                        <select id="difficulty_level" name="difficulty_level" class="control-panel-select">
-                            <option value="">Seleccionar nivel</option>
-                            <option value="1" {{ old('difficulty_level', $destination->difficulty_level) == 1 ? 'selected' : '' }}>
-                                1 - Fácil
-                            </option>
-                            <option value="2" {{ old('difficulty_level', $destination->difficulty_level) == 2 ? 'selected' : '' }}>
-                                2 - Moderado
-                            </option>
-                            <option value="3" {{ old('difficulty_level', $destination->difficulty_level) == 3 ? 'selected' : '' }}>
-                                3 - Difícil
-                            </option>
-                        </select>
-                        <small class="form-help">Nivel de dificultad para acceder al destino</small>
-                        @error('difficulty_level')
-                            <span class="error-text">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
-                
-                <!-- Considerations Dynamic List -->
-                <div class="dynamic-list" id="considerations-list">
-                    <div class="list-header">
-                        <h4>Ten en Cuenta Que (Consideraciones)</h4>
-                        <button type="button" class="control-panel-button add-item-btn" data-list="considerations">
-                            <i class="fas fa-plus"></i> Agregar Consideración
-                        </button>
-                        <button type="button" class="control-panel-button" id="open-considerations-icons-list-modal">
-                            <i class="ph ph-list"></i> Ver Iconos
-                        </button>
-                        
-                        <!-- Considerations Icons List Modal -->
-                        <div id="considerationsIconsListModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:9999; align-items:center; justify-content:center;">
-                            <div style="background:#fff; max-width:480px; width:90vw; max-height:80vh; border-radius:12px; box-shadow:0 2px 24px #2225; padding:2rem 1.5rem; overflow:auto; position:relative;">
-                                <h3 style="margin-top:0; margin-bottom:1rem; font-size:1.3rem;">Nombres de Iconos Phosphor</h3>
-                                <button type="button" id="close-considerations-icons-list-modal" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
-                                <input type="text" id="considerationsIconFilterInput" placeholder="Filtrar iconos..." style="width:100%; margin-bottom:0.75rem; padding:0.4rem 0.7rem; font-size:1rem; border:1px solid #ddd; border-radius:6px;">
-                                <div style="max-height:60vh; overflow-y:auto; border:1px solid #eee; border-radius:8px; padding:0.5rem 0.75rem; background:#fafafa;">
-                                    <ul id="considerationsIconsListUl" style="list-style:none; margin:0; padding:0; font-size:1.05rem;">
-                                        @foreach(file(public_path('assets/phosphor-icon-names.txt')) as $iconName)
-                                            <li style="padding:2px 0; border-bottom:1px solid #f0f0f0;">{{ trim($iconName) }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="items-container">
-                        @if($destination->considerations && count($destination->considerations) > 0)
-                            @foreach($destination->considerations as $index => $consideration)
-                                <div class="dynamic-item">
-                                    <div class="form-grid">
-                                        <div class="form-group">
-                                            <label>Icono</label>
-                                            <input type="text" name="considerations[{{ $index }}][icon]" value="{{ $consideration['icon'] ?? 'ph ph-warning-circle' }}" placeholder="ph ph-warning-circle">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Texto de Consideración</label>
-                                            <input type="text" name="considerations[{{ $index }}][text]" value="{{ $consideration['text'] ?? '' }}" required>
-                                        </div>
-                                    </div>
-                                    <button type="button" class="remove-item-btn">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            @endforeach
-                        @endif
-                    </div>
-                </div>
-                
-                <!-- What to Bring Dynamic List -->
-                <div class="dynamic-list" id="what-to-bring-list">
-                    <div class="list-header">
-                        <h4>Qué Llevar (Elementos Recomendados)</h4>
-                        <button type="button" class="control-panel-button add-item-btn" data-list="what-to-bring">
-                            <i class="fas fa-plus"></i> Agregar Elemento
-                        </button>
-                        <button type="button" class="control-panel-button" id="open-what-to-bring-icons-list-modal">
-                            <i class="ph ph-list"></i> Ver Iconos
-                        </button>
-                        
-                        <!-- What to Bring Icons List Modal -->
-                        <div id="whatToBringIconsListModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:9999; align-items:center; justify-content:center;">
-                            <div style="background:#fff; max-width:480px; width:90vw; max-height:80vh; border-radius:12px; box-shadow:0 2px 24px #2225; padding:2rem 1.5rem; overflow:auto; position:relative;">
-                                <h3 style="margin-top:0; margin-bottom:1rem; font-size:1.3rem;">Nombres de Iconos Phosphor</h3>
-                                <button type="button" id="close-what-to-bring-icons-list-modal" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
-                                <input type="text" id="whatToBringIconFilterInput" placeholder="Filtrar iconos..." style="width:100%; margin-bottom:0.75rem; padding:0.4rem 0.7rem; font-size:1rem; border:1px solid #ddd; border-radius:6px;">
-                                <div style="max-height:60vh; overflow-y:auto; border:1px solid #eee; border-radius:8px; padding:0.5rem 0.75rem; background:#fafafa;">
-                                    <ul id="whatToBringIconsListUl" style="list-style:none; margin:0; padding:0; font-size:1.05rem;">
-                                        @foreach(file(public_path('assets/phosphor-icon-names.txt')) as $iconName)
-                                            <li style="padding:2px 0; border-bottom:1px solid #f0f0f0;">{{ trim($iconName) }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="items-container">
-                        @if($destination->what_to_bring && count($destination->what_to_bring) > 0)
-                            @foreach($destination->what_to_bring as $index => $item)
-                                <div class="dynamic-item">
-                                    <div class="form-grid">
-                                        <div class="form-group">
-                                            <label>Icono</label>
-                                            <input type="text" name="what_to_bring[{{ $index }}][icon]" value="{{ $item['icon'] ?? 'ph ph-backpack' }}" placeholder="ph ph-backpack">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Elemento Recomendado</label>
-                                            <input type="text" name="what_to_bring[{{ $index }}][text]" value="{{ $item['text'] ?? '' }}" required>
-                                        </div>
-                                    </div>
-                                    <button type="button" class="remove-item-btn">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            @endforeach
-                        @endif
-                    </div>
-                </div>
-            </div>
-
             <!-- Audience Tab -->
             <div class="tab-content" id="audience-tab">
                 <h3 class="tab-title">Público objetivo</h3>
@@ -624,88 +765,6 @@
                         @error('target_audience_stay')
                             <span class="error-text">{{ $message }}</span>
                         @enderror
-                    </div>
-                </div>
-            </div>
-
-            <!-- Services Tab -->
-            <div class="tab-content" id="services-tab">
-                <h3 class="tab-title">Servicios e instalaciones</h3>
-                <div class="dynamic-list" id="services-list">
-                    <div class="list-header">
-                        <h4>Servicios Disponibles</h4>
-                        <button type="button" class="control-panel-button add-item-btn" data-list="services">
-                            <i class="fas fa-plus"></i> Agregar Servicio
-                        </button>
-                        <button type="button" class="control-panel-button" id="open-icons-list-modal">
-                            <i class="ph ph-list"></i> Lista de Iconos
-                        </button>
-        <!-- Icons List Modal -->
-        <div id="iconsListModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:9999; align-items:center; justify-content:center;">
-            <div style="background:#fff; max-width:480px; width:90vw; max-height:80vh; border-radius:12px; box-shadow:0 2px 24px #2225; padding:2rem 1.5rem; overflow:auto; position:relative;">
-                <h3 style="margin-top:0; margin-bottom:1rem; font-size:1.3rem;">Nombres de Iconos Phosphor</h3>
-                <button type="button" id="close-icons-list-modal" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
-                <input type="text" id="iconFilterInput" placeholder="Filtrar iconos..." style="width:100%; margin-bottom:0.75rem; padding:0.4rem 0.7rem; font-size:1rem; border:1px solid #ddd; border-radius:6px;">
-                <div style="max-height:60vh; overflow-y:auto; border:1px solid #eee; border-radius:8px; padding:0.5rem 0.75rem; background:#fafafa;">
-                    <ul id="iconsListUl" style="list-style:none; margin:0; padding:0; font-size:1.05rem;">
-                        @foreach(file(public_path('assets/phosphor-icon-names.txt')) as $iconName)
-                            <li style="padding:2px 0; border-bottom:1px solid #f0f0f0;">{{ trim($iconName) }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-        </div>
-                    </div>
-                    <div class="items-container">
-                        @if($destination->services && count($destination->services) > 0)
-                            @foreach($destination->services as $index => $service)
-                                <div class="dynamic-item">
-                                    <div class="form-grid">
-                                        <div class="form-group">
-                                            <label>Ícono del Servicio</label>
-                                            <input type="text" name="services[{{ $index }}][icon]" value="{{ $service['icon'] ?? 'ph ph-gear' }}" placeholder="ph ph-gear">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Nombre del Servicio</label>
-                                            <input type="text" name="services[{{ $index }}][name]" value="{{ $service['name'] ?? $service }}" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Disponible</label>
-                                            <select name="services[{{ $index }}][available]">
-                                                <option value="1" {{ (isset($service['available']) && $service['available']) ? 'selected' : '' }}>Sí</option>
-                                                <option value="0" {{ (isset($service['available']) && !$service['available']) ? 'selected' : '' }}>No</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <button type="button" class="remove-item-btn">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            @endforeach
-                        @else
-                            <div class="dynamic-item">
-                                <div class="form-grid">
-                                    <div class="form-group">
-                                        <label>Ícono del Servicio</label>
-                                        <input type="text" name="services[0][icon]" value="ph ph-gear" placeholder="ph ph-gear">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Nombre del Servicio</label>
-                                        <input type="text" name="services[0][name]">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Disponible</label>
-                                        <select name="services[0][available]">
-                                            <option value="1">Sí</option>
-                                            <option value="0">No</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <button type="button" class="remove-item-btn">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        @endif
                     </div>
                 </div>
             </div>
@@ -827,61 +886,6 @@
                         <textarea id="environmental_challenges_description" name="environmental_challenges[0][description]" rows="3" required>{{ old('environmental_challenges.0.description', $destination->environmental_challenges[0]['description'] ?? 'Generación de residuos, especialmente plásticos en feriados que contaminan el entorno natural y marino.') }}</textarea>
                     </div>
                 </div>
-            </div>
-
-            <!-- Gallery Tab -->
-            <div class="tab-content" id="gallery-tab">
-                <h3 class="tab-title">Galería de fotos</h3>
-                <div class="form-group">
-                    <label for="gallery_images">Subir fotos (máx. 8 fotos, 5MB cada una)</label>
-                    <div class="file-upload-area">
-                        <input type="file" id="gallery_images" name="gallery_images[]" multiple accept="image/*" class="file-input">
-                        <div class="upload-placeholder">
-                            <i class="ph ph-upload"></i>
-                            <p>Arrastra y suelta fotos aquí o haz clic para buscar</p>
-                            <small>JPEG, PNG, JPG, GIF hasta 5MB cada una</small>
-                        </div>
-                    </div>
-                    @error('gallery_images.*')
-                        <span class="error-text">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <!-- Preview Area for New Images -->
-                <div id="imagePreviewContainer" class="image-preview-container" style="display: none;">
-                        <h4>Nuevas imágenes para subir</h4>
-                    <div id="imagePreviewGrid" class="gallery-grid"></div>
-                </div>
-
-                @if($destination->gallery_images && count($destination->gallery_images) > 0)
-                    <div class="existing-gallery">
-                        <h4>Fotos actuales</h4>
-                    <div style="margin-bottom: 0.5rem; color: #444; font-size: 0.98rem;">
-                        <strong>Nota:</strong> El tamaño máximo de imagen es 5MB. La <strong>primera foto</strong> de esta galería se mostrará como imagen principal en la sección hero de la página del destino.
-                    </div>
-                        <div class="gallery-grid" id="galleryGrid">
-                            @foreach($destination->gallery_images as $index => $image)
-                                <div class="gallery-item" data-index="{{ $index }}">
-                                    <div class="gallery-position-badge" style="position:absolute;top:8px;left:8px;background:#222;color:#fff;padding:2px 8px;border-radius:12px;font-size:0.9rem;z-index:2;">{{ $index + 1 }}</div>
-                                    <img src="{{ Storage::url($image) }}" alt="Gallery image {{ $index + 1 }}">
-                                    <div class="gallery-item-actions">
-                                        <button type="button" class="move-left" data-index="{{ $index }}" @if($index == 0) disabled @endif>
-                                            <i class="ph ph-arrow-left"></i>
-                                        </button>
-                                        <button type="button" class="move-right" data-index="{{ $index }}" @if($index == count($destination->gallery_images) - 1) disabled @endif>
-                                            <i class="ph ph-arrow-right"></i>
-                                        </button>
-                                        <button type="button" class="remove-gallery-image" data-index="{{ $index }}">
-                                            <i class="ph ph-trash"></i>
-                                        </button>
-                                    </div>
-                                    <input type="hidden" name="existing_gallery_images[]" value="{{ $image }}">
-                                </div>
-                            @endforeach
-                            <input type="hidden" id="galleryOrderInput" name="gallery_order" value="{{ implode(',', $destination->gallery_images) }}">
-                        </div>
-                    </div>
-                @endif
             </div>
 
             <!-- Form Actions -->
@@ -1223,15 +1227,15 @@
                     <div class="dynamic-item">
                         <div class="form-grid">
                             <div class="form-group">
-                                <label>Criteria Name</label>
+                                <label>Nombre del Criterio</label>
                                 <input type="text" name="tourism_criteria[${itemCount}][name]" required>
                             </div>
                             <div class="form-group">
-                                <label>Status</label>
+                                <label>Estado</label>
                                 <select name="tourism_criteria[${itemCount}][status]" required>
-                                    <option value="positive">Positive</option>
+                                    <option value="positive">Positivo</option>
                                     <option value="neutral">Neutral</option>
-                                    <option value="negative">Negative</option>
+                                    <option value="negative">Negativo</option>
                                 </select>
                             </div>
                         </div>

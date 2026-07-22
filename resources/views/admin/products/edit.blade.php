@@ -1,5 +1,16 @@
 <x-control-panel-layout>
-    <div class="control-panel-card control-panel-with-fixed-actions">
+    <div cl                        @if($product->image)
+                            <div style="margin-bottom: 10px;">
+                                <strong>Current Image:</strong><br>
+                                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->title }}" style="max-width:200px; border-radius: 4px;">
+                            </div>
+                        @endif
+                        <input type="file" id="image" name="image" class="control-panel-input" accept="image/*">
+                        <div id="imagePreview" style="margin-top: 10px; display: none;">
+                            <strong>New Image Preview:</strong><br>
+                            <img src="" alt="Preview" style="max-width: 200px; height: auto; border-radius: 4px; border: 1px solid #ddd;">
+                        </div>
+                        <small class="control-panel-help-text">Leave empty to keep current image. Recommended size: 300x300px or larger. Max file size: 2MB</small>ntrol-panel-card control-panel-with-fixed-actions">
         <div class="control-panel-header-flex">
             <a href="{{ route('admin.products.index') }}" class="control-panel-button control-panel-button-secondary">
                 <i class="fas fa-arrow-left"></i> Back to Products
@@ -32,6 +43,11 @@
                     <div class="control-panel-form-grid-full">
                         <label for="description" class="control-panel-label">Product Description <span class="control-panel-required">*</span></label>
                         <textarea id="description" name="description" class="control-panel-input" rows="4" required>{{ old('description', $product->description) }}</textarea>
+                    </div>
+                    <div>
+                        <label for="price" class="control-panel-label">Price (USD)</label>
+                        <input type="number" id="price" name="price" class="control-panel-input" value="{{ old('price', $product->price) }}" step="0.01" min="0" placeholder="0.00">
+                        <small class="control-panel-help-text">Enter price in USD (optional)</small>
                     </div>
                     <div>
                         <label for="image" class="control-panel-label">Product Image</label>
@@ -72,4 +88,45 @@
             </div>
         </form>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const input = document.getElementById('image');
+            const preview = document.getElementById('imagePreview');
+            const previewImg = preview?.querySelector('img');
+            
+            if (!input || !preview || !previewImg) return;
+            
+            input.addEventListener('change', function (e) {
+                const file = e.target.files[0];
+                if (!file) {
+                    preview.style.display = 'none';
+                    return;
+                }
+                
+                // Validate file type
+                if (!file.type.match('image.*')) {
+                    alert('Please select a valid image file');
+                    this.value = '';
+                    preview.style.display = 'none';
+                    return;
+                }
+                
+                // Validate file size (2MB = 2048KB)
+                if (file.size > 2048 * 1024) {
+                    alert('File size must be less than 2MB');
+                    this.value = '';
+                    preview.style.display = 'none';
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function (ev) {
+                    previewImg.src = ev.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+    </script>
 </x-control-panel-layout>

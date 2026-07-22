@@ -292,39 +292,13 @@ footer {
 /* #endregion SEARCH BAR */
 
 /* #region NAVIGATION */
-/* Responsive nav: show icons only on tablet/mobile, hide text */
-@media (max-width: 1200px) {
-  .nav-list .nav-text {
-    display: none;
-  }
-  .nav-list .nav-icon {
-    display: inline-block;
-    font-size: 1.6rem;
-    vertical-align: middle;
-    margin-right: 0;
-  }
-  .nav-list li a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: auto;
-    height: auto;
-    padding: 0.5rem;
-  }
+/* Nav icons are only used in mobile menu; hide in desktop nav */
+.nav-list .nav-icon {
+  display: none;
 }
 
-/* On desktop, show both icon and text */
-@media (min-width: 1200px) {
-  .nav-list .nav-icon {
-    display: none;
-  }
-  .nav-list .nav-text {
-    display: inline;
-  }
-}
-
-/* Hide nav items and show hamburger from 700px and below */
-@media (max-width: 700px) {
+/* Hide nav items and show hamburger below 1250px */
+@media (max-width: 1249px) {
   .main-nav {
     gap: 0.5rem !important;
   }
@@ -332,14 +306,25 @@ footer {
     display: none !important;
   }
   .hamburger-icon {
-    display: inline-block !important;
-    font-size: 2rem;
-    color: var(--primary-color);
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.9rem;
+    color: var(--color-black);
     cursor: pointer;
     margin-left: 0.5rem;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    transition: color 0.2s ease, background-color 0.2s ease, transform 0.18s ease;
+  }
+  .hamburger-icon:hover {
+    background-color: var(--color-2);
+    color: var(--color-black);
+    transform: scale(1.08);
   }
 }
-@media (min-width: 701px) {
+@media (min-width: 1250px) {
   .hamburger-icon {
     display: none !important;
   }
@@ -395,7 +380,7 @@ footer {
 .mobile-menu .ph {
   font-size: 2rem;
 }
-@media (min-width: 701px) {
+@media (min-width: 1250px) {
   .mobile-menu {
     display: none !important;
   }

@@ -2,12 +2,12 @@
     <div class="control-panel-card control-panel-with-fixed-actions">
         <div class="control-panel-header-flex">
             <a href="{{ route('admin.pages') }}" class="control-panel-button control-panel-button-secondary">
-                <i class="fas fa-arrow-left"></i> Back to Pages
+                <i class="fas fa-arrow-left"></i> Volver a Páginas
             </a>
-            <h2 class="control-panel-title control-panel-title-no-margin">Edit El Patio Footer</h2>
+            <h2 class="control-panel-title control-panel-title-no-margin">Editar Footer de El Patio</h2>
         </div>
 
-        <p class="control-panel-text-muted">Edit the El Patio footer content and save to persist changes to the database.</p>
+        <p class="control-panel-text-muted">Edita el contenido del footer de El Patio y guarda para persistir los cambios en la base de datos.</p>
 
         @if(session('success'))
             <div class="alert alert-success" style="margin-bottom:1rem;">
@@ -20,19 +20,19 @@
             @method('PUT')
 
             <div class="control-panel-card pages-card control-panel-form-section">
-                <h3 class="control-panel-subtitle"><i class="fas fa-info-circle"></i> Contact</h3>
+                <h3 class="control-panel-subtitle"><i class="fas fa-info-circle"></i> Contacto</h3>
                 @php $f = $elpatioSetting->footer ?? []; @endphp
                 <div class="control-panel-form-grid">
                     <div>
-                        <label class="control-panel-label">Address</label>
+                        <label class="control-panel-label">Dirección</label>
                         <input type="text" name="footer_address" class="control-panel-input" value="{{ old('footer_address', $f['address'] ?? '') }}">
                     </div>
                     <div>
-                        <label class="control-panel-label">Email</label>
+                        <label class="control-panel-label">Correo electrónico</label>
                         <input type="email" name="footer_email" class="control-panel-input" value="{{ old('footer_email', $f['email'] ?? '') }}">
                     </div>
                     <div>
-                        <label class="control-panel-label">Phone numbers</label>
+                        <label class="control-panel-label">Números de teléfono</label>
                         <div id="footer-phones">
                             @php $phones = $f['phones'] ?? []; @endphp
                             @if(count($phones))
@@ -43,14 +43,14 @@
                                 <input type="text" name="footer_phone[]" class="control-panel-input" value="{{ old('footer_phone.0', '') }}" />
                             @endif
                         </div>
-                        <button type="button" id="add-phone" class="control-panel-button control-panel-button-secondary" style="margin-top:0.5rem;">Add phone</button>
+                        <button type="button" id="add-phone" class="control-panel-button control-panel-button-secondary" style="margin-top:0.5rem;">Agregar teléfono</button>
                     </div>
                 </div>
             </div>
 
             <div class="control-panel-card pages-card control-panel-form-section" style="margin-top:1rem;">
-                <h3 class="control-panel-subtitle"><i class="fas fa-share-alt"></i> Social Links</h3>
-                <p class="control-panel-text-muted">Edit social media links displayed in the footer.</p>
+                <h3 class="control-panel-subtitle"><i class="fas fa-share-alt"></i> Redes Sociales</h3>
+                <p class="control-panel-text-muted">Edita los enlaces de redes sociales que se muestran en el footer.</p>
                 <div class="control-panel-form-grid">
                     @php $s = $elpatioSetting->social_links ?? ($f['social_links'] ?? []); @endphp
                     <div>

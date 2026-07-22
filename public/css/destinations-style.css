@@ -142,7 +142,7 @@ body{
     position: relative;
     bottom: 5rem;
     justify-content: flex-start;
-    clip-path: polygon(0% 10%, 100% 0%, 100% 100%, 0% 97%);
+    clip-path: polygon(0% 80px, 100% 0%, 100% 100%, 0% calc(100% - 40px));
     color: var(--color-black);
     height: fit-content;
     padding: 10rem 0;

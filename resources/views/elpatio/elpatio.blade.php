@@ -15,6 +15,14 @@
       </div>
     </div>
 
+    <!-- Cloudbeds Reservation Widget -->
+    <div class="wrapper reservation-section fadein-1">
+      <div class="reservation-widget">
+        <h2>Book Your Stay</h2>
+        <script src="https://hotels.cloudbeds.com/widget/load/NFYXpg/horiz?newWindow=1"></script>
+      </div>
+    </div>
+
     <div class="wrapper about-section fadein-4" id="about">
       <div class="container-1">
         @php

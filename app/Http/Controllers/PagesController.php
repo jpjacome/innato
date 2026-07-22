@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\HomeSetting;
+use Illuminate\Support\Facades\Storage;
 
 class PagesController extends Controller
 {
@@ -256,86 +257,38 @@ class PagesController extends Controller
             'banner_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'section_title' => 'nullable|string|max:255',
             'section_description' => 'nullable|string',
-            'product1_title' => 'nullable|string|max:255',
-            'product1_description' => 'nullable|string',
-            'product1_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'product2_title' => 'nullable|string|max:255',
-            'product2_description' => 'nullable|string',
-            'product2_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'product3_title' => 'nullable|string|max:255',
-            'product3_description' => 'nullable|string',
-            'product3_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'product4_title' => 'nullable|string|max:255',
-            'product4_description' => 'nullable|string',
-            'product4_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // For now, we'll create the ProductsSetting model if it doesn't exist
+        // Create or get the ProductsSetting instance
         if (class_exists('App\\Models\\ProductsSetting')) {
             $setting = \App\Models\ProductsSetting::first() ?? new \App\Models\ProductsSetting();
         } else {
             // If the model doesn't exist, we'll just return with a success message
-            // This allows the admin interface to work even without the model
             return redirect()->route('admin.pages.edit-products')
                            ->with('success', 'Products page updated successfully! (Note: ProductsSetting model needs to be created for persistence)');
         }
 
-        // Update all fields
+        // Update banner and section fields only
         $setting->banner_title = $request->input('banner_title');
         $setting->banner_description = $request->input('banner_description');
         $setting->section_title = $request->input('section_title');
         $setting->section_description = $request->input('section_description');
-        
-        // Product 1
-        $setting->product1_title = $request->input('product1_title');
-        $setting->product1_description = $request->input('product1_description');
-        
-        // Product 2
-        $setting->product2_title = $request->input('product2_title');
-        $setting->product2_description = $request->input('product2_description');
-        
-        // Product 3
-        $setting->product3_title = $request->input('product3_title');
-        $setting->product3_description = $request->input('product3_description');
-        
-        // Product 4
-        $setting->product4_title = $request->input('product4_title');
-        $setting->product4_description = $request->input('product4_description');
 
-        // Handle file uploads
+        // Handle banner image upload
         if ($request->hasFile('banner_image')) {
+            // Delete old banner image if exists
+            if ($setting->banner_image) {
+                Storage::disk('public')->delete($setting->banner_image);
+            }
+            
             $bannerImage = $request->file('banner_image');
             $bannerImagePath = $bannerImage->store('products', 'public');
             $setting->banner_image = $bannerImagePath;
         }
 
-        if ($request->hasFile('product1_image')) {
-            $product1Image = $request->file('product1_image');
-            $product1ImagePath = $product1Image->store('products', 'public');
-            $setting->product1_image = $product1ImagePath;
-        }
-
-        if ($request->hasFile('product2_image')) {
-            $product2Image = $request->file('product2_image');
-            $product2ImagePath = $product2Image->store('products', 'public');
-            $setting->product2_image = $product2ImagePath;
-        }
-
-        if ($request->hasFile('product3_image')) {
-            $product3Image = $request->file('product3_image');
-            $product3ImagePath = $product3Image->store('products', 'public');
-            $setting->product3_image = $product3ImagePath;
-        }
-
-        if ($request->hasFile('product4_image')) {
-            $product4Image = $request->file('product4_image');
-            $product4ImagePath = $product4Image->store('products', 'public');
-            $setting->product4_image = $product4ImagePath;
-        }
-
         $setting->save();
 
         return redirect()->route('admin.pages.edit-products')
-                        ->with('success', 'Products page updated successfully!');
+                        ->with('success', 'Products page content updated successfully! Individual products are managed through the Products Catalog.');
     }
 }

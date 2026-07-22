@@ -135,15 +135,25 @@ class Destination extends Model
 
     public function getDifficultyData()
     {
-        $level = strtolower($this->difficulty_level ?? 'medio');
-        
-        $difficultyMap = [
-            'bajo' => ['level' => 1, 'percentage' => 33, 'color' => 'success', 'label' => 'Bajo'],
-            'medio' => ['level' => 2, 'percentage' => 66, 'color' => 'warning', 'label' => 'Medio'],
-            'alto' => ['level' => 3, 'percentage' => 100, 'color' => 'danger', 'label' => 'Alto']
+        $raw = $this->difficulty_level ?? 2;
+
+        $intMap = [
+            1 => ['level' => 1, 'percentage' => 33, 'color' => 'success', 'label' => 'Fácil'],
+            2 => ['level' => 2, 'percentage' => 66, 'color' => 'warning', 'label' => 'Moderado'],
+            3 => ['level' => 3, 'percentage' => 100, 'color' => 'danger', 'label' => 'Difícil'],
         ];
-        
-        return $difficultyMap[$level] ?? $difficultyMap['medio'];
+
+        $legacyMap = [
+            'bajo'  => $intMap[1],
+            'medio' => $intMap[2],
+            'alto'  => $intMap[3],
+        ];
+
+        if (is_numeric($raw)) {
+            return $intMap[(int) $raw] ?? $intMap[2];
+        }
+
+        return $legacyMap[strtolower($raw)] ?? $intMap[2];
     }
 
     /**

@@ -5,7 +5,7 @@
 
     RewriteEngine On
     # RewriteBase /laravel-test/public/
-    RewriteBase /innato/
+    RewriteBase /
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .

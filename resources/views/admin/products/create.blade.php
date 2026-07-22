@@ -33,7 +33,15 @@
                         <textarea id="description" name="description" class="control-panel-input" rows="4" required>{{ old('description') }}</textarea>
                     </div>
                     <div>
+                        <label for="price" class="control-panel-label">Price (USD)</label>
+                        <input type="number" id="price" name="price" class="control-panel-input" value="{{ old('price') }}" step="0.01" min="0" placeholder="0.00">
+                        <small class="control-panel-help-text">Enter price in USD (optional)</small>
+                    </div>
+                    <div>
                         <label for="image" class="control-panel-label">Product Image</label>
+                        <div style="margin-bottom:8px">
+                            <img id="imagePreview" src="{{ asset('assets/imgs/placeholder-300.png') }}" alt="Product image preview" style="max-width:200px; border-radius: 4px; display: none;">
+                        </div>
                         <input type="file" id="image" name="image" class="control-panel-input" accept="image/*">
                         <small class="control-panel-help-text">Recommended size: 300x300px or larger. Max file size: 2MB</small>
                     </div>
@@ -63,4 +71,44 @@
             </div>
         </form>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const input = document.getElementById('image');
+            const preview = document.getElementById('imagePreview');
+            
+            if (!input || !preview) return;
+            
+            input.addEventListener('change', function (e) {
+                const file = e.target.files[0];
+                if (!file) {
+                    preview.style.display = 'none';
+                    return;
+                }
+                
+                // Validate file type
+                if (!file.type.match('image.*')) {
+                    alert('Please select a valid image file');
+                    this.value = '';
+                    preview.style.display = 'none';
+                    return;
+                }
+                
+                // Validate file size (2MB = 2048KB)
+                if (file.size > 2048 * 1024) {
+                    alert('File size must be less than 2MB');
+                    this.value = '';
+                    preview.style.display = 'none';
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function (ev) {
+                    preview.src = ev.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+    </script>
 </x-control-panel-layout>

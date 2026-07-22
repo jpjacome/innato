@@ -54,6 +54,7 @@ class AdminDestinationController extends Controller
             'climate_wet_season.name' => 'nullable|string|max:255',
             'climate_wet_season.months' => 'nullable|string|max:255',
             'climate_wet_season.temperature' => 'nullable|string|max:255',
+            'altitude' => 'nullable|string|max:255',
             'access_from' => 'nullable|string|max:255',
             'access_route' => 'nullable|string|max:255',
             'access_transport' => 'nullable|string|max:255',
@@ -74,6 +75,13 @@ class AdminDestinationController extends Controller
             'target_audience_age' => 'nullable|string|max:255',
             'target_audience_transport' => 'nullable|string|max:255',
             'target_audience_stay' => 'nullable|string|max:255',
+            'difficulty_level' => 'nullable|integer|in:1,2,3',
+            'considerations' => 'nullable|array',
+            'considerations.*.icon' => 'nullable|string|max:255',
+            'considerations.*.text' => 'nullable|string|max:255',
+            'what_to_bring' => 'nullable|array',
+            'what_to_bring.*.icon' => 'nullable|string|max:255',
+            'what_to_bring.*.text' => 'nullable|string|max:255',
             'services' => 'nullable|array',
             'services.*.icon' => 'nullable|string|max:255',
             'services.*.name' => 'nullable|string|max:255',
@@ -119,6 +127,20 @@ class AdminDestinationController extends Controller
         }
 
         // Save tourism_criteria as associative array directly
+
+        if (isset($validated['considerations'])) {
+            $validated['considerations'] = array_filter($validated['considerations'], function($item) {
+                return !empty($item['text']);
+            });
+            $validated['considerations'] = array_values($validated['considerations']);
+        }
+
+        if (isset($validated['what_to_bring'])) {
+            $validated['what_to_bring'] = array_filter($validated['what_to_bring'], function($item) {
+                return !empty($item['text']);
+            });
+            $validated['what_to_bring'] = array_values($validated['what_to_bring']);
+        }
 
         if (isset($validated['environmental_challenges'])) {
             $validated['environmental_challenges'] = array_filter($validated['environmental_challenges'], function($challenge) {
